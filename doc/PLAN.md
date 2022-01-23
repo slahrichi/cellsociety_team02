@@ -25,6 +25,16 @@ The model will manage 3 abstract classes - `Simulation`, `Grid`, and `Cell` - an
 
 The `Grid` class will take in the number of cells, rows, and columns from the simulation class and create a `Cell[][]` to represent the grid itself. Although the simulation will iterate over the grid to determine cells which need to be updated, the `Grid` class will have internal method to update its own values as opposed to being handled in `Simulation.java`. Additionally, the `Cell` class will store attributes such as a `Shape`, size, color, and a dead-or-alive value, and it will also be able to actively update its own values. 
 
+### View
+
+The task of the View will be to create and manage a graphical user interface for the simulation. 
+It will have a main Class `SimulationViewer()`. At first, it will take information from the controller which has parsed the XML file, it will draw the 
+starting grid along with all the necessary menu buttons needed for loading files, and playing the animation. It will use the relevant controller class to
+load a new grid configuration when needed. The main animation loop for the simulation will run in this class, and it'll have 
+methods to pause,play,increase speed and change the simulation by one-step increments. 
+On each step it will work with the `Simulation(`) and `Grid()` classes
+to get information about the new state of the grid according to the current simulation logic and display
+it on the screen.
 
 ## Use Cases
 
@@ -59,11 +69,17 @@ The `Grid` class will take in the number of cells, rows, and columns from the si
 
 ## User Interface
 
-Here is our amazing UI:
+The user interface will consist of several parts.
+1. The main attribute of the GUI will be the Grid, which will consist of cells and will visualize
+the simulation process.
+2. There will be a dropdown settings Menu , which will give you options to Load a new XML file according
+to user selection, reset the grid to the starting settings of the current model,and export the current configuration of the simulation.
+3. There will also be buttons for playing and pausing the animation, as well as progressing by only one step.
+There will probably also be a slider bar, which will let you adjust the speed of the animation.
 
-![This is cool, too bad you can't see it](images/29-sketched-ui-wireframe.jpg "An alternate design")
+**Here is a model of our planned GUI:**
 
-taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://onextrapixel.com/40-brilliant-examples-of-sketched-ui-wireframes-and-mock-ups/).
+![This is cool, too bad you can't see it](images/GUIplan.jpg "An initial UI")
 
 
 ## Team Responsibilities
@@ -72,7 +88,11 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
     - Handling the model aspect of the project
     - Keep teammates in the loop about model updates so view and controller can be implemented accordingly 
 
- * Team Member #2
+ * Team Member #2 - Luka
+    - Will work mainly on the visualization part of the project
+    - Will closely communicate with both Saad and Matthew because the visualizer is closely
+   connected to both of the modelling and controller aspects. Will provide help if needed in either section.
+   
 
  * Team Member #3
 
