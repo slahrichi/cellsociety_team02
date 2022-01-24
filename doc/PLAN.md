@@ -128,7 +128,50 @@ When a simulation has a parameter specific to itself, such as the spreading fire
              Simulation.step();
              updateView();
         ```
+* Matthew
+  * Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically:
+  In `Simulation.java`:
 
+  ```java
+  private void step(double elapsedTime) {
+    myGrid.update()
+  }
+  ```
+
+  In the `Grid` class:
+  ```java
+  private void update() {
+    for (Cell cell : myCollectionOfCells) {
+      if (theCellShouldBeMutated) {
+        cell.updateValues();
+      }
+    }
+  }
+  ```
+
+  After the `Cell` class handles the value change, the View classes can make the graphical appearance:
+
+  ```java
+  private void updateAppearance() {
+    for (Cell cell : myCollectionOfCells) {
+      if (cell.isAlive()) {
+        cell.updateFill();
+      }
+  }
+
+  ```
+  * Set a simulation parameter: set the value of a parameter, probCatch, for a simulation, Fire, based on the value given in a data file
+    - As shown above, each XML file will have the value there, so in `Controller.java`, the values will be entered into the simulation object:
+  ```java
+  private void selectSimulation() {
+    if (type == spreadingFire) {
+      xmlParser.parseValues();
+      SpreadingFire sp = new SpreadingFire(numberOfRows, numberOfColumns, numberOfCells, probCatch);
+    }
+  }
+  ```
+
+  The `SpreadingFire` class will be written as an extension of `Simulation`, so it does not have to have the same number of parameters
 ## Design Considerations
 
 #### Cell color visualization
