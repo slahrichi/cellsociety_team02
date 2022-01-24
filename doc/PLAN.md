@@ -13,11 +13,7 @@ While the view will not need to implement its own superclasses since it will uti
 
 ## Design Details
 
-Here is a graphical look at my design:
-
-![This is cool, too bad you can't see it](images/online-shopping-uml-example.png "An initial UI")
-
-made from [a tool that generates UML from existing code](http://staruml.io/).
+![asdf](images/cellSocietyOverview.png)
 
 ### Controller
 
