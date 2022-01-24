@@ -34,7 +34,10 @@ load a new grid configuration when needed. The main animation loop for the simul
 methods to pause,play,increase speed and change the simulation by one-step increments. 
 On each step it will work with the `Simulation(`) class
 to get information about the new state of the grid according to the current simulation logic and display
-it on the screen using the `updateView()` method.
+it on the screen using the `updateView()` method. 
+There will be a class for drawing the grid called `gridVisulazier()` . it will arrange the cells into the
+grid and make the nodes ready to display. if the grid has different shapes, there will be several subclasses
+,according to shapes,which will extend the main `gridVisulazier()` class.
 
 ## Use Cases
 
