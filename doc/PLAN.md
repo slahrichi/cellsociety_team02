@@ -85,13 +85,16 @@ grid and make the nodes ready to display. if the grid has different shapes, ther
 
 ## Design Considerations
 
-#### Design Issue #1
+#### Cell color visualization
 
- * Alernative #1
+ * Have a method in `SimulationViewer()` which determines cell color according to
+the cell state value, which was determined in the `Simulation()`. Or have a map of values
+and color as a final variable in `SimulationViewer()`.
 
- * Alernative #2
+ * Have a color attribute for each cell, which will store and be updated with the color information
+durning the simulation process. The info would then be passed to `SimulationViewer()`.
 
- * Trade-offs
+ * It would be more convinient and easy to build upon in the future to give Cells color values. 
 
 
 #### Design Issue #2
