@@ -32,9 +32,9 @@ It will have a main Class `SimulationViewer()`. At first, it will take informati
 starting grid along with all the necessary menu buttons needed for loading files, and playing the animation. It will use the relevant controller class to
 load a new grid configuration when needed. The main animation loop for the simulation will run in this class, and it'll have 
 methods to pause,play,increase speed and change the simulation by one-step increments. 
-On each step it will work with the `Simulation(`) and `Grid()` classes
+On each step it will work with the `Simulation(`) class
 to get information about the new state of the grid according to the current simulation logic and display
-it on the screen.
+it on the screen using the `updateView()` method.
 
 ## Use Cases
 
@@ -44,7 +44,41 @@ it on the screen.
  Order o = thing.makeOrder("coffee,large,black");
  o.update(13);
  ```
+   * Luka:
+     1. *User wants to pause simulation*
+        ```java
+        //in SimulationViewer
+        EventHandler(event){
+        if(event pause button pushed){pauseSimulation()}
+        }
+        pauseSimulation(){
+        prevent calling the step() function until pause button hit again
+        }
+        
+        ```
+     2. *user wants to export current grid state*
+         ```java
+        //in SimulationViewer
+        
+        EventHandler(event)
+        if(event is export)
+          controller.writeToXML()
+        ```
 
+   * Provided Scenario Use cases
+      * *Switch simulations:*
+         ```java
+             //in SimulationViewer()
+             pauseSimulation();
+             newSimulation=Controller.loadFile("name.xml");
+             updateView(); 
+        ```
+      * *Move to the next generation:*
+         ```java
+             //in SimulationViewer() game loop
+             Simulation.step();
+             updateView();
+        ```
 
 ## Design Considerations
 
