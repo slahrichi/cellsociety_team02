@@ -109,6 +109,20 @@ When a simulation has a parameter specific to itself, such as the spreading fire
        }
        
        ```
+       
+    2. *Reset Simulation*
+        ```java
+       //in SimulationViewer
+       EventHandler(event){
+       if(event reset button pushed){resetSimulation()}
+       }
+       resetSimulation(){
+       pauseSimulation();
+       newSimulaton=Controller.loadFile(curentXML);
+       updateView();
+       }
+       
+       ```
     
    * Provided Scenario Use cases
       * *Switch simulations:*
@@ -237,3 +251,7 @@ There will probably also be a slider bar, which will let you adjust the speed of
 
 
 #### Proposed Schedule
+Monday: Team meeting to discuss first steps and get started.
+Wednesday: get basic methods of Controller, Model, View working, make sure they work well together.
+Friday: Team meeting to discuss progress, plan for weekend.
+Sunday: deliver working basic version. 
