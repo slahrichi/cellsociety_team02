@@ -19,6 +19,15 @@ Here is a graphical look at my design:
 
 made from [a tool that generates UML from existing code](http://staruml.io/).
 
+### Controller
+
+The Controller's main tasks will be to interpret user input and send that information to the Model. Such 
+information will determine the type of simulation. The Controller would manage 7 classes: `GeneralController`, `XMLParser`, and 
+one class for each Simulation (Game Of Life, Spreading Fire...). 
+The `GeneralController` class would collect user input and use passed paramters to create a new Simulation object (e.g. `GameOfLife`) .
+To do so, it would have to call the `XMLParser` to read the corresponding XML file and return the GameOfLife map with specified parameters to the `GeneralController`, which would 
+also serve as the bridge between the `Controller` and the `Model`. After the map is returned, the `Model` would then process it before it is passed to the `View`.
+
 ### Model
 
 The model will manage 3 abstract classes - `Simulation`, `Grid`, and `Cell` - and extensions of each of them for the 5 different simulations. The `Simulation` class will have instance variables including a `Grid`, the `numberOfRows`, the `numberOfColumns`, and the `numberOfCells`. To initialize the simulation, the class will need to have calls to `createGrid()` and `populateCells()` in its constructor. The purpose of `Simulation.java` is to manage the backend resources of a given simulation, so although it will have `step(double elapsedTime)` and `updateCells()` methods to update the state of the simulation elements over time, none of the processes will directly alter the graphics. For the abstract class, many of these methods will be also be abstract and instead be implemented in each specific variation of the simulation: different simulations update their cells with different logic, so they cannot share the same methods.
@@ -68,6 +77,19 @@ grid and make the nodes ready to display. if the grid has different shapes, ther
           controller.writeToXML()
         ```
 
+* Saad:
+    1. *Reverse simulation*
+       ```java
+       //in SimulationViewer
+       EventHandler(event){
+       if(event reverse button pushed){reverseSimulation()}
+       }
+       reverseSimulation(){
+       play the simulation backwards
+       }
+       
+       ```
+    
    * Provided Scenario Use cases
       * *Switch simulations:*
          ```java
@@ -134,7 +156,9 @@ There will probably also be a slider bar, which will let you adjust the speed of
    connected to both of the modelling and controller aspects. Will provide help if needed in either section.
    
 
- * Team Member #3
+ * Team Member #3 - Saad
+    - Writing XML configuration files and XML file parser
+    - Ensuring connection to backend is well-handled 
 
 
 #### Proposed Schedule
