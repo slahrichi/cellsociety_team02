@@ -48,6 +48,30 @@ There will be a class for drawing the grid called `gridVisulazier()` . it will a
 grid and make the nodes ready to display. if the grid has different shapes, there will be several subclasses
 ,according to shapes,which will extend the main `gridVisulazier()` class.
 
+## XML File Formatting
+
+The XML files will treat the simulation as an attribute and will be able to differentiate given that the type of simulation will be stored as a child element. As a simple example, the percolation simulation is shown below with some of its attributes:
+
+```xml
+<data simulation="simulation">
+  <type>percolation</type>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfCells>100</numberOfCells>
+  <numberOfRows>10</numberOfRows>
+</data>
+```
+
+When a simulation has a parameter specific to itself, such as the spreading fire simulation's `probCatch`, it will be another child in the file: 
+
+```xml
+<data simulation="simulation">
+  <type>spreadingfire</type>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfCells>100</numberOfCells>
+  <numberOfRows>10</numberOfRows>
+  <probCatch>.5</probCatch>
+</data>
+```
 ## Use Cases
 
  * Team generated Use Case
@@ -119,13 +143,25 @@ durning the simulation process. The info would then be passed to `SimulationView
  * It would be more convinient and easy to build upon in the future to give Cells color values. 
 
 
-#### Design Issue #2
+#### Design Issue #2 - Using a 2D-array to represent the grid
 
- * Alernative #1
+* While the initial simulations all have grid shapes, the array implementation does not lend itself 
+to flexible implementations with cases such as circular or triangular screens
 
- * Alernative #2
+* Alernative #1 - Use a `Map<Coordinate, Cell>`
+  * Any graph can be represented with a map, so the nodes could be stored in the map with a
+  correspondence between location and the `Cell` itself
 
- * Trade-offs
+* Alernative #2 - Use a `List<List<Cell>>`
+  * Each row of the screen could be represented by a list of cells, and all the rows together 
+  would form the collective appearance of the simulation. Having null `Cell` objects in the lists
+  would allow for a difference in width (ie shape) for that row
+
+* Trade-offs
+  * The map implementation will require a little more effort than a grid would, but having the map
+  provides a more flexible and abstract implementation than an array system
+  * The list implementation would allow for more flexibility than a 2D array, but the system lacks
+  efficiency in terms of conciseness compared to a map
 
 
 
