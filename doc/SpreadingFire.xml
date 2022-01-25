@@ -1,0 +1,10 @@
+<data simulation="simulationn">
+  <type>Spreading Fire</type>
+  <title>Spreading Fire</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <cellState>0, 1</cellState>
+  <probCatch>0.5</probCatch>
+</data>
