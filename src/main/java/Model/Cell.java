@@ -2,9 +2,12 @@ package Model;
 
 public abstract class Cell {
   protected Coordinate position;
+  protected Enum currentState;
+  protected Enum futureState;
 
-  public Cell(Coordinate position) {
+  protected Cell(Coordinate position, Enum initialState) {
     this.position = position;
+    this.currentState = initialState;
   }
 
   protected abstract void updateState();

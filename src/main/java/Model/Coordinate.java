@@ -14,4 +14,8 @@ public class Coordinate {
 
   public int getColumn() {return column;}
 
+  public Coordinate checkNeighbors(int r, int c) {
+    return new Coordinate(row + r, column + c);
+  }
+
 }

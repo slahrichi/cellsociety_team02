@@ -8,11 +8,13 @@ public abstract class Grid {
   protected int numberOfColumns;
   protected int numberOfRows;
 
-  public Grid(int numberOfColumns, int numberOfRows) {
+  protected Grid(int numberOfColumns, int numberOfRows) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     cellMap = new HashMap<>();
   }
+
+  public Map<Coordinate, Cell> getCellMap() {return cellMap;}
 
 
 }
