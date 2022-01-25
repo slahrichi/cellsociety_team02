@@ -6,8 +6,11 @@ public class SpreadingFire extends Simulation {
   public SpreadingFire(int numberOfRows, int numberOfColumns, double probCatch) {
     super(numberOfRows, numberOfColumns);
     this.probCatch = probCatch;
+    initializeGridCells();
 
   }
+
+  public double getProbCatch() {return probCatch;}
 
   protected void createGrid()  {
     grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
@@ -21,8 +24,10 @@ public class SpreadingFire extends Simulation {
           grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.BURNING,
               probCatch));
         }
-        grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.TREE,
-            probCatch));
+        else {
+          grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.TREE,
+              probCatch));
+        }
       }
     }
   }

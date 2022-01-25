@@ -15,4 +15,9 @@ public abstract class Cell {
   protected abstract void updateState();
 
   protected abstract void determineNextState(Grid grid);
+
+  @Override
+  public String toString() {
+    return currentState.toString();
+  }
 }
