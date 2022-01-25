@@ -1,9 +1,9 @@
 package Model;
 
 public class SpreadingFire extends Simulation {
-  private int probCatch;
+  private double probCatch;
 
-  public SpreadingFire(int numberOfRows, int numberOfColumns, int probCatch) {
+  public SpreadingFire(int numberOfRows, int numberOfColumns, double probCatch) {
     super(numberOfRows, numberOfColumns);
     this.probCatch = probCatch;
 

@@ -8,4 +8,9 @@ public class States {
     EMPTY
   }
 
+  public enum GameOfLife {
+    ALIVE,
+    DEAD
+  }
+
 }

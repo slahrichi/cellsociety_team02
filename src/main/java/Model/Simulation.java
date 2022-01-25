@@ -12,6 +12,8 @@ public abstract class Simulation {
     initializeGridCells();
   }
 
+  public Grid getGrid() {return grid;}
+
   protected abstract void createGrid();
 
   protected abstract void initializeGridCells();
