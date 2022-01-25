@@ -23,6 +23,9 @@ public class SpreadingFireCell extends Cell{
     if (canCatchFire(grid) && Math.random() <= probCatch) {
       futureState = States.SpreadingFire.BURNING;
     }
+    else {
+      futureState = States.SpreadingFire.TREE;
+    }
   }
 
   private boolean canCatchFire(Grid grid) {
