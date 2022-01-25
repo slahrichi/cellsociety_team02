@@ -10,7 +10,9 @@ public abstract class Cell {
     this.currentState = initialState;
   }
 
+  protected Enum getCurrentState() {return currentState;}
+
   protected abstract void updateState();
 
-  protected abstract void determineNextState();
+  protected abstract void determineNextState(Grid grid);
 }

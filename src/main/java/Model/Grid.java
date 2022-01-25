@@ -16,5 +16,10 @@ public abstract class Grid {
 
   public Map<Coordinate, Cell> getCellMap() {return cellMap;}
 
+  public boolean isInBounds(Coordinate position) {
+    return position.getRow() >= 0 && position.getRow() < numberOfRows &&
+        position.getColumn() >= 0 && position.getColumn() < numberOfColumns;
+  }
+
 
 }

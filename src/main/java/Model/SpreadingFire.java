@@ -9,12 +9,6 @@ public class SpreadingFire extends Simulation {
 
   }
 
-  public enum States {
-    TREE,
-    BURNING,
-    BURNT
-  }
-
   protected void createGrid()  {
     grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
   }
@@ -24,15 +18,30 @@ public class SpreadingFire extends Simulation {
       for (int j = 0; j < numberOfColumns; j++) {
         Coordinate coord = new Coordinate(i, j);
         if (i == numberOfRows/2 && j == numberOfColumns/2) {
-          grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.BURNING));
+          grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.BURNING,
+              probCatch));
         }
-        grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.TREE));
+        grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.TREE,
+            probCatch));
       }
     }
   }
 
   public void update() {
+    determineNewCellStates();
+    updateCellStates();
+  }
 
+  private void determineNewCellStates() {
+    for (Cell cell : grid.getCellMap().values()) {
+      cell.determineNextState(grid);
+    }
+  }
+
+  private void updateCellStates() {
+    for (Cell cell : grid.getCellMap().values()) {
+      cell.updateState();
+    }
   }
 
 }
