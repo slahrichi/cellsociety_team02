@@ -2,18 +2,24 @@ package Model;
 
 import java.util.Map;
 
+
+
 public class Percolation extends Simulation {
+
+  private Map<Coordinate, Integer> setup;
 
   public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
     super(numberOfRows, numberOfColumns);
-    initializeGridCells(setup);
+    this.setup = setup;
+    initializeGridCells();
   }
 
 
   protected void createGrid() {grid = new PercolationGrid(numberOfRows, numberOfColumns);}
 
 
-  protected void initializeGridCells(Map<Coordinate, Integer> setup) {
+  protected void initializeGridCells() {
+    if (setup == null) return;
     for (Coordinate c : setup.keySet()) {
       Enum state = null;
       switch (setup.get(c)) {
@@ -26,7 +32,20 @@ public class Percolation extends Simulation {
   }
 
 
-  protected void update() {
+  public void update() {
+    determineNewCellStates();
+    updateCellStates();
+  }
 
+  private void determineNewCellStates() {
+    for (Cell cell : grid.getCellMap().values()) {
+      cell.determineNextState(grid);
+    }
+  }
+
+  private void updateCellStates() {
+    for (Cell cell : grid.getCellMap().values()) {
+      cell.updateState();
+    }
   }
 }

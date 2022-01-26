@@ -11,14 +11,14 @@ public abstract class Simulation {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     createGrid();
-    initializeGridCells(null);
+    initializeGridCells();
   }
 
   public Grid getGrid() {return grid;}
 
   protected abstract void createGrid();
 
-  protected abstract void initializeGridCells(Map<Coordinate, Integer> setup);
+  protected abstract void initializeGridCells();
 
   protected abstract void update();
 

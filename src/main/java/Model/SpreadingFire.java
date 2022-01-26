@@ -8,7 +8,7 @@ public class SpreadingFire extends Simulation {
   public SpreadingFire(int numberOfRows, int numberOfColumns, double probCatch) {
     super(numberOfRows, numberOfColumns);
     this.probCatch = probCatch;
-    initializeGridCells(null);
+    initializeGridCells();
 
   }
 
@@ -16,7 +16,7 @@ public class SpreadingFire extends Simulation {
     grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
   }
 
-  protected void initializeGridCells(Map<Coordinate, Integer> map) {
+  protected void initializeGridCells() {
     for (int i = 0; i < numberOfRows; i++) {
       for (int j = 0; j < numberOfColumns; j++) {
         Coordinate coord = new Coordinate(i, j);
