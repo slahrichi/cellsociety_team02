@@ -20,6 +20,21 @@ public abstract class Simulation {
 
   protected abstract void initializeGridCells();
 
-  protected abstract void update();
+  public void update() {
+    determineNewCellStates();
+    updateCellStates();
+  }
+
+  protected void determineNewCellStates() {
+    for (Cell cell : grid.getCellMap().values()) {
+      cell.determineNextState(grid);
+    }
+  }
+
+  protected void updateCellStates() {
+    for (Cell cell : grid.getCellMap().values()) {
+      cell.updateState();
+    }
+  }
 
 }

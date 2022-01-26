@@ -18,23 +18,26 @@ public class Playground {
       return map;
   }
   public static void main(String[] args) {
-    /*
+
     SpreadingFire s = new SpreadingFire(5, 5, 0.7);
     System.out.println(s.getGrid().getCellMap());
     s.update();
     System.out.println(s.getGrid().getCellMap());
     s.update();
     System.out.println(s.getGrid().getCellMap());
-     */
+
+    /*
     Playground p = new Playground();
     HashMap<Coordinate, Integer> setup = p.setupPercolation(5, 5);
     System.out.println(setup.size());
-    Percolation perc = new Percolation(5, 5, setup);
+    Simulation perc = new Percolation(5, 5, setup);
     System.out.println(perc.getGrid().getCellMap());
     for (int i = 0; i < 10; i++) {
       perc.update();
     }
     System.out.println(perc.getGrid().getCellMap());
+     */
   }
+
 
 }
