@@ -8,10 +8,11 @@ public class SegregationCell extends Cell {
 
 
   protected void updateState() {
-
+    currentState = futureState;
   }
 
   protected void determineNextState(Grid grid) {
+
 
   }
 }

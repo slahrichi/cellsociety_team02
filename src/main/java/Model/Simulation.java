@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.Map;
 
 public abstract class Simulation {
   protected Grid grid;
