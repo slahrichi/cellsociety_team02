@@ -22,7 +22,6 @@ public class GameOfLife extends Simulation {
       switch (setup.get(c)) {
         case 0 -> state = States.GameOfLife.DEAD;
         case 1 -> state = States.GameOfLife.ALIVE;
-        case 2 -> state = States.GameOfLife.EMPTY;
       }
       grid.getCellMap().put(c, new GameOfLifeCell(c, state));
     }

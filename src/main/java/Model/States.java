@@ -16,8 +16,7 @@ public class States {
 
   public enum GameOfLife {
     ALIVE,
-    DEAD,
-    EMPTY
+    DEAD
   }
 
 }
