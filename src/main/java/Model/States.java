@@ -8,6 +8,12 @@ public class States {
     EMPTY
   }
 
+  public enum Percolation {
+    PERCOLATED,
+    OPEN,
+    BLOCKED
+  }
+
   public enum GameOfLife {
     ALIVE,
     DEAD

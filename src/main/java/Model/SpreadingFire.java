@@ -1,22 +1,22 @@
 package Model;
 
+import java.util.Map;
+
 public class SpreadingFire extends Simulation {
   private double probCatch;
 
   public SpreadingFire(int numberOfRows, int numberOfColumns, double probCatch) {
     super(numberOfRows, numberOfColumns);
     this.probCatch = probCatch;
-    initializeGridCells();
+    initializeGridCells(null);
 
   }
-
-  public double getProbCatch() {return probCatch;}
 
   protected void createGrid()  {
     grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
   }
 
-  protected void initializeGridCells() {
+  protected void initializeGridCells(Map<Coordinate, Integer> map) {
     for (int i = 0; i < numberOfRows; i++) {
       for (int j = 0; j < numberOfColumns; j++) {
         Coordinate coord = new Coordinate(i, j);

@@ -1,7 +1,7 @@
 package Controller;
 
-public XMLParser(){
-
+public class XMLParser {
+/*
 
   public write(){
 
@@ -10,5 +10,7 @@ public XMLParser(){
    public read(){
 
     }
+
+ */
 
 }

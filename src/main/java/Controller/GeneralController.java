@@ -2,11 +2,11 @@ package Controller;
 
 public abstract class GeneralController{
 
-
+/*
   //List of all possible simulations. Set the type to SimulationXml to avoid confusion with the
   //Model.Simulation objects as SimulationXml only returns the XML file of each Simulation.
 
-  private static final List<SimulationXml> = POSSIBLE_SIMULATIONS = List.of(
+  private static final List<SimulationXml> list = POSSIBLE_SIMULATIONS = List.of(
       new GameOfLifeXml(),
       new SpreadingOfFireXml(),
       new SegregationXml(),
@@ -22,4 +22,6 @@ public abstract class GeneralController{
   private SimulationXml pickSimulation(int whichSimulation){
     return POSSIBLE_SIMULATIONS.get(whichSimulation);
   }
+
+ */
 }
