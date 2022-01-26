@@ -1,5 +1,6 @@
 package cellsociety;
 
+import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -8,11 +9,15 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class SimulationVisualizer {
@@ -23,11 +28,19 @@ public class SimulationVisualizer {
 
   private boolean animationEnabled = false;
   private Circle ball;
+  private KeyFrame frame;
   private Button playButton;
   private Button pauseButton;
   private Button stepButton;
+  private MenuItem loadButton;
+  private MenuItem resetButton;
+  private MenuItem exportButton;
+  private Timeline animation;
+  private FileChooser fileChooser = new FileChooser();
+  private Stage myStage;
 
-  public SimulationVisualizer() {
+  public SimulationVisualizer(Stage stage) {
+    myStage = stage;
   }
 
   public Scene setUpScene(int width, int height) {
@@ -39,16 +52,17 @@ public class SimulationVisualizer {
     BorderPane root = new BorderPane();
 
     root.setBottom(createAllMenuControls());
+    root.setTop(createVerticalMenuControls());
     root.setRight(tempGrid);
     root.getChildren().add(ball);
     Scene scene = new Scene(root, width, height, Color.DARKBLUE);
 
-    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+     frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (animationEnabled) {
         move(SECOND_DELAY);
       }
     });
-    Timeline animation = new Timeline();
+   animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
@@ -80,6 +94,25 @@ public class SimulationVisualizer {
     return result;
   }
 
+  private MenuButton createVerticalMenuControls() {
+    loadButton = makeMenuItem("Load File", e -> chooseFile());
+    resetButton = makeMenuItem("Reset Grid", e -> resetGrid());
+    exportButton = makeMenuItem("Export Grid (.XML)", e -> exportGridToFile());
+    MenuButton menuButton = new MenuButton("Settings", null, loadButton, resetButton, exportButton);
+
+    return menuButton;
+  }
+
+  private MenuItem makeMenuItem(String itemName, EventHandler<ActionEvent> handler) {
+    MenuItem item = new MenuItem();
+
+    item = new MenuItem();
+    item.setText(itemName);
+    item.setOnAction(handler);
+
+    return item;
+  }
+
   private Button makeButton(String buttonName, EventHandler<ActionEvent> handler) {
     Button button = new Button();
 
@@ -90,16 +123,31 @@ public class SimulationVisualizer {
     return button;
   }
 
-  public void play() {
+  private void play() {
+    //animation.play();
     animationEnabled = true;
   }
 
-  public void pause() {
+  private void pause() {
+    //animation.pause();
     animationEnabled = false;
   }
 
-  public void step() {
+  private void step() {
     move(SECOND_DELAY);
+  }
+
+  private void chooseFile() {
+    File selectedFile = fileChooser.showOpenDialog(myStage);
+  }
+
+  private void resetGrid() {
+
+    animation.stop();
+    animation.playFromStart();
+  }
+
+  private void exportGridToFile() {
   }
 
 }

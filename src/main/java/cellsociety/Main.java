@@ -37,7 +37,7 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) {
 
-    SimulationVisualizer visualizer = new SimulationVisualizer();
+    SimulationVisualizer visualizer = new SimulationVisualizer(stage);
 
     stage.setScene(visualizer.setUpScene(SIZE_HORIZONTAL, SIZE_VERTICAL));
     stage.setTitle(TITLE);
