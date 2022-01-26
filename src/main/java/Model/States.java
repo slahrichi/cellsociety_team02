@@ -19,4 +19,10 @@ public class States {
     DEAD
   }
 
+  public enum Segregation {
+    EMPTY,
+    RED,
+    BLUE
+  }
+
 }
