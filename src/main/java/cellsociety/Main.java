@@ -1,20 +1,18 @@
 package cellsociety;
 
-import Util.menuController;
-import Util.menuControllerPause;
-import Util.menuControllerPlay;
-import Util.menuControllerStep;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -28,18 +26,18 @@ import javafx.util.Duration;
 public class Main extends Application {
     // useful names for constant values used
     public static final String TITLE = "Example JavaFX Animation";
-    private static final int SIZE_HORIZONTAL = 700;
-    private static final int SIZE_VERTICAL = 500;
-    private static final int BUTTON_EDGE_GAP = 50;
-    private static final int FRAMES_PER_SECOND = 60;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    private String[] BUTTON_NAMES = {"Play","Pause","Step"};
-    private double[][] BUTTON_POSITIONS = {{SIZE_HORIZONTAL*0.25,SIZE_VERTICAL*0.75+BUTTON_EDGE_GAP},
-                                            {SIZE_HORIZONTAL*0.25+BUTTON_EDGE_GAP,SIZE_VERTICAL*0.75+BUTTON_EDGE_GAP},
-                                            {SIZE_HORIZONTAL*0.25+2*BUTTON_EDGE_GAP,SIZE_VERTICAL*0.75+BUTTON_EDGE_GAP}};
-    public static boolean animationEnabled =false;
-    static Circle ball;
+    public static final int SIZE_HORIZONTAL = 700;
+    public static final int SIZE_VERTICAL = 500;
+    private  final int FRAMES_PER_SECOND = 60;
+    private  final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private  final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+
+    private boolean animationEnabled =false;
+    private Circle ball;
+    private Button playButton;
+    private Button pauseButton;
+    private Button stepButton;
+
     /**
      * Initialize what will be displayed.
      */
@@ -50,10 +48,10 @@ public class Main extends Application {
 
         Rectangle tempGrid= new Rectangle(SIZE_HORIZONTAL*0.25,0,SIZE_HORIZONTAL*0.75,SIZE_VERTICAL*0.75);
 
-        Group root = new Group();
+        BorderPane root = new BorderPane();
 
-        createAndAddAllMenuControlsToRoot(root);
-        root.getChildren().add(tempGrid);
+        root.setBottom(createAllMenuControls());
+        root.setRight(tempGrid);
         root.getChildren().add(ball);
         Scene scene = new Scene(root, SIZE_HORIZONTAL, SIZE_VERTICAL, Color.DARKBLUE);
 
@@ -71,31 +69,37 @@ public class Main extends Application {
     }
     //PLACEHODLER ANIMATION
     static Point2D ballSpeed = new Point2D(500, 0);
-    public static void move(double elapsedTime) {
+    public void move(double elapsedTime) {
 
         ball.setCenterX(ball.getCenterX() + ballSpeed.getX() * elapsedTime);
         if(ball.getCenterX()>700){
-        ballSpeed = new Point2D(-500, 0);}
+            ballSpeed = new Point2D(-500, 0);}
         if(ball.getCenterX()<175){
             ballSpeed = new Point2D(500, 0);}
     }
-private void createAndAddAllMenuControlsToRoot(Group root){
-    menuController playButton= new menuControllerPlay(BUTTON_NAMES[0],BUTTON_POSITIONS[0][0],BUTTON_POSITIONS[0][1]);
-    menuController pauseButton= new menuControllerPause(BUTTON_NAMES[1],BUTTON_POSITIONS[1][0],BUTTON_POSITIONS[1][1]);
-    menuController stepButton= new menuControllerStep(BUTTON_NAMES[2],BUTTON_POSITIONS[2][0],BUTTON_POSITIONS[2][1]);
-    addButtonToRoot(root,playButton.getButtonNode() );
-    addButtonToRoot(root,pauseButton.getButtonNode() );
-    addButtonToRoot(root,stepButton.getButtonNode() );
-}
+    private HBox createAllMenuControls(){
+        playButton= makeButton("Play",e->play());
+        pauseButton=makeButton("Pause",e->pause());
+        stepButton= makeButton("Step",e->step());
 
-    private void addButtonToRoot(Group rootGroup, Button b){
-        rootGroup.getChildren().add(b);
+        HBox result = new HBox();
+        result.getChildren().addAll(pauseButton,playButton,stepButton);
+        result.setAlignment(Pos.CENTER);
+        return result;
+    }
+    private Button makeButton(String buttonName,EventHandler<ActionEvent> handler){
+        Button button=new Button();
 
+            button = new Button();
+            button.setText(buttonName);
+            button.setOnAction(handler);
+
+        return button;
     }
 
-
-
-
+    public void play(){animationEnabled=true ;}
+    public void pause(){animationEnabled=false ;}
+    public void step(){move(SECOND_DELAY);}
 
 }
 
