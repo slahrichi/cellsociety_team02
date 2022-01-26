@@ -1,10 +1,9 @@
 <data simulation="simulationn">
-  <type>Spreading Fire</type>
-  <title>Spreading Fire</title>
+  <type>Percolation</type>
+  <title>Percolation</title>
   <author>Saad Lahrichi</author>
   <numberOfColumns>10</numberOfColumns>
   <numberOfRows>10</numberOfRows>
   <numberOfCells>100</numberOfCells>
   <currentState>0, 1</currentState>
-  <probCatch>0.5</probCatch>
 </data>

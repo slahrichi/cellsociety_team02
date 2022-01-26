@@ -1,6 +1,24 @@
 package Controller;
 
+import java.util.List;
+
 public abstract class GeneralController{
+
+  private static String type="type";
+  private static String numberOfColumns="numberOfColumns";
+  private static String numberOfRows="numberOfRows";
+  private static String numberOfCells="numberOfCells";
+  private static String currentState="currentState";
+  private static String probCatch="probCatch";
+
+  public static final List<String> TAGS = List.of(
+      type,
+      numberOfColumns,
+      numberOfRows,
+      numberOfCells,
+      currentState,
+      probCatch
+  );
 
 /*
   //List of all possible simulations. Set the type to SimulationXml to avoid confusion with the
