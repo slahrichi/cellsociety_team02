@@ -27,8 +27,8 @@ public class Main extends Application {
 
   // useful names for constant values used
   public static final String TITLE = "CellSociety";
-  public static final int SIZE_HORIZONTAL = 700;
-  public static final int SIZE_VERTICAL = 500;
+  public static final int SIZE_HORIZONTAL = 725;
+  public static final int SIZE_VERTICAL = 575;
 
 
   /**
