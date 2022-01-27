@@ -31,22 +31,4 @@ public class SpreadingFire extends Simulation {
       }
     }
   }
-
-  public void update() {
-    determineNewCellStates();
-    updateCellStates();
-  }
-
-  private void determineNewCellStates() {
-    for (Cell cell : grid.getCellMap().values()) {
-      cell.determineNextState(grid);
-    }
-  }
-
-  private void updateCellStates() {
-    for (Cell cell : grid.getCellMap().values()) {
-      cell.updateState();
-    }
-  }
-
 }

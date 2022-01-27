@@ -25,23 +25,5 @@ public class GameOfLife extends Simulation {
       }
       grid.getCellMap().put(c, new GameOfLifeCell(c, state));
     }
-
-  }
-
-  public void update() {
-    determineNewCellStates();
-    updateCellStates();
-  }
-
-  private void determineNewCellStates() {
-    for (Cell cell : grid.getCellMap().values()) {
-      cell.determineNextState(grid);
-    }
-  }
-
-  private void updateCellStates() {
-    for (Cell cell : grid.getCellMap().values()) {
-      cell.updateState();
-    }
   }
 }

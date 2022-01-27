@@ -30,22 +30,4 @@ public class Percolation extends Simulation {
       grid.getCellMap().put(c, new PercolationCell(c, state));
     }
   }
-
-
-  public void update() {
-    determineNewCellStates();
-    updateCellStates();
-  }
-
-  private void determineNewCellStates() {
-    for (Cell cell : grid.getCellMap().values()) {
-      cell.determineNextState(grid);
-    }
-  }
-
-  private void updateCellStates() {
-    for (Cell cell : grid.getCellMap().values()) {
-      cell.updateState();
-    }
-  }
 }
