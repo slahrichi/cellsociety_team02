@@ -3,6 +3,8 @@ package cellsociety;
 import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -11,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -23,8 +26,11 @@ import javafx.util.Duration;
 public class SimulationVisualizer {
 
   private final int FRAMES_PER_SECOND = 60;
-  private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  private  double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  private final double SECOND_DELAY_BASE_VALUE = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+  private final int GRID_WIDTH = 600;
+  private final int GRID_HEIGHT = 425;
 
   private boolean animationEnabled = false;
   private Circle ball;
@@ -38,7 +44,6 @@ public class SimulationVisualizer {
   private Timeline animation;
   private FileChooser fileChooser = new FileChooser();
   private Stage myStage;
-
   public SimulationVisualizer(Stage stage) {
     myStage = stage;
   }
@@ -47,7 +52,7 @@ public class SimulationVisualizer {
     ball = new Circle(450, 250, 20);
     ball.setFill(Color.LIGHTSTEELBLUE);
 
-    Rectangle tempGrid = new Rectangle(width * 0.25, 0, width * 0.75, height * 0.75);
+    Rectangle tempGrid = new Rectangle(GRID_WIDTH,GRID_HEIGHT);
 
     BorderPane root = new BorderPane();
 
@@ -73,7 +78,6 @@ public class SimulationVisualizer {
   static Point2D ballSpeed = new Point2D(500, 0);
 
   public void move(double elapsedTime) {
-
     ball.setCenterX(ball.getCenterX() + ballSpeed.getX() * elapsedTime);
     if (ball.getCenterX() > 700) {
       ballSpeed = new Point2D(-500, 0);
@@ -88,10 +92,32 @@ public class SimulationVisualizer {
     pauseButton = makeButton("Pause", e -> pause());
     stepButton = makeButton("Step", e -> step());
 
+    Slider slider = setUpSlider();
+
     HBox result = new HBox();
-    result.getChildren().addAll(pauseButton, playButton, stepButton);
+    result.getChildren().addAll(pauseButton, playButton, stepButton,slider);
     result.setAlignment(Pos.CENTER);
     return result;
+  }
+
+  private Slider setUpSlider() {
+    Slider slider = new Slider();
+    slider.setMin(0.1);
+    slider.setMax(2);
+    slider.setValue(1);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    slider.setMajorTickUnit(0.1);
+    slider.valueProperty().addListener(
+        new ChangeListener<Number>() {
+
+          public void changed(ObservableValue<? extends Number >
+              observable, Number oldValue, Number newValue)
+          {
+
+            setAnimationSpeed(newValue);
+          }});
+    return slider;
   }
 
   private MenuButton createVerticalMenuControls() {
@@ -146,7 +172,9 @@ public class SimulationVisualizer {
     animation.stop();
     animation.playFromStart();
   }
-
+  private void setAnimationSpeed(Number factor){
+    animation.setRate(factor.doubleValue());
+    }
   private void exportGridToFile() {
   }
 
