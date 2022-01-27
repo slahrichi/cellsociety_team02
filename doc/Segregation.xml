@@ -5,5 +5,5 @@
   <numberOfColumns>10</numberOfColumns>
   <numberOfRows>10</numberOfRows>
   <numberOfCells>100</numberOfCells>
-  <currentState>0, 1</currentState>
+  <currentState>0</currentState>
 </data>

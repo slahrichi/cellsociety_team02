@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.States.GameOfLife;
+import Model.States.Segregation;
 import java.util.List;
 
 public abstract class GeneralController{
@@ -10,6 +12,21 @@ public abstract class GeneralController{
   private static String numberOfCells="numberOfCells";
   private static String currentState="currentState";
   private static String probCatch="probCatch";
+
+  private static String GameOfLife="GameOfLife";
+  private static String SpreadingFire="SpreadingFire";
+  private static String Segregation="Segregation";
+  private static String WaTor="WaTor";
+  private static String Percolation="Percolation";
+
+
+  public static final List<String> GAMES = List.of(
+      GameOfLife,
+      SpreadingFire,
+      Segregation,
+      WaTor,
+      Percolation
+  );
 
   public static final List<String> TAGS = List.of(
       type,

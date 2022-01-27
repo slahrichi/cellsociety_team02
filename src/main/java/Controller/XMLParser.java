@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
@@ -25,14 +26,22 @@ import org.w3c.dom.Node;
 
 public class XMLParser {
   private final DocumentBuilder DOCUMENT_BUILDER;
-  private String filePath = "doc/SpreadingFire.xml";
+  private String filePath = "doc/";
 
   public XMLParser() throws ParserConfigurationException {
     DOCUMENT_BUILDER = createDocumentBuilder();
   }
 
+// here I assume that Matthew will call this method and use its return to build
+  // the simulation object
 
-  private HashMap<String, String> parseXML(String filePath) throws IOException, SAXException {
+  private HashMap<String, String> parseXML(String game) throws Exception {
+    if (GeneralController.GAMES.contains(game)){
+      filePath += game + ".xml";
+    }
+    else{
+      throw new Exception("Game not supported");
+    }
     File XMLFile = new File(filePath);
     Document XMLDocument = DOCUMENT_BUILDER.parse(XMLFile);
     Element simulation = XMLDocument.getDocumentElement();
@@ -47,4 +56,11 @@ public class XMLParser {
     return DocumentBuilderFactory.newInstance().newDocumentBuilder();
   }
 
+
+  public static void main(String [] args)
+      throws Exception {
+    XMLParser parser = new XMLParser();
+    HashMap data = parser.parseXML("SpreadingFire");
+    System.out.println(data);
+  }
 }
