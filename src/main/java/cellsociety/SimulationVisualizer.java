@@ -30,7 +30,7 @@ public class SimulationVisualizer {
   private final double SECOND_DELAY_BASE_VALUE = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private final int GRID_WIDTH = 600;
-  private final int GRID_HEIGHT = 425;
+  private final int GRID_HEIGHT = 500;
 
   private boolean animationEnabled = false;
   private Circle ball;
@@ -52,13 +52,13 @@ public class SimulationVisualizer {
     ball = new Circle(450, 250, 20);
     ball.setFill(Color.LIGHTSTEELBLUE);
 
-    Rectangle tempGrid = new Rectangle(GRID_WIDTH,GRID_HEIGHT);
+    GridVisualizer gv= new RectangleGridVisualizer(GRID_WIDTH,GRID_HEIGHT,100,25);
 
     BorderPane root = new BorderPane();
 
     root.setBottom(createAllMenuControls());
     root.setTop(createVerticalMenuControls());
-    root.setRight(tempGrid);
+    root.setRight(gv.makeRoot());
     root.getChildren().add(ball);
     Scene scene = new Scene(root, width, height, Color.DARKBLUE);
 
@@ -109,14 +109,7 @@ public class SimulationVisualizer {
     slider.setShowTickMarks(true);
     slider.setMajorTickUnit(0.1);
     slider.valueProperty().addListener(
-        new ChangeListener<Number>() {
-
-          public void changed(ObservableValue<? extends Number >
-              observable, Number oldValue, Number newValue)
-          {
-
-            setAnimationSpeed(newValue);
-          }});
+        (observable, oldValue, newValue) -> setAnimationSpeed(newValue));
     return slider;
   }
 
