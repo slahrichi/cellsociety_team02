@@ -11,7 +11,6 @@ public class Segregation extends Simulation {
     super(numberOfRows, numberOfColumns);
     this.setup = setup;
     this.threshold = threshold;
-    createGrid();
     initializeGridCells();
   }
 
