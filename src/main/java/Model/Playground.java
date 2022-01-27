@@ -31,24 +31,26 @@ public class Playground {
     return map;
   }
 
-  public static void main(String[] args) {
-    Playground p = new Playground();
-    /*
+  public void testSpreadingFire() {
     SpreadingFire s = new SpreadingFire(5, 5, 0.7);
     System.out.println(s.getGrid().getCellMap());
     s.update();
     System.out.println(s.getGrid().getCellMap());
     s.update();
     System.out.println(s.getGrid().getCellMap());
-     */
-    Simulation game = new GameOfLife(5, 5, p.setupGame(5, 5));
+  }
+
+  private void testGameOfLife(Playground p) {
+    Simulation game = new GameOfLife(5, 5,
+        p.setupGame(5, 5));
     System.out.println(game.getGrid().getCellMap());
     game.update();
     System.out.println(game.getGrid().getCellMap());
     game.update();
     System.out.println(game.getGrid().getCellMap());
-    /*
-    Playground p = new Playground();
+  }
+
+  private void testPercolation(Playground p) {
     HashMap<Coordinate, Integer> setup = p.setupPercolation(5, 5);
     System.out.println(setup.size());
     Simulation perc = new Percolation(5, 5, setup);
@@ -57,8 +59,41 @@ public class Playground {
       perc.update();
     }
     System.out.println(perc.getGrid().getCellMap());
-     */
   }
+
+  private HashMap<Coordinate, Integer> setupSegregation(int[][] grid) {
+    HashMap<Coordinate, Integer> map = new HashMap<>();
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[0].length; j++) {
+        Coordinate p = new Coordinate(i, j);
+        map.put(p, grid[i][j]);
+      }
+    }
+    return map;
+  }
+
+  private void testSegregation(Playground p){
+    int[][] grid = {{2, 2, 1, 2, 1}, {0, 1, 1, 1, 1}, {2, 2, 0, 0, 0},
+        {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
+    HashMap<Coordinate, Integer> setup = setupSegregation(grid);
+    Simulation seg = new Segregation(5, 5, setup, .3);
+    System.out.println(seg.getGrid().getCellMap());
+    seg.update();
+    System.out.println(seg.getGrid().getCellMap());
+    for (int i = 0; i < 10; i++) {
+      seg.update();
+    }
+  }
+
+  public static void main(String[] args) {
+    Playground p = new Playground();
+    //p.testSpreadingFire();
+    //p.testGameOfLife(p);
+    //p.testPercolation(p);
+    p.testSegregation(p);
+  }
+
+
 
 
 }

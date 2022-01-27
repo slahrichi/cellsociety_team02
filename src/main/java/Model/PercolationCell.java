@@ -26,8 +26,6 @@ public class PercolationCell extends Cell {
   }
 
   private boolean canPercolate(Grid grid) {
-    int[] rowDelta = {-1, 1, 0, 0, 1, 1, -1, -1};
-    int[] colDelta = {0, 0, -1, 1, -1, 1, -1, 1};
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
       if (grid.isInBounds(neighbor)) {

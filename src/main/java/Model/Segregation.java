@@ -5,9 +5,13 @@ import java.util.Map;
 public class Segregation extends Simulation {
 
   private Map<Coordinate, Integer> setup;
-  public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
+  private double threshold;
+  public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
+      double threshold) {
     super(numberOfRows, numberOfColumns);
     this.setup = setup;
+    this.threshold = threshold;
+    createGrid();
     initializeGridCells();
   }
 
@@ -20,11 +24,14 @@ public class Segregation extends Simulation {
     for (Coordinate c : setup.keySet()) {
       Enum state = null;
       switch (setup.get(c)) {
-        case 0 -> state = States.Segregation.EMPTY;
-        case 1 -> state = States.Segregation.RED;
-        case 2 -> state = States.Segregation.BLUE;
+        case 0 -> {
+          state = States.Segregation.EMPTY;
+          ((SegregationGrid) grid).setEmptySpots(c);
+        }
+        case 1 -> state = States.Segregation.REP;
+        case 2 -> state = States.Segregation.DEM;
       }
-      grid.getCellMap().put(c, new SegregationCell(c, state));
+      grid.getCellMap().put(c, new SegregationCell(c, state, grid, threshold));
     }
 
   }
