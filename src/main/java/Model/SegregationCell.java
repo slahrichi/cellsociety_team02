@@ -1,22 +1,23 @@
 package Model;
 
+
 public class SegregationCell extends Cell {
 
   private boolean dissatisfied;
   private double threshold;
-  private Grid grid;
+  private SegregationGrid grid;
   public SegregationCell(Coordinate position, Enum initialState, Grid grid,
       double threshold) {
     super(position, initialState);
     this.threshold = threshold;
-    this.grid = grid;
+    this.grid = (SegregationGrid) grid;
     dissatisfied = false;
   }
 
 
   protected void updateState() {
     if (dissatisfied) {
-      ((SegregationGrid) grid).moveCell(position);
+      grid.moveCell(position);
     };
   }
 
@@ -51,7 +52,5 @@ public class SegregationCell extends Cell {
         dissatisfied = true;
       }
     }
-    System.out.println(position);
-    System.out.println(dissatisfied);
   }
 }

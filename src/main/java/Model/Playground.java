@@ -80,6 +80,9 @@ public class Playground {
     System.out.println(seg.getGrid().getCellMap());
     seg.update();
     System.out.println(seg.getGrid().getCellMap());
+    for (int i = 0; i < 10; i++) {
+      seg.update();
+    }
   }
 
   public static void main(String[] args) {
