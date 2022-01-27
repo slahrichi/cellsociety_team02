@@ -25,4 +25,10 @@ public class States {
     DEM
   }
 
+  public enum WaTor {
+    EMPTY,
+    FISH,
+    SHARK
+  }
+
 }
