@@ -21,8 +21,8 @@ public class Segregation extends Simulation {
       Enum state = null;
       switch (setup.get(c)) {
         case 0 -> state = States.Segregation.EMPTY;
-        case 1 -> state = States.Segregation.RED;
-        case 2 -> state = States.Segregation.BLUE;
+        case 1 -> state = States.Segregation.REP;
+        case 2 -> state = States.Segregation.DEM;
       }
       grid.getCellMap().put(c, new SegregationCell(c, state));
     }

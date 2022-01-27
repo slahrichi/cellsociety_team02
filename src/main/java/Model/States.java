@@ -21,8 +21,8 @@ public class States {
 
   public enum Segregation {
     EMPTY,
-    RED,
-    BLUE
+    REP,
+    DEM
   }
 
 }
