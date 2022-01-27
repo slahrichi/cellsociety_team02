@@ -61,11 +61,33 @@ public class Playground {
     System.out.println(perc.getGrid().getCellMap());
   }
 
+  private HashMap<Coordinate, Integer> setupSegregation(int[][] grid) {
+    HashMap<Coordinate, Integer> map = new HashMap<>();
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[0].length; j++) {
+        Coordinate p = new Coordinate(i, j);
+        map.put(p, grid[i][j]);
+      }
+    }
+    return map;
+  }
+
+  private void testSegregation(Playground p){
+    int[][] grid = {{2, 2, 1, 2, 1}, {0, 1, 1, 1, 1}, {2, 2, 0, 0, 0},
+        {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
+    HashMap<Coordinate, Integer> setup = setupSegregation(grid);
+    Simulation seg = new Segregation(5, 5, setup, .3);
+    System.out.println(seg.getGrid().getCellMap());
+    seg.update();
+    System.out.println(seg.getGrid().getCellMap());
+  }
+
   public static void main(String[] args) {
     Playground p = new Playground();
     //p.testSpreadingFire();
     //p.testGameOfLife(p);
     //p.testPercolation(p);
+    p.testSegregation(p);
   }
 
 

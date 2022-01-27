@@ -42,14 +42,16 @@ public class SegregationCell extends Cell {
       dissatisfied = false;
     }
     else if (currentState == States.Segregation.DEM) {
-      if (dems/(dems + reps) < threshold) {
+      if (dems*1.0/(dems + reps) < threshold) {
         dissatisfied = true;
       }
     }
     else {
-      if (reps/(dems + reps) < threshold) {
+      if (reps*1.0/(dems + reps) < threshold) {
         dissatisfied = true;
       }
     }
+    System.out.println(position);
+    System.out.println(dissatisfied);
   }
 }
