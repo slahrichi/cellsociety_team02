@@ -1,14 +1,14 @@
 package cellsociety;
 
+import Model.Grid;
+import Model.Simulation;
 import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -18,19 +18,20 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class SimulationVisualizer {
 
-  private final int FRAMES_PER_SECOND = 60;
-  private  double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  private final double SECOND_DELAY_BASE_VALUE = 1.0 / FRAMES_PER_SECOND;
+  public static final String TITLE = "CellSociety";
+  private final int FRAMES_PER_SECOND = 10;
+  private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
+  private final int SCENE_WIDTH ;
+  private final int SCENE_HEIGHT ;
 
   private boolean animationEnabled = false;
   private Circle ball;
@@ -44,50 +45,57 @@ public class SimulationVisualizer {
   private Timeline animation;
   private FileChooser fileChooser = new FileChooser();
   private Stage myStage;
-  public SimulationVisualizer(Stage stage) {
+  private Grid myGrid;
+  private Simulation mySimulation;
+  private BorderPane root;
+  private Group gridGroup;
+  private GridVisualizer gv;
+  private Scene scene;
+
+  public SimulationVisualizer(Stage stage, Simulation simulation,int width, int height) {
     myStage = stage;
+    mySimulation=simulation;
+    myGrid = simulation.getGrid();
+    SCENE_WIDTH=width;
+    SCENE_HEIGHT=height;
+    setUpScene();
   }
 
-  public Scene setUpScene(int width, int height) {
+  public void setUpScene() {
     ball = new Circle(450, 250, 20);
     ball.setFill(Color.LIGHTSTEELBLUE);
 
-    GridVisualizer gv= new RectangleGridVisualizer(GRID_WIDTH,GRID_HEIGHT,100,25);
+    gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, 5, 5, myGrid);
 
-    BorderPane root = new BorderPane();
+    root = new BorderPane();
 
-    root.setBottom(createAllMenuControls());
+    root.setBottom(createAllAnimationControls());
     root.setTop(createVerticalMenuControls());
-    root.setRight(gv.makeRoot());
-    root.getChildren().add(ball);
-    Scene scene = new Scene(root, width, height, Color.DARKBLUE);
 
-     frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+    gridGroup = gv.makeRoot();
+    root.setRight(gridGroup);
+    root.getChildren().add(ball);
+    scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+
+    frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (animationEnabled) {
-        move(SECOND_DELAY);
+        step();
       }
     });
-   animation = new Timeline();
+    animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    return scene;
+
+    myStage.setScene(scene);
+    myStage.setTitle(TITLE);
+    myStage.show();
+
+
   }
 
-  //PLACEHODLER ANIMATION
-  static Point2D ballSpeed = new Point2D(500, 0);
 
-  public void move(double elapsedTime) {
-    ball.setCenterX(ball.getCenterX() + ballSpeed.getX() * elapsedTime);
-    if (ball.getCenterX() > 700) {
-      ballSpeed = new Point2D(-500, 0);
-    }
-    if (ball.getCenterX() < 175) {
-      ballSpeed = new Point2D(500, 0);
-    }
-  }
-
-  private HBox createAllMenuControls() {
+  private HBox createAllAnimationControls() {
     playButton = makeButton("Play", e -> play());
     pauseButton = makeButton("Pause", e -> pause());
     stepButton = makeButton("Step", e -> step());
@@ -95,7 +103,7 @@ public class SimulationVisualizer {
     Slider slider = setUpSlider();
 
     HBox result = new HBox();
-    result.getChildren().addAll(pauseButton, playButton, stepButton,slider);
+    result.getChildren().addAll(pauseButton, playButton, stepButton, slider);
     result.setAlignment(Pos.CENTER);
     return result;
   }
@@ -117,15 +125,13 @@ public class SimulationVisualizer {
     loadButton = makeMenuItem("Load File", e -> chooseFile());
     resetButton = makeMenuItem("Reset Grid", e -> resetGrid());
     exportButton = makeMenuItem("Export Grid (.XML)", e -> exportGridToFile());
-    MenuButton menuButton = new MenuButton("Settings", null, loadButton, resetButton, exportButton);
 
-    return menuButton;
+    return new MenuButton("Settings", null, loadButton, resetButton, exportButton);
   }
 
   private MenuItem makeMenuItem(String itemName, EventHandler<ActionEvent> handler) {
     MenuItem item = new MenuItem();
 
-    item = new MenuItem();
     item.setText(itemName);
     item.setOnAction(handler);
 
@@ -133,9 +139,7 @@ public class SimulationVisualizer {
   }
 
   private Button makeButton(String buttonName, EventHandler<ActionEvent> handler) {
-    Button button = new Button();
-
-    button = new Button();
+    Button button =  new Button();
     button.setText(buttonName);
     button.setOnAction(handler);
 
@@ -143,17 +147,16 @@ public class SimulationVisualizer {
   }
 
   private void play() {
-    //animation.play();
-    animationEnabled = true;
+    animationEnabled=true;
+    animation.play();
   }
 
   private void pause() {
-    //animation.pause();
-    animationEnabled = false;
+    animation.pause();
   }
 
   private void step() {
-    move(SECOND_DELAY);
+    updateGrid();
   }
 
   private void chooseFile() {
@@ -165,10 +168,25 @@ public class SimulationVisualizer {
     animation.stop();
     animation.playFromStart();
   }
-  private void setAnimationSpeed(Number factor){
+
+  private void setAnimationSpeed(Number factor) {
     animation.setRate(factor.doubleValue());
-    }
+  }
+
   private void exportGridToFile() {
+  }
+
+  private void updateGrid() {
+    mySimulation.update();
+    myGrid=mySimulation.getGrid();
+
+    root.getChildren().remove(gridGroup);
+    gridGroup= gv.makeRoot();
+    root.setRight(gridGroup);
+    scene.setRoot(root);
+    myStage.setScene(scene);
+
+
   }
 
 }
