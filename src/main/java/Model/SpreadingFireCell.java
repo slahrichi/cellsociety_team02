@@ -4,7 +4,7 @@ package Model;
 
 public class SpreadingFireCell extends Cell{
   private double probCatch;
-  protected SpreadingFireCell(Coordinate position, Enum initialState, double probCatch) {
+  public SpreadingFireCell(Coordinate position, Enum initialState, double probCatch) {
     super(position, initialState);
     this.probCatch = probCatch;
 

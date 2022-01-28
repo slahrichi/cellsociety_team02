@@ -1,9 +1,19 @@
-<data simulation="simulationn">
-  <type>Game Of Life</type>
+<data simulation="simulation">
+  <type>GameOfLife</type>
   <title>Game Of Life</title>
   <author>Saad Lahrichi</author>
   <numberOfColumns>10</numberOfColumns>
   <numberOfRows>10</numberOfRows>
   <numberOfCells>100</numberOfCells>
-  <currentState>0</currentState>
+  <grid>0 0 0 0 0 1 0 0 0 0
+    0 0 0 1 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    1 1 1 0 0 0 1 1 1 0
+    0 0 1 1 1 0 1 1 1 0
+    0 0 0 0 0 0 0 0 0 0
+    0 1 1 0 0 1 0 0 0 0
+    0 0 0 1 0 0 0 0 0 0
+    0 0 0 0 1 0 0 1 0 0
+    0 0 1 0 0 0 0 0 0 0
+  </grid>
 </data>

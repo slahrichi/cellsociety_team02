@@ -1,26 +1,25 @@
 package Controller;
 
-import Model.States.GameOfLife;
-import Model.States.Segregation;
 import java.util.List;
 
-public abstract class GeneralController{
+public abstract class GeneralController {
 
-  private static String type="type";
-  private static String numberOfColumns="numberOfColumns";
-  private static String numberOfRows="numberOfRows";
-  private static String numberOfCells="numberOfCells";
-  private static String currentState="currentState";
-  private static String probCatch="probCatch";
+  private static final String type = "type";
+  private static final String numberOfColumns = "numberOfColumns";
+  private static final String numberOfRows = "numberOfRows";
+  private static final String numberOfCells = "numberOfCells";
+  private static final String probCatch = "probCatch";
+  private static final String grid = "grid";
 
-  private static String GameOfLife="GameOfLife";
-  private static String SpreadingFire="SpreadingFire";
-  private static String Segregation="Segregation";
-  private static String WaTor="WaTor";
-  private static String Percolation="Percolation";
+  private static final String GameOfLife = "GameOfLife";
+  private static final String SpreadingFire = "SpreadingFire";
+  private static final String Segregation = "Segregation";
+  private static final String WaTor = "WaTor";
+  private static final String Percolation = "Percolation";
 
+  // can I change this List<String> to List<Simulation>?
 
-  public static final List<String> GAMES = List.of(
+  public static final List<String> SIMULATIONS = List.of(
       GameOfLife,
       SpreadingFire,
       Segregation,
@@ -33,9 +32,15 @@ public abstract class GeneralController{
       numberOfColumns,
       numberOfRows,
       numberOfCells,
-      currentState,
-      probCatch
+      probCatch,
+      grid
   );
+
+//  public static void step (double elapsedTime){
+//    Simulation.update();
+//    View.update();
+//    }
+//  }
 
 /*
   //List of all possible simulations. Set the type to SimulationXml to avoid confusion with the

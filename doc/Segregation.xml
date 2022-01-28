@@ -1,9 +1,20 @@
-<data simulation="simulationn">
+<data simulation="simulation">
   <type>Segregation</type>
   <title>Segregation</title>
   <author>Saad Lahrichi</author>
   <numberOfColumns>10</numberOfColumns>
   <numberOfRows>10</numberOfRows>
   <numberOfCells>100</numberOfCells>
-  <currentState>0</currentState>
+  <threshold>0.3</threshold>
+  <grid>0 1 2 0 2 2 0 1 0 0
+    0 2 2 1 0 1 1 0 0 1
+    0 1 0 0 1 0 1 0 0 2
+    2 0 2 0 2 0 2 0 2 0
+    2 0 2 2 1 0 2 0 2 0
+    1 0 1 0 2 0 1 0 0 1
+    0 0 1 1 1 0 2 0 0 1
+    1 0 2 0 0 0 2 0 2 0
+    2 0 2 0 1 0 2 0 2 0
+    0 1 0 1 2 1 1 0 1 0
+  </grid>
 </data>
