@@ -6,12 +6,8 @@ import java.util.Map;
 
 public class Percolation extends Simulation {
 
-  private Map<Coordinate, Integer> setup;
-
   public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
-    super(numberOfRows, numberOfColumns);
-    this.setup = setup;
-    initializeGridCells();
+    super(numberOfRows, numberOfColumns, setup);
   }
 
 
@@ -19,7 +15,6 @@ public class Percolation extends Simulation {
 
 
   protected void initializeGridCells() {
-    if (setup == null) return;
     for (Coordinate c : setup.keySet()) {
       Enum state = null;
       switch (setup.get(c)) {

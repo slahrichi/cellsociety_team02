@@ -3,19 +3,19 @@ package Model;
 public class States {
 
   public enum SpreadingFire {
-    TREE,
-    BURNING,
-    EMPTY
+    TREE, //GREEN
+    BURNING, //RED
+    EMPTY //BEIGE/WHITE
   }
 
   public enum Percolation {
-    PERCOLATED,
-    OPEN,
-    BLOCKED
+    PERCOLATED, //BLUE
+    OPEN, //WHITE
+    BLOCKED //BLACK
   }
 
   public enum GameOfLife {
-    ALIVE,
+    ALIVE, //
     DEAD
   }
 

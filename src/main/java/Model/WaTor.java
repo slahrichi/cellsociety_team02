@@ -3,14 +3,12 @@ package Model;
 import java.util.Map;
 
 public class WaTor extends Simulation {
-  private Map<Coordinate, Integer> setup;
   private int fishChronon;
   private int sharkChronon;
 
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       int fishChronon, int sharkChronon) {
-    super(numberOfRows, numberOfColumns);
-    this.setup = setup;
+    super(numberOfRows, numberOfColumns, setup);
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
     initializeGridCells();

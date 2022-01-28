@@ -5,11 +5,10 @@ import java.util.Map;
 public class SpreadingFire extends Simulation {
   private double probCatch;
 
-  public SpreadingFire(int numberOfRows, int numberOfColumns, double probCatch) {
-    super(numberOfRows, numberOfColumns);
+  public SpreadingFire(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
+      double probCatch) {
+    super(numberOfRows, numberOfColumns, setup);
     this.probCatch = probCatch;
-    initializeGridCells();
-
   }
 
   protected void createGrid()  {
@@ -17,18 +16,14 @@ public class SpreadingFire extends Simulation {
   }
 
   protected void initializeGridCells() {
-    for (int i = 0; i < numberOfRows; i++) {
-      for (int j = 0; j < numberOfColumns; j++) {
-        Coordinate coord = new Coordinate(i, j);
-        if (i == numberOfRows/2 && j == numberOfColumns/2) {
-          grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.BURNING,
-              probCatch));
-        }
-        else {
-          grid.getCellMap().put(coord, new SpreadingFireCell(coord, States.SpreadingFire.TREE,
-              probCatch));
-        }
+    for (Coordinate c : setup.keySet()) {
+      Enum state = null;
+      switch (setup.get(c)) {
+        case 0 -> state = States.SpreadingFire.TREE;
+        case 1 -> state = States.SpreadingFire.BURNING;
+        case 2 -> state = States.SpreadingFire.EMPTY;
       }
+      grid.getCellMap().put(c, new SpreadingFireCell(c, state, probCatch));
     }
   }
 }

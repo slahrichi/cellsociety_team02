@@ -4,11 +4,8 @@ import java.util.Map;
 
 public class GameOfLife extends Simulation {
 
-  private Map<Coordinate, Integer> setup;
   public GameOfLife(int numberOfColumns, int numberOfRows, Map<Coordinate, Integer> setup) {
-    super(numberOfColumns, numberOfRows);
-    this.setup = setup;
-    initializeGridCells();
+    super(numberOfColumns, numberOfRows, setup);
   }
 
 
@@ -16,7 +13,6 @@ public class GameOfLife extends Simulation {
 
 
   protected void initializeGridCells() {
-    if (setup == null) return;
     for (Coordinate c : setup.keySet()) {
       Enum state = null;
       switch (setup.get(c)) {

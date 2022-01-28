@@ -31,8 +31,23 @@ public class Playground {
     return map;
   }
 
-  public void testSpreadingFire() {
-    SpreadingFire s = new SpreadingFire(5, 5, 0.7);
+  private HashMap<Coordinate, Integer> setupSpreadingFire(int rows, int cols) {
+    HashMap<Coordinate, Integer> map = new HashMap<>();
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        Coordinate coord = new Coordinate(i, j);
+        int state = 0;
+        if (i == rows / 2 && j == cols / 2)
+          state = 1;
+        map.put(coord, state);
+      }
+    }
+    return map;
+  }
+
+  public void testSpreadingFire(Playground p) {
+    HashMap<Coordinate, Integer> setup = p.setupSpreadingFire(5, 5);
+    SpreadingFire s = new SpreadingFire(5, 5, setup, 0.7);
     System.out.println(s.getGrid().getCellMap());
     s.update();
     System.out.println(s.getGrid().getCellMap());
@@ -87,10 +102,10 @@ public class Playground {
 
   public static void main(String[] args) {
     Playground p = new Playground();
-    //p.testSpreadingFire();
+    //p.testSpreadingFire(p);
     //p.testGameOfLife(p);
     //p.testPercolation(p);
-    p.testSegregation(p);
+    //p.testSegregation(p);
   }
 
 
