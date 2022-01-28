@@ -1,0 +1,43 @@
+image: dukedesigncoach/testfx-runner:latest
+
+stages:
+  - analyze
+  - validate
+  - report
+
+checkstyle_analysis:
+  stage: validate
+  script:
+    - mvn -B -ntp validate site
+  artifacts:
+    paths:
+      - target/site/*
+  only:
+    - master
+
+sonar_analysis:
+  stage: analyze
+  script:
+    - |
+      mvn -B -ntp sonar:sonar \
+        -Dsonar.host.url=http://coursework.cs.duke.edu:9000 \
+        -Dsonar.java.binaries=. \
+        -Dsonar.exclusions=**/*.xml,**/*.css
+  tags:
+    - sonarqube
+  only:
+    - master
+
+pages:
+  stage: report
+  needs:
+    - checkstyle_analysis
+  script:
+    - mkdir .public
+    - cp -r target/site .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
