@@ -48,7 +48,6 @@ public class Main extends Application {
   }
 
 
-
   /**
    * Initialize what will be displayed.
    */
@@ -59,9 +58,8 @@ public class Main extends Application {
     HashMap<Coordinate, Integer> setup = setupSegregation(grid);
     //Simulation seg = new Segregation(5, 5, setup, .3);
     SpreadingFire s = new SpreadingFire(5, 5, 0.7);
-    SimulationVisualizer visualizer = new SimulationVisualizer(stage, s,SIZE_HORIZONTAL,SIZE_VERTICAL);
-
-
+    SimulationVisualizer visualizer = new SimulationVisualizer(stage, s, SIZE_HORIZONTAL,
+        SIZE_VERTICAL);
 
 
   }
