@@ -16,7 +16,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,7 +24,7 @@ import javafx.util.Duration;
 public class SimulationVisualizer {
 
   public static final String TITLE = "CellSociety";
-  private final int FRAMES_PER_SECOND = 10;
+  private final int FRAMES_PER_SECOND = 3;
   private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private final int GRID_WIDTH = 600;
@@ -34,7 +33,6 @@ public class SimulationVisualizer {
   private final int SCENE_HEIGHT;
 
   private boolean animationEnabled = false;
-  private Circle ball;
   private KeyFrame frame;
   private Button playButton;
   private Button pauseButton;
@@ -62,8 +60,6 @@ public class SimulationVisualizer {
   }
 
   public void setUpScene() {
-    ball = new Circle(450, 250, 20);
-    ball.setFill(Color.LIGHTSTEELBLUE);
 
     gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, 5, 5, myGrid);
 
@@ -74,7 +70,6 @@ public class SimulationVisualizer {
 
     gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
-    root.getChildren().add(ball);
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
 
     frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
