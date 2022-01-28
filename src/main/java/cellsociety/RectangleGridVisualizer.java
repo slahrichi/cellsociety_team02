@@ -20,16 +20,16 @@ public class RectangleGridVisualizer extends GridVisualizer {
 
   @Override
   protected void calculateCellSize() {
-    cellHeight = (gridHeight - (numRows + 1) * gapBetweenCells) / numRows;
-    cellWidth = (gridWidth - (numColumns + 1) * gapBetweenCells) / numColumns;
+    cellHeight = (getHeight() - (getNumRows() + 1) * gapBetweenCells) / getNumRows();
+    cellWidth = (getWidth() - (getNumColumns() + 1) * gapBetweenCells) / getNumColumns();
   }
 
   @Override
   public Group makeRoot() {
     Group gridRoot = new Group();
     Rectangle grid = new Rectangle();
-    grid.setWidth(gridWidth);
-    grid.setHeight(gridHeight);
+    grid.setWidth(getWidth());
+    grid.setHeight(getHeight());
     grid.setFill(Color.NAVY);
     grid.setStroke(Color.BLACK);
     gridRoot.getChildren().add(grid);
@@ -42,9 +42,9 @@ public class RectangleGridVisualizer extends GridVisualizer {
     Group cellGroup = new Group();
     int xPos = gapBetweenCells;
     int yPos = gapBetweenCells;
-    for (int i = 0; i < numRows; i++) {
+    for (int i = 0; i < getNumRows(); i++) {
       xPos = gapBetweenCells;
-      for (int j = 0; j < numColumns; j++) {
+      for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c= new Coordinate(i,j);
 
         cellGroup.getChildren().add(createCell(xPos, yPos,c));
@@ -59,7 +59,7 @@ public class RectangleGridVisualizer extends GridVisualizer {
   protected Rectangle createCell(int xPos, int yPos,Coordinate c) {
     Rectangle newCell = new Rectangle(xPos, yPos, cellWidth, cellHeight);
     newCell.setStroke(Color.BLACK);
-    newCell.setFill(colorMap.getStateMatch( myGrid.getCellMap().get(c).toString()) );
+    newCell.setFill(getColorMap().getStateMatch( getGrid().getCellMap().get(c).toString()) );
     return newCell;
   }
 
