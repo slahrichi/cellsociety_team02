@@ -4,6 +4,7 @@ import Model.Coordinate;
 import Model.Playground;
 import Model.Segregation;
 import Model.Simulation;
+import Model.SpreadingFire;
 import java.util.HashMap;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -31,7 +32,7 @@ import javafx.util.Duration;
 public class Main extends Application {
 
   // useful names for constant values used
-  public static final String TITLE = "CellSociety";
+
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
 
@@ -56,13 +57,11 @@ public class Main extends Application {
     int[][] grid = {{2, 2, 1, 2, 1}, {0, 1, 1, 1, 1}, {2, 2, 0, 0, 0},
         {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
     HashMap<Coordinate, Integer> setup = setupSegregation(grid);
-    Simulation seg = new Segregation(5, 5, setup, .3);
+    //Simulation seg = new Segregation(5, 5, setup, .3);
+    SpreadingFire s = new SpreadingFire(5, 5, 0.7);
+    SimulationVisualizer visualizer = new SimulationVisualizer(stage, s,SIZE_HORIZONTAL,SIZE_VERTICAL);
 
-    SimulationVisualizer visualizer = new SimulationVisualizer(stage, seg);
 
-    stage.setScene(visualizer.setUpScene(SIZE_HORIZONTAL, SIZE_VERTICAL));
-    stage.setTitle(TITLE);
-    stage.show();
 
 
   }

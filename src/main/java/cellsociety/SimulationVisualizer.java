@@ -7,7 +7,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -25,12 +24,14 @@ import javafx.util.Duration;
 
 public class SimulationVisualizer {
 
-  private final int FRAMES_PER_SECOND = 60;
-  private double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  private final double SECOND_DELAY_BASE_VALUE = 1.0 / FRAMES_PER_SECOND;
+  public static final String TITLE = "CellSociety";
+  private final int FRAMES_PER_SECOND = 10;
+  private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
+  private final int SCENE_WIDTH ;
+  private final int SCENE_HEIGHT ;
 
   private boolean animationEnabled = false;
   private Circle ball;
@@ -49,14 +50,18 @@ public class SimulationVisualizer {
   private BorderPane root;
   private Group gridGroup;
   private GridVisualizer gv;
+  private Scene scene;
 
-  public SimulationVisualizer(Stage stage, Simulation simulation) {
+  public SimulationVisualizer(Stage stage, Simulation simulation,int width, int height) {
     myStage = stage;
     mySimulation=simulation;
     myGrid = simulation.getGrid();
+    SCENE_WIDTH=width;
+    SCENE_HEIGHT=height;
+    setUpScene();
   }
 
-  public Scene setUpScene(int width, int height) {
+  public void setUpScene() {
     ball = new Circle(450, 250, 20);
     ball.setFill(Color.LIGHTSTEELBLUE);
 
@@ -70,32 +75,25 @@ public class SimulationVisualizer {
     gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
     root.getChildren().add(ball);
-    Scene scene = new Scene(root, width, height, Color.DARKBLUE);
+    scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
 
     frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (animationEnabled) {
-        move(SECOND_DELAY);
+        step();
       }
     });
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    return scene;
+
+    myStage.setScene(scene);
+    myStage.setTitle(TITLE);
+    myStage.show();
+
+
   }
 
-  //PLACEHODLER ANIMATION
-  static Point2D ballSpeed = new Point2D(500, 0);
-
-  public void move(double elapsedTime) {
-    ball.setCenterX(ball.getCenterX() + ballSpeed.getX() * elapsedTime);
-    if (ball.getCenterX() > 700) {
-      ballSpeed = new Point2D(-500, 0);
-    }
-    if (ball.getCenterX() < 175) {
-      ballSpeed = new Point2D(500, 0);
-    }
-  }
 
   private HBox createAllAnimationControls() {
     playButton = makeButton("Play", e -> play());
@@ -127,9 +125,8 @@ public class SimulationVisualizer {
     loadButton = makeMenuItem("Load File", e -> chooseFile());
     resetButton = makeMenuItem("Reset Grid", e -> resetGrid());
     exportButton = makeMenuItem("Export Grid (.XML)", e -> exportGridToFile());
-    MenuButton menuButton = new MenuButton("Settings", null, loadButton, resetButton, exportButton);
 
-    return menuButton;
+    return new MenuButton("Settings", null, loadButton, resetButton, exportButton);
   }
 
   private MenuItem makeMenuItem(String itemName, EventHandler<ActionEvent> handler) {
@@ -150,18 +147,16 @@ public class SimulationVisualizer {
   }
 
   private void play() {
-    //animation.play();
-    animationEnabled = true;
+    animationEnabled=true;
+    animation.play();
   }
 
   private void pause() {
-    //animation.pause();
-    animationEnabled = false;
+    animation.pause();
   }
 
   private void step() {
-    mySimulation.update();
-    move(SECOND_DELAY);
+    updateGrid();
   }
 
   private void chooseFile() {
@@ -180,6 +175,7 @@ public class SimulationVisualizer {
 
   private void exportGridToFile() {
   }
+
   private void updateGrid() {
     mySimulation.update();
     myGrid=mySimulation.getGrid();
@@ -187,6 +183,8 @@ public class SimulationVisualizer {
     root.getChildren().remove(gridGroup);
     gridGroup= gv.makeRoot();
     root.setRight(gridGroup);
+    scene.setRoot(root);
+    myStage.setScene(scene);
 
 
   }
