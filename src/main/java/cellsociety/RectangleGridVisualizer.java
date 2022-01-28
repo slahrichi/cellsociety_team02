@@ -12,8 +12,9 @@ public class RectangleGridVisualizer extends GridVisualizer {
   private int cellHeight;
   private int gapBetweenCells = 0;
 
-  public RectangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid) {
-    super(width, height, numberOfRows, numberOfColumns,grid);
+  public RectangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
+      Grid grid) {
+    super(width, height, numberOfRows, numberOfColumns, grid);
     calculateCellSize();
 
   }
@@ -45,9 +46,9 @@ public class RectangleGridVisualizer extends GridVisualizer {
     for (int i = 0; i < getNumRows(); i++) {
       xPos = gapBetweenCells;
       for (int j = 0; j < getNumColumns(); j++) {
-        Coordinate c= new Coordinate(i,j);
+        Coordinate c = new Coordinate(i, j);
 
-        cellGroup.getChildren().add(createCell(xPos, yPos,c));
+        cellGroup.getChildren().add(createCell(xPos, yPos, c));
         xPos = xPos + cellWidth + gapBetweenCells;
       }
       yPos = yPos + cellHeight + gapBetweenCells;
@@ -56,10 +57,10 @@ public class RectangleGridVisualizer extends GridVisualizer {
   }
 
   @Override
-  protected Rectangle createCell(int xPos, int yPos,Coordinate c) {
+  protected Rectangle createCell(int xPos, int yPos, Coordinate c) {
     Rectangle newCell = new Rectangle(xPos, yPos, cellWidth, cellHeight);
     newCell.setStroke(Color.BLACK);
-    newCell.setFill(getColorMap().getStateMatch( getGrid().getCellMap().get(c).toString()) );
+    newCell.setFill(getColorMap().getStateMatch(getGrid().getCellMap().get(c).toString()));
     return newCell;
   }
 

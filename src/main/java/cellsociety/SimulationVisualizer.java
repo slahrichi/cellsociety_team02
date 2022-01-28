@@ -30,8 +30,8 @@ public class SimulationVisualizer {
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
-  private final int SCENE_WIDTH ;
-  private final int SCENE_HEIGHT ;
+  private final int SCENE_WIDTH;
+  private final int SCENE_HEIGHT;
 
   private boolean animationEnabled = false;
   private Circle ball;
@@ -52,12 +52,12 @@ public class SimulationVisualizer {
   private GridVisualizer gv;
   private Scene scene;
 
-  public SimulationVisualizer(Stage stage, Simulation simulation,int width, int height) {
+  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height) {
     myStage = stage;
-    mySimulation=simulation;
+    mySimulation = simulation;
     myGrid = simulation.getGrid();
-    SCENE_WIDTH=width;
-    SCENE_HEIGHT=height;
+    SCENE_WIDTH = width;
+    SCENE_HEIGHT = height;
     setUpScene();
   }
 
@@ -139,7 +139,7 @@ public class SimulationVisualizer {
   }
 
   private Button makeButton(String buttonName, EventHandler<ActionEvent> handler) {
-    Button button =  new Button();
+    Button button = new Button();
     button.setText(buttonName);
     button.setOnAction(handler);
 
@@ -147,7 +147,7 @@ public class SimulationVisualizer {
   }
 
   private void play() {
-    animationEnabled=true;
+    animationEnabled = true;
     animation.play();
   }
 
@@ -178,10 +178,10 @@ public class SimulationVisualizer {
 
   private void updateGrid() {
     mySimulation.update();
-    myGrid=mySimulation.getGrid();
+    myGrid = mySimulation.getGrid();
 
     root.getChildren().remove(gridGroup);
-    gridGroup= gv.makeRoot();
+    gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
     scene.setRoot(root);
     myStage.setScene(scene);
