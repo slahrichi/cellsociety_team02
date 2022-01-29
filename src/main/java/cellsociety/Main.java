@@ -21,6 +21,7 @@ public class Main extends Application {
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
   private SimulationVisualizer visualizer;
+  private HashMap<Coordinate, Integer> setup;
 
   private HashMap<Coordinate, Integer> setupSegregation(int[][] grid) {
     HashMap<Coordinate, Integer> map = new HashMap<>();
@@ -40,14 +41,16 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) {
 
-    startGUI(stage);
 
+    int[][] grid = {{2, 2, 1, 2, 1}, {0, 1, 1, 1, 1}, {2, 2, 0, 0, 0},
+        {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
+     setup = setupSegregation(grid);
+    startGUI(stage);
 
   }
   public  void startGUI(Stage stage){
-    int[][] grid = {{2, 2, 1, 2, 1}, {0, 1, 1, 1, 1}, {2, 2, 0, 0, 0},
-        {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
-    HashMap<Coordinate, Integer> setup = setupSegregation(grid);
+
+
     Simulation seg = new Segregation(5, 5, setup, .3);
 
     visualizer = new SimulationVisualizer(stage, seg, SIZE_HORIZONTAL,
@@ -55,7 +58,8 @@ public class Main extends Application {
   }
 
   public void changeGUI(Stage stage){
-    SpreadingFire s = new SpreadingFire(5, 5, 0.7);
+
+    SpreadingFire s = new SpreadingFire(5, 5, setup,0.3);
     visualizer = new SimulationVisualizer(stage, s, SIZE_HORIZONTAL,
         SIZE_VERTICAL,5,5,this,"Georgian");
 
