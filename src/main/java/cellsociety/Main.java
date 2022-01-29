@@ -57,7 +57,7 @@ public class Main extends Application {
         {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
     HashMap<Coordinate, Integer> setup = setupSegregation(grid);
     //Simulation seg = new Segregation(5, 5, setup, .3);
-    SpreadingFire s = new SpreadingFire(5, 5, 0.7);
+    SpreadingFire s = new SpreadingFire(5, 5, setup,0.3);
     SimulationVisualizer visualizer = new SimulationVisualizer(stage, s, SIZE_HORIZONTAL,
         SIZE_VERTICAL);
 
