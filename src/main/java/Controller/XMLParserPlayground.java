@@ -97,7 +97,7 @@ public class XMLParserPlayground {
     switch(simulation){
       case "GameOfLife": CURRENT_SIMULATION = new GameOfLife(numCols, numRows, map);
       break;
-      case "SpreadingFire": CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, probCatch);
+      case "SpreadingFire": CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, probCatch);
       break;
       case "Segregation": CURRENT_SIMULATION = new Segregation(numRows, numCols, map, threshold);
       break;
