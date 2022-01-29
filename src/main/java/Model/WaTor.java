@@ -3,14 +3,12 @@ package Model;
 import java.util.Map;
 
 public class WaTor extends Simulation {
-  private Map<Coordinate, Integer> setup;
   private int fishChronon;
   private int sharkChronon;
 
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       int fishChronon, int sharkChronon) {
-    super(numberOfRows, numberOfColumns);
-    this.setup = setup;
+    super(numberOfRows, numberOfColumns, setup);
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
     initializeGridCells();
@@ -25,16 +23,12 @@ public class WaTor extends Simulation {
     for (Coordinate c : setup.keySet()) {
       Enum state = null;
       switch (setup.get(c)) {
-        case 0 -> {
-          state = States.WaTor.EMPTY;
-          ((WaTorGrid) grid).setEmptySpots(c);
-        }
+        case 0 -> state = States.WaTor.EMPTY;
         case 1 -> state = States.WaTor.FISH;
         case 2 -> state = States.WaTor.SHARK;
       }
       grid.getCellMap().put(c, new WaTorCell(c, state, grid, fishChronon, sharkChronon));
     }
-
-
   }
+
 }
