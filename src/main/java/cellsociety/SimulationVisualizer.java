@@ -3,6 +3,7 @@ package cellsociety;
 import Model.Grid;
 import Model.Simulation;
 import java.io.File;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -16,7 +17,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,13 +29,13 @@ public class SimulationVisualizer {
   private final int FRAMES_PER_SECOND = 3;
   private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+  public static final String DEFAULT_RESOURCE_PACKAGE = "/";
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
 
   private boolean animationEnabled = false;
-  private KeyFrame frame;
   private Button playButton;
   private Button pauseButton;
   private Button stepButton;
@@ -49,19 +51,28 @@ public class SimulationVisualizer {
   private Group gridGroup;
   private GridVisualizer gv;
   private Scene scene;
+  private int numColumns;
+  private int numRows;
+  private Main myMain;
+  private ResourceBundle myResources;
 
-  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height) {
+
+  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height,int rows,int columns, Main main,String language) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
     SCENE_WIDTH = width;
     SCENE_HEIGHT = height;
+    numColumns = rows;
+    numRows = columns;
+    myMain=main;
+    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+language);
     setUpScene();
   }
 
   public void setUpScene() {
 
-    gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, 5, 5, myGrid);
+    gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
 
     root = new BorderPane();
 
@@ -72,7 +83,7 @@ public class SimulationVisualizer {
     root.setRight(gridGroup);
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
 
-    frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+    KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (animationEnabled) {
         step();
       }
@@ -91,14 +102,17 @@ public class SimulationVisualizer {
 
 
   private HBox createAllAnimationControls() {
-    playButton = makeButton("Play", e -> play());
-    pauseButton = makeButton("Pause", e -> pause());
-    stepButton = makeButton("Step", e -> step());
+    playButton = makeButton("playCommand", e -> play());
+    pauseButton = makeButton("pauseCommand", e -> pause());
+    stepButton = makeButton("stepCommand", e -> step());
 
     Slider slider = setUpSlider();
+    Text text = new Text();
+    text.setFont(new Font(14));
+    text.setText(myResources.getString("animationSpeedPrompt"));
 
     HBox result = new HBox();
-    result.getChildren().addAll(pauseButton, playButton, stepButton, slider);
+    result.getChildren().addAll(pauseButton, playButton, stepButton, text,slider);
     result.setAlignment(Pos.CENTER);
     return result;
   }
@@ -117,17 +131,17 @@ public class SimulationVisualizer {
   }
 
   private MenuButton createVerticalMenuControls() {
-    loadButton = makeMenuItem("Load File", e -> chooseFile());
-    resetButton = makeMenuItem("Reset Grid", e -> resetGrid());
-    exportButton = makeMenuItem("Export Grid (.XML)", e -> exportGridToFile());
+    loadButton = makeMenuItem("loadCommand", e -> chooseFile());
+    resetButton = makeMenuItem("resetCommand", e -> resetGrid());
+    exportButton = makeMenuItem("exportCommand", e -> exportGridToFile());
 
-    return new MenuButton("Settings", null, loadButton, resetButton, exportButton);
+    return new MenuButton(myResources.getString("settingsPrompt"), null, loadButton, resetButton, exportButton);
   }
 
   private MenuItem makeMenuItem(String itemName, EventHandler<ActionEvent> handler) {
     MenuItem item = new MenuItem();
 
-    item.setText(itemName);
+    item.setText(myResources.getString(itemName));
     item.setOnAction(handler);
 
     return item;
@@ -135,7 +149,7 @@ public class SimulationVisualizer {
 
   private Button makeButton(String buttonName, EventHandler<ActionEvent> handler) {
     Button button = new Button();
-    button.setText(buttonName);
+    button.setText(myResources.getString(buttonName));
     button.setOnAction(handler);
 
     return button;
@@ -155,13 +169,16 @@ public class SimulationVisualizer {
   }
 
   private void chooseFile() {
-    File selectedFile = fileChooser.showOpenDialog(myStage);
+    //File selectedFile = fileChooser.showOpenDialog(myStage);
+    pause();
+    myMain.changeGUI(myStage);
   }
 
   private void resetGrid() {
 
-    animation.stop();
-    animation.playFromStart();
+   pause();
+    myMain.startGUI(myStage);
+    myStage.show();
   }
 
   private void setAnimationSpeed(Number factor) {

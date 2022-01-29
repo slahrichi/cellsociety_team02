@@ -1,27 +1,12 @@
 package cellsociety;
 
 import Model.Coordinate;
-import Model.Playground;
 import Model.Segregation;
 import Model.Simulation;
 import Model.SpreadingFire;
 import java.util.HashMap;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.scene.shape.Circle;
-import javafx.util.Duration;
 
 
 /**
@@ -35,6 +20,8 @@ public class Main extends Application {
 
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
+  private SimulationVisualizer visualizer;
+  private HashMap<Coordinate, Integer> setup;
 
   private HashMap<Coordinate, Integer> setupSegregation(int[][] grid) {
     HashMap<Coordinate, Integer> map = new HashMap<>();
@@ -53,14 +40,28 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage stage) {
+
+
     int[][] grid = {{2, 2, 1, 2, 1}, {0, 1, 1, 1, 1}, {2, 2, 0, 0, 0},
         {2, 1, 2, 2, 2}, {2, 1, 1, 0, 1}};
-    HashMap<Coordinate, Integer> setup = setupSegregation(grid);
-    //Simulation seg = new Segregation(5, 5, setup, .3);
-    SpreadingFire s = new SpreadingFire(5, 5, setup,0.3);
-    SimulationVisualizer visualizer = new SimulationVisualizer(stage, s, SIZE_HORIZONTAL,
-        SIZE_VERTICAL);
+     setup = setupSegregation(grid);
+    startGUI(stage);
 
+  }
+  public  void startGUI(Stage stage){
+
+
+    Simulation seg = new Segregation(5, 5, setup, .3);
+
+    visualizer = new SimulationVisualizer(stage, seg, SIZE_HORIZONTAL,
+        SIZE_VERTICAL,5,5,this,"English");
+  }
+
+  public void changeGUI(Stage stage){
+
+    SpreadingFire s = new SpreadingFire(5, 5, setup,0.3);
+    visualizer = new SimulationVisualizer(stage, s, SIZE_HORIZONTAL,
+        SIZE_VERTICAL,5,5,this,"Georgian");
 
   }
 

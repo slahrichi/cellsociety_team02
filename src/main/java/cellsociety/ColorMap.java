@@ -22,8 +22,8 @@ public class ColorMap {
     COLOR_MAP.put("ALIVE,", Color.BLUE);
     COLOR_MAP.put("DEAD,", Color.GRAY);
 
-    COLOR_MAP.put("REP", Color.BLUE);
-    COLOR_MAP.put("DEM", Color.RED);
+    COLOR_MAP.put("REP", Color.RED);
+    COLOR_MAP.put("DEM", Color.BLUE);
 
     COLOR_MAP.put("FISH", Color.CYAN);
     COLOR_MAP.put("SHARK", Color.NAVY);
