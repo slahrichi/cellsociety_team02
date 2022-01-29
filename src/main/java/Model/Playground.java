@@ -100,8 +100,27 @@ public class Playground {
     }
   }
 
+  private void testWaTor(Playground p) {
+    int[][] tooManyFish = {{1, 0, 1, 0, 1}, {1, 0, 1, 0, 1}, {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0}, {0, 0, 1, 2, 1}};
+    int[][] tooManySharks = {{2, 0, 2, 0, 1}, {1, 0, 2, 0, 1}, {0, 2, 1, 2, 0},
+        {0, 0, 2, 0, 0}, {0, 0, 2, 2, 1}};
+    //HashMap<Coordinate, Integer> setup = setupSegregation(tooManyFish);
+    HashMap<Coordinate, Integer> setup = setupSegregation(tooManySharks);
+    Simulation wator = new WaTor(5, 5, setup, 5,
+        3);
+    System.out.println(wator.getGrid().getCellMap());
+    wator.update();
+    System.out.println(wator.getGrid().getCellMap());
+    for (int i = 0; i < 1000; i++) {
+      wator.update();
+    }
+    System.out.println(wator.getGrid().getCellMap());
+  }
+
   public static void main(String[] args) {
     Playground p = new Playground();
+    p.testWaTor(p);
     //p.testSpreadingFire(p);
     //p.testGameOfLife(p);
     //p.testPercolation(p);

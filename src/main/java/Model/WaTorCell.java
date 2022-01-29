@@ -50,8 +50,6 @@ public class WaTorCell extends Cell {
     }
   }
 
-  private void clearTurnsElapsed() {turnsElapsed = 0;}
-
   private void updateFish() {
     if (canReproduce(States.WaTor.FISH)) {
       reproduce(States.WaTor.FISH);
@@ -62,6 +60,11 @@ public class WaTorCell extends Cell {
     }
   }
 
+  private void clearTurnsElapsed() {turnsElapsed = 0;}
+
+  //let's treat reproduction like making one of the neighbors an offspring as opposed to
+  //directly leaving something behind
+  //let's also make health and turns elapsed equivalent
   private void reproduce(States.WaTor state) {
     Coordinate offspring = empty.remove(random.nextInt(empty.size()));
     updateNeighborState(offspring, state);
@@ -77,11 +80,9 @@ public class WaTorCell extends Cell {
   }
 
   private void eatFish() {
-    if (!fish.isEmpty()) {
       Coordinate fishToBeEaten = fish.remove(random.nextInt(fish.size()));
       updateNeighborState(fishToBeEaten, States.WaTor.EMPTY);
       clearTurnsElapsed();
-    }
   }
 
   private void updateNeighborState(Coordinate c, Enum state) {
@@ -112,10 +113,10 @@ public class WaTorCell extends Cell {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.EMPTY) {
-          empty.add(position);
+          empty.add(neighbor);
         }
         else if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.FISH) {
-          fish.add(position);
+          fish.add(neighbor);
         }
       }
     }

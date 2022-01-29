@@ -23,10 +23,7 @@ public class WaTor extends Simulation {
     for (Coordinate c : setup.keySet()) {
       Enum state = null;
       switch (setup.get(c)) {
-        case 0 -> {
-          state = States.WaTor.EMPTY;
-          ((WaTorGrid) grid).setEmptySpots(c);
-        }
+        case 0 -> state = States.WaTor.EMPTY;
         case 1 -> state = States.WaTor.FISH;
         case 2 -> state = States.WaTor.SHARK;
       }
