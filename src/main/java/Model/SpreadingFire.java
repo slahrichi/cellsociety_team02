@@ -9,6 +9,7 @@ public class SpreadingFire extends Simulation {
       double probCatch) {
     super(numberOfRows, numberOfColumns, setup);
     this.probCatch = probCatch;
+    initializeGridCells();
   }
 
   protected void createGrid()  {
