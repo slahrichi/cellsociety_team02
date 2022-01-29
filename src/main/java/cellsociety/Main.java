@@ -57,7 +57,7 @@ public class Main extends Application {
   public void changeGUI(Stage stage){
     SpreadingFire s = new SpreadingFire(5, 5, 0.7);
     visualizer = new SimulationVisualizer(stage, s, SIZE_HORIZONTAL,
-        SIZE_VERTICAL,5,5,this,"English");
+        SIZE_VERTICAL,5,5,this,"Georgian");
 
   }
 

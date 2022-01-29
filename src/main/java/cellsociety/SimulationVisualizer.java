@@ -17,6 +17,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -105,9 +107,12 @@ public class SimulationVisualizer {
     stepButton = makeButton("stepCommand", e -> step());
 
     Slider slider = setUpSlider();
+    Text text = new Text();
+    text.setFont(new Font(14));
+    text.setText(myResources.getString("animationSpeedPrompt"));
 
     HBox result = new HBox();
-    result.getChildren().addAll(pauseButton, playButton, stepButton, slider);
+    result.getChildren().addAll(pauseButton, playButton, stepButton, text,slider);
     result.setAlignment(Pos.CENTER);
     return result;
   }
