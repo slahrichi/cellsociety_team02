@@ -17,8 +17,8 @@ public class States {
 
 
   public enum Percolation {
-    PERCOLATED, //BLUE
     OPEN, //WHITE
+    PERCOLATED, //BLUE
     BLOCKED; //BLACK
     public int stateToInt(Enum state) {
       if (state.equals(OPEN)) return 0;
@@ -29,8 +29,8 @@ public class States {
   }
 
   public enum GameOfLife {
-    ALIVE, //
-    DEAD;
+    DEAD, //
+    ALIVE;
     public int stateToInt(Enum state) {
       if (state.equals(DEAD)) return 0;
       else if (state.equals(ALIVE)) return 1;

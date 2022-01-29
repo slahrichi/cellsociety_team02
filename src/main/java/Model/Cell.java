@@ -13,7 +13,7 @@ public abstract class Cell {
 
   protected void setPosition(Coordinate c) {position = c;}
 
-  protected Enum getCurrentState() {return currentState;}
+  public Enum getCurrentState() {return currentState;}
 
   protected abstract void updateState();
 

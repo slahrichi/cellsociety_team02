@@ -91,16 +91,21 @@ public class XMLParser {
         map.put(new Coordinate(i, j), cellsArray[i][j]);
       }
     }
-    switch(simulation){
-      case "GameOfLife": CURRENT_SIMULATION = new GameOfLife(numCols, numRows, map);
+    switch (simulation) {
+      case "GameOfLife":
+        CURRENT_SIMULATION = new GameOfLife(numCols, numRows, map);
         break;
-      case "SpreadingFire": CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, probCatch);
+      case "SpreadingFire":
+        CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, probCatch);
         break;
-      case "Segregation": CURRENT_SIMULATION = new Segregation(numRows, numCols, map, threshold);
+      case "Segregation":
+        CURRENT_SIMULATION = new Segregation(numRows, numCols, map, threshold);
         break;
-      case "WaTor": CURRENT_SIMULATION = new WaTor(numRows, numCols, map, fishChronon, sharkChronon);
+      case "WaTor":
+        CURRENT_SIMULATION = new WaTor(numRows, numCols, map, fishChronon, sharkChronon);
         break;
-      case "Percolation": CURRENT_SIMULATION = new Percolation(numRows, numCols, map);
+      case "Percolation":
+        CURRENT_SIMULATION = new Percolation(numRows, numCols, map);
     }
 
     Cell[][] gridArray = new Cell[numRows][numCols];
@@ -110,12 +115,14 @@ public class XMLParser {
         // can we add a Simulations.java class that would have an enum with all the simulations?
         // is there a way I can create a specific cell type using the string simulation
         // Current_Simulation + Cell = GameOfLifeCell
-        switch(simulation){
-          case "GameOfLife" : gridArray[i][j] = new GameOfLifeCell(new Coordinate(i, j),
-              States.GameOfLife.values()[cellsArray[i][j]]);
+        switch (simulation) {
+          case "GameOfLife":
+            gridArray[i][j] = new GameOfLifeCell(new Coordinate(i, j),
+                States.GameOfLife.values()[cellsArray[i][j]]);
             break;
-          case "SpreadingFire":  gridArray[i][j] = new SpreadingFireCell(new Coordinate(i, j),
-              States.SpreadingFire.values()[cellsArray[i][j]], probCatch);
+          case "SpreadingFire":
+            gridArray[i][j] = new SpreadingFireCell(new Coordinate(i, j),
+                States.SpreadingFire.values()[cellsArray[i][j]], probCatch);
             break;
 //          case "Segregation":  gridArray[i][j] = new SegregationCell(new Coordinate(i, j),
 //              States.Segregation.values()[cellsArray[i][j]], SegregationGrid, threshold);
@@ -123,8 +130,9 @@ public class XMLParser {
 //          case "WaTor": gridArray[i][j] = new WaTorCell(new Coordinate(i, j),
 //              States.WaTor.values()[cellsArray[i][j]], WaTorGrid, fishChronon, sharkChronon);
 //          break;
-          case "Percolation": gridArray[i][j] = new PercolationCell(new Coordinate(i, j),
-              States.WaTor.values()[cellsArray[i][j]]);
+          case "Percolation":
+            gridArray[i][j] = new PercolationCell(new Coordinate(i, j),
+                States.WaTor.values()[cellsArray[i][j]]);
         }
         // this needs to be generalized depending on the simulation
       }
@@ -141,22 +149,23 @@ public class XMLParser {
   private String pickSimulation(int simID) {
     return GeneralController.SIMULATIONS.get(simID);
   }
-
-  public static void main(String[] args)
-      throws Exception {
-    XMLParser parser = new XMLParser();
-    int simID = 1; //Hard coded for now, in the future, this would be passed by the View after the user selects a Simulation.
-    // int simID = View.getSimulationID();
-    HashMap<String, String> data = parser.parseXML(parser.pickSimulation(simID));
-    String grid = data.get("grid");
-    String allNumbers = grid.replaceAll("[^0-9]", "");
-    // source: https://stackoverflow.com/questions/42546052/take-a-string-and-turn-it-into-a-2d-array-java
-    int[][] numbers = Arrays.stream(allNumbers.split("(?<=\\G.{10})"))
-        .map(s -> (Arrays.stream(s.split("(?<=\\G.{1})")).mapToInt(Integer::parseInt).toArray()))
-        .toArray(int[][]::new);
-    System.out.println(Arrays.deepToString(numbers));
-    Cell[][] test = parser.createGrid(data);
-    System.out.println(Arrays.deepToString(test));
-  }
-
 }
+
+//  public static void main(String[] args)
+//      throws Exception {
+//    XMLParserPlayground parser = new XMLParserPlayground();
+//    int simID = 1; //Hard coded for now, in the future, this would be passed by the View after the user selects a Simulation.
+//    // int simID = View.getSimulationID();
+//    HashMap<String, String> data = parser.parseXML(parser.pickSimulation(simID));
+//    String grid = data.get("grid");
+//    String allNumbers = grid.replaceAll("[^0-9]", "");
+//    // source: https://stackoverflow.com/questions/42546052/take-a-string-and-turn-it-into-a-2d-array-java
+//    int[][] numbers = Arrays.stream(allNumbers.split("(?<=\\G.{10})"))
+//        .map(s -> (Arrays.stream(s.split("(?<=\\G.{1})")).mapToInt(Integer::parseInt).toArray()))
+//        .toArray(int[][]::new);
+//    System.out.println(Arrays.deepToString(numbers));
+//    Cell[][] test = parser.createGrid(data);
+//    System.out.println(Arrays.deepToString(test));
+//  }
+//
+//}

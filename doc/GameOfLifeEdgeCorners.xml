@@ -1,0 +1,20 @@
+<data simulation="simulation">
+  <type>GameOfLife</type>
+  <title>Game Of Life</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <grid>
+    1 1 1 0 0 0 0 1 1 1
+    1 0 0 0 0 0 0 0 0 1
+    1 0 0 0 0 0 0 0 0 1
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    1 0 0 0 0 0 0 0 0 1
+    1 0 0 0 0 0 0 0 0 1
+    1 1 1 0 0 0 0 1 1 1
+  </grid>
+</data>

@@ -4,12 +4,18 @@ import java.util.List;
 
 public abstract class GeneralController {
 
+  // should I change these to an enum?
+
   private static final String type = "type";
   private static final String numberOfColumns = "numberOfColumns";
   private static final String numberOfRows = "numberOfRows";
   private static final String numberOfCells = "numberOfCells";
   private static final String probCatch = "probCatch";
   private static final String grid = "grid";
+  private static final String threshold = "threshold";
+  private static final String fishChronon = "fishChronon";
+  private static final String sharkChronon = "sharkChronon";
+
 
   private static final String GameOfLife = "GameOfLife";
   private static final String SpreadingFire = "SpreadingFire";
@@ -33,6 +39,9 @@ public abstract class GeneralController {
       numberOfRows,
       numberOfCells,
       probCatch,
+      threshold,
+      fishChronon,
+      sharkChronon,
       grid
   );
 
