@@ -63,8 +63,8 @@ public class SimulationVisualizer {
     myGrid = simulation.getGrid();
     SCENE_WIDTH = width;
     SCENE_HEIGHT = height;
-    numColumns = rows;
-    numRows = columns;
+    numColumns = columns;
+    numRows = rows;
     myMain=main;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+language);
     setUpScene();
