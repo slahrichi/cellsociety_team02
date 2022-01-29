@@ -31,8 +31,23 @@ public class Playground {
     return map;
   }
 
-  public void testSpreadingFire() {
-    SpreadingFire s = new SpreadingFire(5, 5, 0.7);
+  private HashMap<Coordinate, Integer> setupSpreadingFire(int rows, int cols) {
+    HashMap<Coordinate, Integer> map = new HashMap<>();
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        Coordinate coord = new Coordinate(i, j);
+        int state = 0;
+        if (i == rows / 2 && j == cols / 2)
+          state = 1;
+        map.put(coord, state);
+      }
+    }
+    return map;
+  }
+
+  public void testSpreadingFire(Playground p) {
+    HashMap<Coordinate, Integer> setup = p.setupSpreadingFire(5, 5);
+    SpreadingFire s = new SpreadingFire(5, 5, setup, 0.7);
     System.out.println(s.getGrid().getCellMap());
     s.update();
     System.out.println(s.getGrid().getCellMap());
@@ -85,12 +100,31 @@ public class Playground {
     }
   }
 
+  private void testWaTor(Playground p) {
+    int[][] tooManyFish = {{1, 0, 1, 0, 1}, {1, 0, 1, 0, 1}, {0, 1, 1, 1, 0},
+        {0, 0, 0, 0, 0}, {0, 0, 1, 2, 1}};
+    int[][] tooManySharks = {{2, 0, 2, 0, 1}, {1, 0, 2, 0, 1}, {0, 2, 1, 2, 0},
+        {0, 0, 2, 0, 0}, {0, 0, 2, 2, 1}};
+    //HashMap<Coordinate, Integer> setup = setupSegregation(tooManyFish);
+    HashMap<Coordinate, Integer> setup = setupSegregation(tooManySharks);
+    Simulation wator = new WaTor(5, 5, setup, 5,
+        3);
+    System.out.println(wator.getGrid().getCellMap());
+    wator.update();
+    System.out.println(wator.getGrid().getCellMap());
+    for (int i = 0; i < 1000; i++) {
+      wator.update();
+    }
+    System.out.println(wator.getGrid().getCellMap());
+  }
+
   public static void main(String[] args) {
     Playground p = new Playground();
-    //p.testSpreadingFire();
+    p.testWaTor(p);
+    //p.testSpreadingFire(p);
     //p.testGameOfLife(p);
     //p.testPercolation(p);
-    p.testSegregation(p);
+    //p.testSegregation(p);
   }
 
 

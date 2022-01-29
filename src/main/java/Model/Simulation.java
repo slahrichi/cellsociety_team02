@@ -1,14 +1,18 @@
 package Model;
 
 
+import java.util.Map;
+
 public abstract class Simulation {
   protected Grid grid;
   protected int numberOfColumns;
   protected int numberOfRows;
+  protected Map<Coordinate, Integer> setup;
 
-  public Simulation(int numberOfRows, int numberOfColumns) {
+  public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
+    this.setup = setup;
     createGrid();
     initializeGridCells();
   }

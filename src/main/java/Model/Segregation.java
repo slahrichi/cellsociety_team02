@@ -4,12 +4,10 @@ import java.util.Map;
 
 public class Segregation extends Simulation {
 
-  private Map<Coordinate, Integer> setup;
   private double threshold;
   public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       double threshold) {
-    super(numberOfRows, numberOfColumns);
-    this.setup = setup;
+    super(numberOfRows, numberOfColumns, setup);
     this.threshold = threshold;
     initializeGridCells();
   }
