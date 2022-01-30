@@ -1,6 +1,14 @@
 package Controller;
 
-import Model.*;
+import Model.Cell;
+import Model.Coordinate;
+import Model.GameOfLife;
+import Model.Percolation;
+import Model.Segregation;
+import Model.Simulation;
+import Model.SpreadingFire;
+import Model.States;
+import Model.WaTor;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -94,9 +102,9 @@ public class XMLParserPlayground {
     for (int i = 0; i < nrows; i++) {
       for (int j = 0; j < ncols; j++) {
         Cell currentCell = currentGrid.get(new Coordinate(i, j));
-          Enum currentState = currentCell.getCurrentState();
-          int value = Arrays.asList(STATE_VALUES).indexOf(currentState);
-          gridString += value + " ";
+        Enum currentState = currentCell.getCurrentState();
+        int value = Arrays.asList(STATE_VALUES).indexOf(currentState);
+        gridString += value + " ";
       }
       gridString += "\n";
     }
@@ -115,11 +123,13 @@ public class XMLParserPlayground {
     int sharkChronon = Integer.parseInt(data.getOrDefault("sharkChronon", DEFAULT_SHARK_CHRONON));
     String grid = data.getOrDefault("grid", DEFAULT_GRID);
     String allCells = grid.replaceAll("[^0-9]", "");
-    // source: https://stackoverflow.com/questions/42546052/take-a-string-and-turn-it-into-a-2d-array-java
-    int[][] cellsArray = Arrays.stream(allCells.split("(?<=\\G.{10})"))
-        .map(s -> (Arrays.stream(s.split("(?<=\\G.{1})")).mapToInt(Integer::parseInt).toArray()))
-        .toArray(int[][]::new);
-
+    int[][] cellsArray = new int[numRows][numCols];
+    for (int a = 0; a < numRows * numCols; a += numCols) {
+      for (int b = 0; b < numCols; b++) {
+        cellsArray[a / numCols][b] = Integer.parseInt(
+            allCells.substring(a, a + numCols).substring(b, b + 1));
+      }
+    }
     Map<Coordinate, Integer> map = new HashMap<>();
     for (int i = 0; i < numRows; i++) {
       for (int j = 0; j < numCols; j++) {
@@ -127,60 +137,41 @@ public class XMLParserPlayground {
       }
     }
 
-      switch (simulation) {
-        case "GameOfLife" -> {
-          CURRENT_SIMULATION = new GameOfLife(numCols, numRows, map);
-          STATE_VALUES = States.GameOfLife.values();
-        }
-        case "SpreadingFire" -> {
-          CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, probCatch);
-          STATE_VALUES = States.SpreadingFire.values();
-        }
-        case "Segregation" -> {
-          CURRENT_SIMULATION = new Segregation(numRows, numCols, map,
-              threshold);
-          STATE_VALUES = States.Segregation.values();
-        }
-        case "WaTor" -> {
-          CURRENT_SIMULATION = new WaTor(numRows, numCols, map, fishChronon,
-              sharkChronon);
-          STATE_VALUES = States.WaTor.values();
-        }
-        case "Percolation" -> {
-          CURRENT_SIMULATION = new Percolation(numRows, numCols, map);
-          STATE_VALUES = States.Percolation.values();
-        }
+    switch (simulation) {
+      case "GameOfLife" -> {
+        CURRENT_SIMULATION = new GameOfLife(numCols, numRows, map);
+        STATE_VALUES = States.GameOfLife.values();
       }
-
-      return CURRENT_SIMULATION;
+      case "SpreadingFire" -> {
+        CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, probCatch);
+        STATE_VALUES = States.SpreadingFire.values();
+      }
+      case "Segregation" -> {
+        CURRENT_SIMULATION = new Segregation(numRows, numCols, map,
+            threshold);
+        STATE_VALUES = States.Segregation.values();
+      }
+      case "WaTor" -> {
+        CURRENT_SIMULATION = new WaTor(numRows, numCols, map, fishChronon,
+            sharkChronon);
+        STATE_VALUES = States.WaTor.values();
+      }
+      case "Percolation" -> {
+        CURRENT_SIMULATION = new Percolation(numRows, numCols, map);
+        STATE_VALUES = States.Percolation.values();
+      }
     }
 
-      private DocumentBuilder createDocumentBuilder () throws ParserConfigurationException {
-      return DocumentBuilderFactory.newInstance().newDocumentBuilder();
-    }
-
-    private Transformer createTransformer () throws TransformerConfigurationException {
-      Transformer transformer = TransformerFactory.newInstance().newTransformer();
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      return transformer;
-    }
-
-    public static void main (String[]args)
-      throws Exception {
-      XMLParserPlayground parser = new XMLParserPlayground();
-      //Hard coded for now, in the future, this would be passed by the View after the user selects a file.
-      String filePath = "doc/SpreadingFire.xml";
-      // String filePath = Main.getFileName();
-      HashMap<String, String> data = parser.parseXML(filePath);
-      String grid = data.get("grid");
-      String allNumbers = grid.replaceAll("[^0-9]", "");
-      // source: https://stackoverflow.com/questions/42546052/take-a-string-and-turn-it-into-a-2d-array-java
-      int[][] numbers = Arrays.stream(allNumbers.split("(?<=\\G.{10})"))
-          .map(s -> (Arrays.stream(s.split("(?<=\\G.{1})")).mapToInt(Integer::parseInt).toArray()))
-          .toArray(int[][]::new);
-      Simulation test = parser.createSimulation(data);
-
-      parser.saveGrid();
-    }
-
+    return CURRENT_SIMULATION;
   }
+
+  private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
+    return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+  }
+
+  private Transformer createTransformer() throws TransformerConfigurationException {
+    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    return transformer;
+  }
+}

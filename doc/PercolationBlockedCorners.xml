@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<data simulation="simulation">
+  <type>Percolation</type>
+  <title>Percolation</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <grid>
+    2 2 2 0 2 0 1 2 2 2
+    2 1 0 1 0 2 0 1 0 2
+    2 1 0 1 0 1 0 1 0 2
+    2 0 0 1 2 1 0 1 0 0
+    0 0 1 2 1 0 0 2 0 1
+    1 0 0 1 2 0 0 0 0 1
+    0 0 1 0 1 1 0 0 1 0
+    2 0 0 1 0 0 1 0 0 2
+    2 0 1 0 2 1 0 1 2 2
+    2 2 2 0 0 1 0 2 2 2
+  </grid>
+</data>

@@ -1,0 +1,22 @@
+<data simulation="simulation">
+  <type>WaTor</type>
+  <title>WaTor</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <fishChronon>3</fishChronon>
+  <sharkChronon>1</sharkChronon>
+  <grid>
+    2 0 2 0 1 0 2 1 2 1
+    0 0 1 0 0 2 0 1 0 2
+    2 0 2 0 2 1 2 0 2 1
+    0 0 0 1 2 0 2 0 1 0
+    1 1 0 0 2 0 0 1 0 2
+    0 0 0 1 0 0 0 0 2 0
+    2 0 2 0 1 0 2 0 2 0
+    1 2 0 2 0 0 0 1 0 1
+    1 1 0 1 2 0 1 0 1 0
+    1 0 2 1 0 1 0 2 0 1
+  </grid>
+</data>
