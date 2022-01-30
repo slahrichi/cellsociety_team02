@@ -1,4 +1,4 @@
-package cellsociety;
+package Visualizer;
 
 import java.util.HashMap;
 import java.util.Map;
