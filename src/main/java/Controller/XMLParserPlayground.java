@@ -48,7 +48,7 @@ public class XMLParserPlayground {
     DOCUMENT_BUILDER = createDocumentBuilder();
   }
 
-  private HashMap<String, String> parseXML(String filePath) throws Exception {
+  public HashMap<String, String> parseXML(String filePath) throws Exception {
     if (filePath.substring(filePath.lastIndexOf('.')).equals(".xml")) {
       File XMLFile = new File(filePath);
       Document XMLDocument = DOCUMENT_BUILDER.parse(XMLFile);
@@ -65,7 +65,7 @@ public class XMLParserPlayground {
     }
   }
 
-  private void saveGrid() throws ParserConfigurationException, TransformerException {
+  public void saveGrid() throws ParserConfigurationException, TransformerException {
     DocumentBuilder docBuilder = createDocumentBuilder();
     Document doc = docBuilder.newDocument();
     Element root = doc.createElement("data");
@@ -103,7 +103,7 @@ public class XMLParserPlayground {
     return gridString;
   }
 
-  private Simulation createSimulation(HashMap<String, String> data) {
+  public Simulation createSimulation(HashMap<String, String> data) {
 
     // returns the String simulation type or SpreadingFire by default
     String simulation = data.getOrDefault("type", "SpreadingFire");
