@@ -1,7 +1,6 @@
 package cellsociety;
 
 import Controller.XMLParserPlayground;
-import Model.Coordinate;
 import Model.Simulation;
 import Visualizer.SimulationVisualizer;
 import java.util.HashMap;
@@ -10,11 +9,12 @@ import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-
 /**
- * Feel free to completely change this code or delete it entirely.
+ * This is the starting class for the application. It initializes the simulation and the GUI when
+ * the app first starts, as well as when the user decides to Change the model they want to visualize,
+ * or reset the grid.
  *
- * @author YOUR NAME HERE
+ * @author Luka Mdivani
  */
 public class Main extends Application {
 
@@ -25,17 +25,13 @@ public class Main extends Application {
   public static String  language = "English";
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
   private SimulationVisualizer visualizer;
-  private HashMap<Coordinate, Integer> setup;
   private HashMap<String, String> data;
   private int numCols;
   private int numRows;
-  private Simulation test;
+  private Simulation currentSimulation;
   private String currentFilePath;
   private XMLParserPlayground parser;
 
-  /**
-   * Initialize what will be displayed.
-   */
   @Override
   public void start(Stage stage) throws Exception {
 
@@ -44,39 +40,55 @@ public class Main extends Application {
     currentFilePath=DEFAULT_FILE_PATH;
     extractDataStartSimulation(DEFAULT_FILE_PATH);
 
-    startGUI(stage,parser);
+    startGUI(stage);
 
   }
 
   private void extractDataStartSimulation(String filePath) throws Exception {
     data = parser.parseXML(filePath);
-
-    String grid = data.get("grid");
-
-    test = parser.createSimulation(data);
+    currentSimulation = parser.createSimulation(data);
     getNumberOfColumnAndRow();
   }
 
-  public  void startGUI(Stage stage, XMLParserPlayground parser){
+  private  void startGUI(Stage stage){
 
-    visualizer = new SimulationVisualizer(stage, test, SIZE_HORIZONTAL,
-        SIZE_VERTICAL,numRows,numCols,this,language,parser);
+    visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL,
+        SIZE_VERTICAL,numRows,numCols,this,language);
+    visualizer.setUpScene();
   }
 
+  /**
+   * Called from the visualizer when a user selects a new file to load a model from.
+   *
+   * @param stage  the main stage of the javaFX GUI
+   * @param filepath  the filepath for the new file which was selected by the user to load
+   * @throws Exception if the selected file is not .xml; needed for the parseXML method
+   * called in the <code> extractDataStartSimulation() </code>
+   */
   public void changeGUI(Stage stage, String filepath) throws Exception {
     currentFilePath=filepath;
     extractDataStartSimulation(currentFilePath);
-    visualizer = new SimulationVisualizer(stage,test, SIZE_HORIZONTAL,
-        SIZE_VERTICAL,numRows,numCols,this,language,parser);
+    startGUI(stage);
 
   }
+
+  /**
+   * Called from the visualizer when a user decides to reload the current model.
+   *
+   * @param stage the main stage of the javaFX GUI
+   * @throws Exception if the selected file is not .xml; needed for the parseXML method
+   *    * called in the <code> extractDataStartSimulation() </code>
+   */
   public void resetModel(Stage stage) throws Exception {
     extractDataStartSimulation(currentFilePath);
-    visualizer = new SimulationVisualizer(stage,test, SIZE_HORIZONTAL,
-        SIZE_VERTICAL,numRows,numCols,this,language,parser);
+    startGUI(stage);
 
   }
 
+  /**
+   * @throws ParserConfigurationException indicates a serious configuration error
+   * @throws TransformerException specifies an exceptional condition that occurred during the transformation process.
+   */
   public void export() throws ParserConfigurationException, TransformerException {parser.saveGrid();}
 
   private void getNumberOfColumnAndRow(){
