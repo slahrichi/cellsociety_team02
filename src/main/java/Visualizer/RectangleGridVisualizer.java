@@ -1,4 +1,4 @@
-package cellsociety;
+package Visualizer;
 
 import Model.Coordinate;
 import Model.Grid;

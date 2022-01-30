@@ -3,6 +3,7 @@ package cellsociety;
 import Controller.XMLParserPlayground;
 import Model.Coordinate;
 import Model.Simulation;
+import Visualizer.SimulationVisualizer;
 import java.util.HashMap;
 import javafx.application.Application;
 import javafx.stage.Stage;

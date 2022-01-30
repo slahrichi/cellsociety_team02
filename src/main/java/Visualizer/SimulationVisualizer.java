@@ -1,8 +1,9 @@
-package cellsociety;
+package Visualizer;
 
 import Controller.XMLParserPlayground;
 import Model.Grid;
 import Model.Simulation;
+import cellsociety.Main;
 import java.io.File;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
