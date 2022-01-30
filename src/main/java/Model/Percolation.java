@@ -2,16 +2,31 @@ package Model;
 
 import java.util.Map;
 
-
+/**
+ * Class that leverages the `Simulation` superclass in order to devise an implementation of
+ * Percolation.
+ *
+ * @author Matthew Giglio
+ */
 
 public class Percolation extends Simulation {
 
+  /**
+   * object for modeling a simulation of Percolation
+   *
+   * @param numberOfRows    number of rows in the model's grid
+   * @param numberOfColumns number of columns in the model's grid
+   * @param setup           map storing integer representations of states in order to initialize
+   *                        simulation states
+   */
   public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
     super(numberOfRows, numberOfColumns, setup);
   }
 
 
-  protected void createGrid() {grid = new PercolationGrid(numberOfRows, numberOfColumns);}
+  protected void createGrid() {
+    grid = new PercolationGrid(numberOfRows, numberOfColumns);
+  }
 
 
   protected void initializeGridCells() {

@@ -17,7 +17,7 @@ public abstract class Grid {
   protected int numberOfColumns;
   protected int numberOfRows;
 
-  protected Grid(int numberOfColumns, int numberOfRows) {
+  protected Grid(int numberOfRows, int numberOfColumns) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     cellMap = new HashMap<>();
