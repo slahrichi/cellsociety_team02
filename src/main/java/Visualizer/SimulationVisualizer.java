@@ -1,5 +1,6 @@
 package cellsociety;
 
+import Controller.XMLParserPlayground;
 import Model.Grid;
 import Model.Simulation;
 import java.io.File;
@@ -22,6 +23,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class SimulationVisualizer {
 
@@ -55,9 +58,10 @@ public class SimulationVisualizer {
   private int numRows;
   private Main myMain;
   private ResourceBundle myResources;
+  XMLParserPlayground myParser ;
 
 
-  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height,int rows,int columns, Main main,String language) {
+  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height,int rows,int columns, Main main,String language,XMLParserPlayground parser) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -66,6 +70,7 @@ public class SimulationVisualizer {
     numColumns = columns;
     numRows = rows;
     myMain=main;
+    myParser=parser;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+language);
     setUpScene();
   }
@@ -131,9 +136,29 @@ public class SimulationVisualizer {
   }
 
   private MenuButton createVerticalMenuControls() {
-    loadButton = makeMenuItem("loadCommand", e -> chooseFile());
-    resetButton = makeMenuItem("resetCommand", e -> resetGrid());
-    exportButton = makeMenuItem("exportCommand", e -> exportGridToFile());
+    loadButton = makeMenuItem("loadCommand", e -> {
+      try {
+        chooseFile();
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    });
+    resetButton = makeMenuItem("resetCommand", e -> {
+      try {
+        resetGrid();
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    });
+    exportButton = makeMenuItem("exportCommand", e -> {
+      try {
+        exportGridToFile();
+      } catch (ParserConfigurationException ex) {
+        ex.printStackTrace();
+      } catch (TransformerException ex) {
+        ex.printStackTrace();
+      }
+    });
 
     return new MenuButton(myResources.getString("settingsPrompt"), null, loadButton, resetButton, exportButton);
   }
@@ -168,16 +193,22 @@ public class SimulationVisualizer {
     updateGrid();
   }
 
-  private void chooseFile() {
-    //File selectedFile = fileChooser.showOpenDialog(myStage);
+  private void chooseFile() throws Exception {
     pause();
-    myMain.changeGUI(myStage);
+    File XMLFile = new File("doc/");
+    fileChooser.setInitialDirectory( XMLFile);
+    File selectedFile = fileChooser.showOpenDialog(myStage);
+    String fileName="";
+    if(selectedFile!= null){
+    fileName=selectedFile.getName();}
+
+    myMain.changeGUI(myStage,"doc/"+fileName);
   }
 
-  private void resetGrid() {
+  private void resetGrid() throws Exception {
 
    pause();
-    myMain.startGUI(myStage);
+    myMain.resetModel(myStage);
     myStage.show();
   }
 
@@ -185,7 +216,8 @@ public class SimulationVisualizer {
     animation.setRate(factor.doubleValue());
   }
 
-  private void exportGridToFile() {
+  private void exportGridToFile() throws ParserConfigurationException, TransformerException {
+    myMain.export();
   }
 
   private void updateGrid() {
