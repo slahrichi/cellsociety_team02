@@ -2,10 +2,24 @@ package Model;
 
 import java.util.Map;
 
+/**
+ * Class for managing the model resources for a Wa-Tor simulation. Initializes all cell states and
+ * updates their states upon command
+ *
+ * @author Matthew Giglio
+ */
 public class WaTor extends Simulation {
   private int fishChronon;
   private int sharkChronon;
 
+  /**
+   *
+   * @param numberOfRows number of rows in grid
+   * @param numberOfColumns number of cells in grid
+   * @param setup `Map` to initialize the state of all cells
+   * @param fishChronon number of turns before fish can reproduce
+   * @param sharkChronon number of turns before shark can reproduce
+   */
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       int fishChronon, int sharkChronon) {
     super(numberOfRows, numberOfColumns, setup);

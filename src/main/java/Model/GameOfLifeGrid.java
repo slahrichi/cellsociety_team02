@@ -1,8 +1,13 @@
 package Model;
 
+/**
+ * class that extends the `Grid` superclass for modeling the Game of Life
+ *
+ * @author Matthew Giglio
+ */
 public class GameOfLifeGrid extends Grid {
 
-  public GameOfLifeGrid(int numberOfColumns, int numberOfRows) {
-    super(numberOfColumns, numberOfRows);
+  public GameOfLifeGrid(int numberOfRows, int numberOfColumns) {
+    super(numberOfRows, numberOfColumns);
   }
 }

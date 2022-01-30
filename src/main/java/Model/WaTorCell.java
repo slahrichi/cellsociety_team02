@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class for updating the state of a cell and updating the states of its neighbors given the
+ * modeling algorithm for the Wa-Tor simulation
+ *
+ * @author Matthew Giglio
+ */
 public class WaTorCell extends Cell {
+
   private WaTorGrid grid;
   private int fishChronon;
   private int sharkChronon;
@@ -13,6 +20,14 @@ public class WaTorCell extends Cell {
   private int turnsElapsed;
   private Random random;
   private static int DEATH;
+
+  /**
+   * @param c            position of the cell in the grid
+   * @param state        initial state for the cell
+   * @param grid         `Grid` object in which the cell exists
+   * @param fishChronon  number of turns before fish can reproduce
+   * @param sharkChronon number of turns before shark can reproduce
+   */
   public WaTorCell(Coordinate c, Enum state, Grid grid, int fishChronon, int sharkChronon) {
     super(c, state);
     this.grid = (WaTorGrid) grid;
@@ -40,11 +55,9 @@ public class WaTorCell extends Cell {
     if (hasDied()) {
       currentState = States.WaTor.EMPTY;
       clearTurnsElapsed();
-    }
-    else if (canReproduce(States.WaTor.SHARK)) {
+    } else if (canReproduce(States.WaTor.SHARK)) {
       reproduce(States.WaTor.SHARK);
-    }
-    else {
+    } else {
       moveToNeighbor();
       turnsElapsed++;
     }
@@ -53,14 +66,15 @@ public class WaTorCell extends Cell {
   private void updateFish() {
     if (canReproduce(States.WaTor.FISH)) {
       reproduce(States.WaTor.FISH);
-    }
-    else {
+    } else {
       moveToNeighbor();
       turnsElapsed++;
     }
   }
 
-  private void clearTurnsElapsed() {turnsElapsed = 0;}
+  private void clearTurnsElapsed() {
+    turnsElapsed = 0;
+  }
 
   //let's treat reproduction like making one of the neighbors an offspring as opposed to
   //directly leaving something behind
@@ -73,16 +87,18 @@ public class WaTorCell extends Cell {
 
   private boolean canReproduce(States.WaTor state) {
     switch (state) {
-      case FISH: return turnsElapsed >= fishChronon && !empty.isEmpty();
-      case SHARK: return turnsElapsed >= sharkChronon && !empty.isEmpty();
+      case FISH:
+        return turnsElapsed >= fishChronon && !empty.isEmpty();
+      case SHARK:
+        return turnsElapsed >= sharkChronon && !empty.isEmpty();
     }
     return false;
   }
 
   private void eatFish() {
-      Coordinate fishToBeEaten = fish.remove(random.nextInt(fish.size()));
-      updateNeighborState(fishToBeEaten, States.WaTor.EMPTY);
-      clearTurnsElapsed();
+    Coordinate fishToBeEaten = fish.remove(random.nextInt(fish.size()));
+    updateNeighborState(fishToBeEaten, States.WaTor.EMPTY);
+    clearTurnsElapsed();
   }
 
   private void updateNeighborState(Coordinate c, Enum state) {
@@ -114,8 +130,7 @@ public class WaTorCell extends Cell {
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.EMPTY) {
           empty.add(neighbor);
-        }
-        else if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.FISH) {
+        } else if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.FISH) {
           fish.add(neighbor);
         }
       }

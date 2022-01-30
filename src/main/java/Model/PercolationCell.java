@@ -1,7 +1,17 @@
 package Model;
 
+/**
+ * Extension of `Cell` superclass for modeling Percolation. Properly updates the states of the cells
+ * given the algorithm of the model
+ *
+ * @author Matthew Giglio
+ */
 public class PercolationCell extends Cell {
 
+  /**
+   * @param position     `Coordinate` representing position of the cell in the grid
+   * @param initialState initializing state of the cell
+   */
   public PercolationCell(Coordinate position, Enum initialState) {
     super(position, initialState);
   }
@@ -19,8 +29,7 @@ public class PercolationCell extends Cell {
     }
     if (canPercolate(grid)) {
       futureState = States.Percolation.PERCOLATED;
-    }
-    else {
+    } else {
       futureState = States.Percolation.OPEN;
     }
   }
