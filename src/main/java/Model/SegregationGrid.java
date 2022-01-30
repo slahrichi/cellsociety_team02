@@ -4,9 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Extension of `Grid` superclass that handles the swapping of cells in the Segregation model.
+ *
+ * @author Matthew Giglio
+ */
 public class SegregationGrid extends Grid {
+
   private List<Coordinate> emptySpots;
   private Random random;
+
+  /**
+   * @param numberOfRows    number of rows in the grid
+   * @param numberOfColumns number of columns in the grid
+   */
   public SegregationGrid(int numberOfRows, int numberOfColumns) {
     super(numberOfRows, numberOfColumns);
     emptySpots = new ArrayList<>();

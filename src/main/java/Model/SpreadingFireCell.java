@@ -1,9 +1,21 @@
 package Model;
 
 
+/**
+ * Class that updates the state of a cell in a Spreading Fire model given the probability it burns
+ * provided its neighbor is on fire
+ *
+ * @author Matthew Giglio
+ */
+public class SpreadingFireCell extends Cell {
 
-public class SpreadingFireCell extends Cell{
   private double probCatch;
+
+  /**
+   * @param position     Coordinate position of the cell in the grid
+   * @param initialState initial state of the cell
+   * @param probCatch    probability cell catches on fire if its neighbor is burning
+   */
   public SpreadingFireCell(Coordinate position, Enum initialState, double probCatch) {
     super(position, initialState);
     this.probCatch = probCatch;
@@ -22,8 +34,7 @@ public class SpreadingFireCell extends Cell{
     }
     if (canCatchFire(grid) && Math.random() <= probCatch) {
       futureState = States.SpreadingFire.BURNING;
-    }
-    else {
+    } else {
       futureState = States.SpreadingFire.TREE;
     }
   }

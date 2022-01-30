@@ -2,9 +2,22 @@ package Model;
 
 import java.util.Map;
 
+/**
+ * Extension of `Simulation` class that manages the model resources for the Spreading Fire
+ * simulation and facilitates the initialization and updating of the simulation.
+ *
+ * @author Matthew Giglio
+ */
 public class SpreadingFire extends Simulation {
+
   private double probCatch;
 
+  /**
+   * @param numberOfRows    number of rows in the grid
+   * @param numberOfColumns number of columns in the grid
+   * @param setup           map for setting up the initial states of the cells in the grid
+   * @param probCatch       probability that a tree catches on fire if its neighbor is burning
+   */
   public SpreadingFire(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       double probCatch) {
     super(numberOfRows, numberOfColumns, setup);
@@ -12,7 +25,7 @@ public class SpreadingFire extends Simulation {
     initializeGridCells();
   }
 
-  protected void createGrid()  {
+  protected void createGrid() {
     grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
   }
 
