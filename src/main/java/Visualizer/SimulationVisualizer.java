@@ -1,6 +1,5 @@
 package Visualizer;
 
-import Controller.XMLParserPlayground;
 import Model.Grid;
 import Model.Simulation;
 import cellsociety.Main;
@@ -27,6 +26,20 @@ import javafx.util.Duration;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+/**
+ * This class creates the GUI to visualize the simulation process.It arranges the scene with all the
+ * buttons and their functionalities, as well as the grid.
+ *
+ * Assumptions- For now the class assumes that the grid is rectangular, but since the abstract
+ * <code>GridVisualizer</code> superclass exists, this is easily extendable when necessary.
+ *
+ * Dependencies-  The class depends on the relevant <class> Simulation.java</class> class, which is fed to the
+ * relevant<class> GridVisualizer</class> subclass to build the graphical interpretation of the grid.
+ *
+ *
+ *
+ * @author Luka Mdivani
+ */
 public class SimulationVisualizer {
 
   public static final String TITLE = "CellSociety";
@@ -59,10 +72,9 @@ public class SimulationVisualizer {
   private int numRows;
   private Main myMain;
   private ResourceBundle myResources;
-  XMLParserPlayground myParser ;
 
 
-  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height,int rows,int columns, Main main,String language,XMLParserPlayground parser) {
+  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height,int rows,int columns, Main main,String language) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -71,15 +83,12 @@ public class SimulationVisualizer {
     numColumns = columns;
     numRows = rows;
     myMain=main;
-    myParser=parser;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+language);
-    setUpScene();
   }
 
   public void setUpScene() {
 
     gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
-
     root = new BorderPane();
 
     root.setBottom(createAllAnimationControls());
@@ -218,6 +227,7 @@ public class SimulationVisualizer {
   }
 
   private void exportGridToFile() throws ParserConfigurationException, TransformerException {
+    pause();
     myMain.export();
   }
 
