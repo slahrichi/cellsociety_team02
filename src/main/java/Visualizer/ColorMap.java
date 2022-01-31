@@ -4,6 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.paint.Color;
 
+/**
+ * Class which sets up the state-color dependencies between all available cell state types. can
+ * easily be extended if a new cell type(thus new cell states) are introduced.
+ * <p>
+ * The <code>GridVisualizer</code> cub-classes depend on it to assign a color to a cell.
+ *
+ * @author Luka Mdivani
+ */
 public class ColorMap {
 
   private static Map<String, Color> COLOR_MAP = new HashMap<>();
@@ -30,6 +38,10 @@ public class ColorMap {
 
   }
 
+  /**
+   * @param state the string state of the cell, used as a key to get the Color.
+   * @return the corresponding color from the <code>COLOR_MAP</code>
+   */
   public Color getStateMatch(String state) {
     return COLOR_MAP.get(state);
   }
