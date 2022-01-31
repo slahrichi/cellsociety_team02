@@ -29,14 +29,11 @@ import javax.xml.transform.TransformerException;
 /**
  * This class creates the GUI to visualize the simulation process.It arranges the scene with all the
  * buttons and their functionalities, as well as the grid.
- *
- * Assumptions- For now the class assumes that the grid is rectangular, but since the abstract
- * <code>GridVisualizer</code> superclass exists, this is easily extendable when necessary.
- *
- * Dependencies-  The class depends on the relevant <class> Simulation.java</class> class, which is fed to the
- * relevant<class> GridVisualizer</class> subclass to build the graphical interpretation of the grid.
- *
- *
+ * <p>
+ * <p>
+ * Dependencies-  The class depends on the relevant <class> Simulation.java</class> class, which is
+ * fed to the relevant<class> GridVisualizer</class> subclass to build the graphical interpretation
+ * of the grid. It depends on the <class>Main</class> to receive the necessary data.
  *
  * @author Luka Mdivani
  */
@@ -44,7 +41,6 @@ public class SimulationVisualizer {
 
   public static final String TITLE = "CellSociety";
   private final int FRAMES_PER_SECOND = 3;
-  private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   public static final String DEFAULT_RESOURCE_PACKAGE = "/";
   private final int GRID_WIDTH = 600;
@@ -74,7 +70,21 @@ public class SimulationVisualizer {
   private ResourceBundle myResources;
 
 
-  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height,int rows,int columns, Main main,String language) {
+  /**
+   * Constructor for the visualizer assigns the passed in data to instance variables.
+   *
+   * @param stage      main stage for the GUI
+   * @param simulation the simulation object initialized from the data in selected xml file.
+   * @param width      width of the GUI scene
+   * @param height     height of the GUI scene
+   * @param rows       number of rows in the model grid
+   * @param columns    number of columns in the model grid
+   * @param main       the instance of <class> Main.java </class>, used to call the file change or
+   *                   reset methods.
+   * @param language   the selected language by the user.
+   */
+  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height, int rows,
+      int columns, Main main, String language) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -82,10 +92,16 @@ public class SimulationVisualizer {
     SCENE_HEIGHT = height;
     numColumns = columns;
     numRows = rows;
-    myMain=main;
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+language);
+    myMain = main;
+    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
   }
 
+  /**
+   * Draws the <code> Scene </code> when called. Starts the animation loop.
+   * <p>
+   * Assumptions- For now the class assumes that the grid is rectangular, but since the abstract *
+   * <code>GridVisualizer</code> superclass exists, this is easily extendable when necessary. * <p>
+   */
   public void setUpScene() {
 
     gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
@@ -127,7 +143,7 @@ public class SimulationVisualizer {
     text.setText(myResources.getString("animationSpeedPrompt"));
 
     HBox result = new HBox();
-    result.getChildren().addAll(pauseButton, playButton, stepButton, text,slider);
+    result.getChildren().addAll(pauseButton, playButton, stepButton, text, slider);
     result.setAlignment(Pos.CENTER);
     return result;
   }
@@ -140,8 +156,8 @@ public class SimulationVisualizer {
     slider.setShowTickLabels(true);
     slider.setShowTickMarks(true);
     slider.setMajorTickUnit(0.1);
-    slider.valueProperty().addListener(
-        (observable, oldValue, newValue) -> setAnimationSpeed(newValue));
+    slider.valueProperty()
+        .addListener((observable, oldValue, newValue) -> setAnimationSpeed(newValue));
     return slider;
   }
 
@@ -170,7 +186,8 @@ public class SimulationVisualizer {
       }
     });
 
-    return new MenuButton(myResources.getString("settingsPrompt"), null, loadButton, resetButton, exportButton);
+    return new MenuButton(myResources.getString("settingsPrompt"), null, loadButton, resetButton,
+        exportButton);
   }
 
   private MenuItem makeMenuItem(String itemName, EventHandler<ActionEvent> handler) {
@@ -206,18 +223,19 @@ public class SimulationVisualizer {
   private void chooseFile() throws Exception {
     pause();
     File XMLFile = new File("doc/");
-    fileChooser.setInitialDirectory( XMLFile);
+    fileChooser.setInitialDirectory(XMLFile);
     File selectedFile = fileChooser.showOpenDialog(myStage);
-    String fileName="";
-    if(selectedFile!= null){
-    fileName=selectedFile.getName();}
+    String fileName = "";
 
-    myMain.changeGUI(myStage,"doc/"+fileName);
+    if (selectedFile != null) {
+      fileName = selectedFile.getName();
+    }
+
+    myMain.changeGUI(myStage, "doc/" + fileName);
   }
 
   private void resetGrid() throws Exception {
-
-   pause();
+    pause();
     myMain.resetModel(myStage);
     myStage.show();
   }
