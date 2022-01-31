@@ -6,12 +6,25 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Extension of grid class which Sets up a rectangular graphical grid. With rectangular cells.
+ *
+ * @author Luka Mdivani
+ */
 public class RectangleGridVisualizer extends GridVisualizer {
 
   private int cellWidth;
   private int cellHeight;
   private int gapBetweenCells = 0;
 
+  /**
+   * @param width           width of the space allocated for the grid on the screen.
+   * @param height          height of the space allocated for the grid on the screen.
+   * @param numberOfRows    number of rows in the grid
+   * @param numberOfColumns number of columns in the grid
+   * @param grid            the Grid object taken from the Simulation object, used to get the states
+   *                        of the cells during simulation.
+   */
   public RectangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
       Grid grid) {
     super(width, height, numberOfRows, numberOfColumns, grid);
