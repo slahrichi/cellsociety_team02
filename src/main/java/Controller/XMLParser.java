@@ -172,7 +172,7 @@ public class XMLParser {
 
     switch (simulation) {
       case "GameOfLife" -> {
-        CURRENT_SIMULATION = new GameOfLife(numCols, numRows, map);
+        CURRENT_SIMULATION = new GameOfLife( numRows,numCols, map);
         STATE_VALUES = States.GameOfLife.values();
       }
       case "SpreadingFire" -> {
