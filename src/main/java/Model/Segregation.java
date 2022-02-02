@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Edge.EdgeType;
 import java.util.Map;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Map;
  */
 public class Segregation extends Simulation {
 
+  private EdgeType edgeType;
   private double threshold;
 
   /**
@@ -19,9 +21,10 @@ public class Segregation extends Simulation {
    * @param threshold       minimum satisfaction threshold for constituents given their neighbors
    */
   public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      double threshold) {
+      EdgeType edgeType, double threshold) {
     super(numberOfRows, numberOfColumns, setup);
     this.threshold = threshold;
+    this.edgeType = edgeType;
     initializeGridCells();
   }
 

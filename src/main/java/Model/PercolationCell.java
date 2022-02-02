@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Edge.EdgeType;
+
 /**
  * Extension of `Cell` superclass for modeling Percolation. Properly updates the states of the cells
  * given the algorithm of the model
@@ -8,12 +10,15 @@ package Model;
  */
 public class PercolationCell extends Cell {
 
+  private EdgeType edgeType;
+
   /**
    * @param position     `Coordinate` representing position of the cell in the grid
    * @param initialState initializing state of the cell
    */
-  public PercolationCell(Coordinate position, Enum initialState) {
+  public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType) {
     super(position, initialState);
+    this.edgeType = edgeType;
   }
 
   protected void updateState() {

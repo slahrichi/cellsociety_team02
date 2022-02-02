@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Edge.EdgeType;
+
 /**
  * class that extends the `Cell` superclass to implement specific usage for the purpose of the Game
  * of Life model. The methods for determining the states of the cell are specifically derived from
@@ -9,8 +11,10 @@ package Model;
  */
 public class GameOfLifeCell extends Cell {
 
-  public GameOfLifeCell(Coordinate position, Enum initialState) {
+  private EdgeType edgeType;
+  public GameOfLifeCell(Coordinate position, Enum initialState, EdgeType edgeType) {
     super(position, initialState);
+    this.edgeType = edgeType;
   }
 
   protected void updateState() {

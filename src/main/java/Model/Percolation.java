@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Edge.EdgeType;
 import java.util.Map;
 
 /**
@@ -11,6 +12,8 @@ import java.util.Map;
 
 public class Percolation extends Simulation {
 
+  private EdgeType edgeType;
+
   /**
    * object for modeling a simulation of Percolation
    *
@@ -19,8 +22,11 @@ public class Percolation extends Simulation {
    * @param setup           map storing integer representations of states in order to initialize
    *                        simulation states
    */
-  public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
+  public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
+      EdgeType edgeType) {
     super(numberOfRows, numberOfColumns, setup);
+    this.edgeType = edgeType;
+    initializeGridCells();
   }
 
 
@@ -37,7 +43,7 @@ public class Percolation extends Simulation {
         case 1 -> state = States.Percolation.PERCOLATED;
         case 2 -> state = States.Percolation.BLOCKED;
       }
-      grid.getCellMap().put(c, new PercolationCell(c, state));
+      grid.getCellMap().put(c, new PercolationCell(c, state, edgeType));
     }
   }
 }

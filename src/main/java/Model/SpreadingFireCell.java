@@ -1,6 +1,8 @@
 package Model;
 
 
+import Model.Edge.EdgeType;
+
 /**
  * Class that updates the state of a cell in a Spreading Fire model given the probability it burns
  * provided its neighbor is on fire
@@ -10,15 +12,17 @@ package Model;
 public class SpreadingFireCell extends Cell {
 
   private double probCatch;
-
+  private EdgeType edgeType;
   /**
    * @param position     Coordinate position of the cell in the grid
    * @param initialState initial state of the cell
    * @param probCatch    probability cell catches on fire if its neighbor is burning
    */
-  public SpreadingFireCell(Coordinate position, Enum initialState, double probCatch) {
+  public SpreadingFireCell(Coordinate position, Enum initialState, EdgeType edgeType,
+      double probCatch) {
     super(position, initialState);
     this.probCatch = probCatch;
+    this.edgeType = edgeType;
 
   }
 

@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Edge.EdgeType;
 import java.util.Map;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Map;
 public class SpreadingFire extends Simulation {
 
   private double probCatch;
-
+  private EdgeType edgeType;
   /**
    * @param numberOfRows    number of rows in the grid
    * @param numberOfColumns number of columns in the grid
@@ -19,14 +20,15 @@ public class SpreadingFire extends Simulation {
    * @param probCatch       probability that a tree catches on fire if its neighbor is burning
    */
   public SpreadingFire(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      double probCatch) {
+      EdgeType edgeType, double probCatch) {
     super(numberOfRows, numberOfColumns, setup);
     this.probCatch = probCatch;
+    this.edgeType = edgeType;
     initializeGridCells();
   }
 
   protected void createGrid() {
-    grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
+    grid = new SpreadingFireGrid(numberOfRows, numberOfColumns);
   }
 
   protected void initializeGridCells() {
@@ -37,7 +39,7 @@ public class SpreadingFire extends Simulation {
         case 1 -> state = States.SpreadingFire.BURNING;
         case 2 -> state = States.SpreadingFire.EMPTY;
       }
-      grid.getCellMap().put(c, new SpreadingFireCell(c, state, probCatch));
+      grid.getCellMap().put(c, new SpreadingFireCell(c, state, edgeType, probCatch));
     }
   }
 }

@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Edge.EdgeType;
+
 /**
  * Extension of `Cell` superclass that manages the updating of cell states in the grid given the
  * modeling rules of Segregation
@@ -9,6 +11,7 @@ package Model;
 public class SegregationCell extends Cell {
 
   private boolean dissatisfied;
+  private EdgeType edgeType;
   private double threshold;
   private SegregationGrid grid;
 
@@ -19,10 +22,11 @@ public class SegregationCell extends Cell {
    * @param threshold    satisfaction threshold for constituents given their neighbors
    */
   public SegregationCell(Coordinate position, Enum initialState, Grid grid,
-      double threshold) {
+      EdgeType edgeType, double threshold) {
     super(position, initialState);
     this.threshold = threshold;
     this.grid = (SegregationGrid) grid;
+    this.edgeType = edgeType;
     dissatisfied = false;
   }
 
