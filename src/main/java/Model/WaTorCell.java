@@ -129,7 +129,8 @@ public class WaTorCell extends Cell {
   private void determineNeighbors(Grid grid) {
     clearLists();
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
+          numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.EMPTY) {
           empty.add(neighbor);
@@ -142,7 +143,8 @@ public class WaTorCell extends Cell {
 
   private void updateNewNeighbors() {
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
+          numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
         WaTorCell cell = (WaTorCell) grid.getCellMap().get(position);
         cell.determineNeighbors(grid);

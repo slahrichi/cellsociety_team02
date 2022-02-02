@@ -40,7 +40,8 @@ public class PercolationCell extends Cell {
 
   private boolean canPercolate(Grid grid) {
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
+          numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.Percolation.PERCOLATED) {
           return true;

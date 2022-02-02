@@ -40,7 +40,8 @@ public class SegregationCell extends Cell {
     int dems = 0;
     int reps = 0;
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
+          numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.Segregation.DEM) {
           dems++;
