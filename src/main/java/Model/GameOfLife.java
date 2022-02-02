@@ -11,12 +11,9 @@ import java.util.Map;
  */
 public class GameOfLife extends Simulation {
 
-  private EdgeType edgeType;
   public GameOfLife(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
   EdgeType edgeType) {
-    super(numberOfRows, numberOfColumns, setup);
-    this.edgeType = edgeType;
-    initializeGridCells();
+    super(numberOfRows, numberOfColumns, setup, edgeType);
   }
 
 

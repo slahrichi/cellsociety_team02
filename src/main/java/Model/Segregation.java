@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public class Segregation extends Simulation {
 
-  private EdgeType edgeType;
   private double threshold;
 
   /**
@@ -22,9 +21,8 @@ public class Segregation extends Simulation {
    */
   public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, double threshold) {
-    super(numberOfRows, numberOfColumns, setup);
+    super(numberOfRows, numberOfColumns, setup, edgeType);
     this.threshold = threshold;
-    this.edgeType = edgeType;
     initializeGridCells();
   }
 
@@ -48,7 +46,7 @@ public class Segregation extends Simulation {
         case 1 -> state = States.Segregation.REP;
         case 2 -> state = States.Segregation.DEM;
       }
-      grid.getCellMap().put(c, new SegregationCell(c, state, grid, threshold));
+      grid.getCellMap().put(c, new SegregationCell(c, state, grid, edgeType, threshold));
     }
 
   }

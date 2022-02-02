@@ -1,6 +1,7 @@
 package Model;
 
 
+import Model.Edge.EdgeType;
 import java.util.Map;
 
 /**
@@ -16,11 +17,14 @@ public abstract class Simulation {
   protected int numberOfColumns;
   protected int numberOfRows;
   protected Map<Coordinate, Integer> setup;
+  protected EdgeType edgeType;
 
-  public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup) {
+  public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
+      EdgeType edgeType) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     this.setup = setup;
+    this.edgeType = edgeType;
     createGrid();
     initializeGridCells();
   }

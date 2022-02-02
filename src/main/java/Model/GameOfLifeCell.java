@@ -11,10 +11,8 @@ import Model.Edge.EdgeType;
  */
 public class GameOfLifeCell extends Cell {
 
-  private EdgeType edgeType;
   public GameOfLifeCell(Coordinate position, Enum initialState, EdgeType edgeType) {
-    super(position, initialState);
-    this.edgeType = edgeType;
+    super(position, initialState, edgeType);
   }
 
   protected void updateState() {

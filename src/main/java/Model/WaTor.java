@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Matthew Giglio
  */
 public class WaTor extends Simulation {
-  private EdgeType edgeType;
+
   private int fishChronon;
   private int sharkChronon;
 
@@ -25,10 +25,9 @@ public class WaTor extends Simulation {
    */
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, int fishChronon, int sharkChronon) {
-    super(numberOfRows, numberOfColumns, setup);
+    super(numberOfRows, numberOfColumns, setup, edgeType);
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
-    this.edgeType = edgeType;
     initializeGridCells();
   }
 

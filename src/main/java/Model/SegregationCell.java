@@ -11,7 +11,6 @@ import Model.Edge.EdgeType;
 public class SegregationCell extends Cell {
 
   private boolean dissatisfied;
-  private EdgeType edgeType;
   private double threshold;
   private SegregationGrid grid;
 
@@ -23,10 +22,9 @@ public class SegregationCell extends Cell {
    */
   public SegregationCell(Coordinate position, Enum initialState, Grid grid,
       EdgeType edgeType, double threshold) {
-    super(position, initialState);
+    super(position, initialState, edgeType);
     this.threshold = threshold;
     this.grid = (SegregationGrid) grid;
-    this.edgeType = edgeType;
     dissatisfied = false;
   }
 

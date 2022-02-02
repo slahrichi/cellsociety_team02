@@ -10,15 +10,13 @@ import Model.Edge.EdgeType;
  */
 public class PercolationCell extends Cell {
 
-  private EdgeType edgeType;
 
   /**
    * @param position     `Coordinate` representing position of the cell in the grid
    * @param initialState initializing state of the cell
    */
   public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType) {
-    super(position, initialState);
-    this.edgeType = edgeType;
+    super(position, initialState, edgeType);
   }
 
   protected void updateState() {

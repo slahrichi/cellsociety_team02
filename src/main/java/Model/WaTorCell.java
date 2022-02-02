@@ -14,7 +14,6 @@ import java.util.Random;
 public class WaTorCell extends Cell {
 
   private WaTorGrid grid;
-  private EdgeType edgeType;
   private int fishChronon;
   private int sharkChronon;
   private List<Coordinate> empty;
@@ -30,10 +29,10 @@ public class WaTorCell extends Cell {
    * @param fishChronon  number of turns before fish can reproduce
    * @param sharkChronon number of turns before shark can reproduce
    */
-  public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, int fishChronon, int sharkChronon) {
-    super(c, state);
+  public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, int fishChronon,
+      int sharkChronon) {
+    super(c, state, edgeType);
     this.grid = (WaTorGrid) grid;
-    this.edgeType = edgeType;
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
     empty = new ArrayList<>();

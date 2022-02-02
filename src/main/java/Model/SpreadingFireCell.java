@@ -12,7 +12,6 @@ import Model.Edge.EdgeType;
 public class SpreadingFireCell extends Cell {
 
   private double probCatch;
-  private EdgeType edgeType;
   /**
    * @param position     Coordinate position of the cell in the grid
    * @param initialState initial state of the cell
@@ -20,10 +19,8 @@ public class SpreadingFireCell extends Cell {
    */
   public SpreadingFireCell(Coordinate position, Enum initialState, EdgeType edgeType,
       double probCatch) {
-    super(position, initialState);
+    super(position, initialState, edgeType);
     this.probCatch = probCatch;
-    this.edgeType = edgeType;
-
   }
 
   protected void updateState() {

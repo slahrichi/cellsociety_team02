@@ -12,7 +12,7 @@ import java.util.Map;
 public class SpreadingFire extends Simulation {
 
   private double probCatch;
-  private EdgeType edgeType;
+
   /**
    * @param numberOfRows    number of rows in the grid
    * @param numberOfColumns number of columns in the grid
@@ -21,9 +21,8 @@ public class SpreadingFire extends Simulation {
    */
   public SpreadingFire(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, double probCatch) {
-    super(numberOfRows, numberOfColumns, setup);
+    super(numberOfRows, numberOfColumns, setup, edgeType);
     this.probCatch = probCatch;
-    this.edgeType = edgeType;
     initializeGridCells();
   }
 

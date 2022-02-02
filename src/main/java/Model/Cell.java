@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Edge.EdgeType;
+
 /**
  * Abstract class for representing the basic attributes of a cell in a cellular automata model.
  * Methods are mostly implemented as protected methods in order to limit their usage to extended
@@ -12,12 +14,14 @@ public abstract class Cell {
   protected Coordinate position;
   protected Enum currentState;
   protected Enum futureState;
+  protected EdgeType edgeType;
   protected int[] rowDelta = {-1, 1, 0, 0, 1, 1, -1, -1};
   protected int[] colDelta = {0, 0, -1, 1, -1, 1, -1, 1};
 
-  public Cell(Coordinate position, Enum initialState) {
+  public Cell(Coordinate position, Enum initialState, EdgeType edgeType) {
     this.position = position;
     this.currentState = initialState;
+    this.edgeType = edgeType;
   }
 
   protected Coordinate getPosition() {

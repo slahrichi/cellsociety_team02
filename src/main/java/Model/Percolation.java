@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class Percolation extends Simulation {
 
-  private EdgeType edgeType;
 
   /**
    * object for modeling a simulation of Percolation
@@ -24,9 +23,7 @@ public class Percolation extends Simulation {
    */
   public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType) {
-    super(numberOfRows, numberOfColumns, setup);
-    this.edgeType = edgeType;
-    initializeGridCells();
+    super(numberOfRows, numberOfColumns, setup, edgeType);
   }
 
 
