@@ -22,8 +22,8 @@ public class Main extends Application {
 
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
-  public static String language = "English";
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
+  public static String style = "lightMode";
   private SimulationVisualizer visualizer;
   private HashMap<String, String> data;
   private int numCols;
@@ -50,9 +50,8 @@ public class Main extends Application {
   }
 
   private void startGUI(Stage stage) {
-
-    visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL,
-        SIZE_VERTICAL, numRows, numCols, this, language);
+    visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL, SIZE_VERTICAL,
+        numRows, numCols, this, style);
     visualizer.setUpScene();
   }
 
@@ -67,6 +66,7 @@ public class Main extends Application {
   public void changeGUI(Stage stage, String filepath) throws Exception {
     currentFilePath = filepath;
     extractDataStartSimulation(currentFilePath);
+    style = visualizer.getStyle();
     startGUI(stage);
 
   }
@@ -80,6 +80,7 @@ public class Main extends Application {
    */
   public void resetModel(Stage stage) throws Exception {
     extractDataStartSimulation(currentFilePath);
+    style = visualizer.getStyle();
     startGUI(stage);
 
   }

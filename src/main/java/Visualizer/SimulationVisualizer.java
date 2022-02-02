@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -44,6 +45,7 @@ public class SimulationVisualizer {
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   public static final String DEFAULT_RESOURCE_PACKAGE = "/";
   public static final String DEFAULT_STYLE = "darkMode";
+  public static final String DEFAULT_LANGUAGE = "English";
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
   private final int SCENE_WIDTH;
@@ -63,13 +65,15 @@ public class SimulationVisualizer {
   private Simulation mySimulation;
   private BorderPane root;
   private Group gridGroup;
+  private HBox animationControls;
+  private HBox menuBar;
   private GridVisualizer gv;
   private Scene scene;
   private int numColumns;
   private int numRows;
   private Main myMain;
   private ResourceBundle myResources;
-
+  private String myStyle;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -82,10 +86,10 @@ public class SimulationVisualizer {
    * @param columns    number of columns in the model grid
    * @param main       the instance of <class> Main.java </class>, used to call the file change or
    *                   reset methods.
-   * @param language   the selected language by the user.
+   * @param style   the selected color scheme by the user.
    */
   public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height, int rows,
-      int columns, Main main, String language) {
+      int columns, Main main, String style) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -94,7 +98,8 @@ public class SimulationVisualizer {
     numColumns = columns;
     numRows = rows;
     myMain = main;
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
+    myStyle = style;
   }
 
   /**
@@ -107,20 +112,12 @@ public class SimulationVisualizer {
 
     gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
     root = new BorderPane();
-
-    root.setBottom(createAllAnimationControls());
-    root.setTop(createVerticalMenuControls());
-
-    MenuItem darkModeButton = makeMenuItem("darkModeCommand", e -> setStyleMode("darkMode"));
-    MenuItem lightModeButton = makeMenuItem("lightModeCommand", e -> setStyleMode("lightMode"));
-    MenuButton langMenu= new MenuButton(myResources.getString("stylePrompt"),null,darkModeButton,lightModeButton);
-    langMenu.setAlignment(Pos.TOP_RIGHT);
-    root.setTop(langMenu);
+    createUIControls();
 
     gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-    setStyleMode(DEFAULT_STYLE);
+    setStyleMode(myStyle);
 
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (animationEnabled) {
@@ -139,9 +136,26 @@ public class SimulationVisualizer {
 
   }
 
+  private void createUIControls() {
+    animationControls = createAllAnimationControls();
+    root.setBottom(animationControls);
+    menuBar = arrangeMenuComponents();
+    root.setTop(menuBar);
+  }
+
+  private MenuButton createStyleMenu() {
+    MenuItem darkModeButton = makeMenuItem("darkModeCommand", e -> setStyleMode("darkMode"));
+    MenuItem lightModeButton = makeMenuItem("lightModeCommand", e -> setStyleMode("lightMode"));
+
+    return new MenuButton(myResources.getString("stylePrompt"), null, darkModeButton,
+        lightModeButton);
+  }
+
   private void setStyleMode(String styleMode) {
     scene.getStylesheets().clear();
-    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_PACKAGE +styleMode +".css").toExternalForm());
+    scene.getStylesheets().add(
+        getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
+    myStyle = styleMode;
   }
 
 
@@ -175,7 +189,7 @@ public class SimulationVisualizer {
     return slider;
   }
 
-  private MenuButton createVerticalMenuControls() {
+  private MenuButton createFileMenu() {
     loadButton = makeMenuItem("loadCommand", e -> {
       try {
         chooseFile();
@@ -275,4 +289,32 @@ public class SimulationVisualizer {
     myStage.setScene(scene);
   }
 
+  private HBox createLanguageMenu() {
+    Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English"));
+    Button kaButton = makeButton("georgianLanguageCommand", e -> setLanguage("Georgian"));
+    Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic"));
+    //MenuButton cb = makenew MenuButton(myResources.getString("languagePrompt"),null,enButton,kaButton,arButton);
+    HBox result = new HBox();
+    result.getChildren().addAll(enButton, kaButton, arButton);
+    return result;
+  }
+
+  private HBox arrangeMenuComponents() {
+    HBox result = new HBox();
+    result.getChildren().addAll(createFileMenu(), createStyleMenu(), createLanguageMenu());
+
+    return result;
+
+  }
+
+  private void setLanguage(String language) {
+    root.getChildren().removeAll(menuBar, animationControls);
+    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+    createUIControls();
+
+  }
+
+  public String getStyle() {
+    return myStyle;
+  }
 }
