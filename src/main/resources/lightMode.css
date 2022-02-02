@@ -1,0 +1,55 @@
+.root {
+  -fx-font-size: 11pt;
+
+  -fx-base: gray;
+  -fx-background: #012169;
+}
+
+#test {
+  -fx-font-size: 11pt;
+  -fx-fill: #ffffff;
+  -fx-stroke: black;
+  -fx-stroke-width: 0.01;
+
+}
+
+
+.button {
+  -fx-text-fill: #012169;
+  -fx-background-color: white;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+
+.button:hover {
+  -fx-text-fill: #1f4393;
+  -fx-background-color: #dedbdb;
+}
+
+
+.menu-button {
+  -fx-text-fill: #012169;
+  -fx-background-color: white;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+.menu-button :focused, .menu-button :hover, menu-button :disabled {
+  -fx-text-fill: #1f4393;
+  -fx-background-color: #dedbdb;
+}
+
+.slider .axis {
+  -fx-tick-label-fill: #dedbdb;
+}
+
+.slider {
+  -fx-control-inner-background: #dedbdb;
+}
+
+.slider .thumb {
+  -fx-background-color: #1e90ff;
+  -fx-stroke: black;
+}
+
