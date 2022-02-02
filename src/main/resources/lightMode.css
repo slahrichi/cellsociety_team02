@@ -1,13 +1,13 @@
 .root {
   -fx-font-size: 11pt;
 
-  -fx-base: gray;
-  -fx-background: #012169;
+  -fx-base:  #012169;
+  -fx-background: #dedbdb;
 }
 
 #test {
   -fx-font-size: 11pt;
-  -fx-fill: #ffffff;
+  -fx-fill:  #012169;
   -fx-stroke: black;
   -fx-stroke-width: 0.01;
 
@@ -15,37 +15,37 @@
 
 
 .button {
-  -fx-text-fill: #012169;
-  -fx-background-color: white;
+  -fx-text-fill: #dedbdb;
+  -fx-background-color:  #012169;
   -fx-border-radius: 10;
   -fx-background-radius: 10;
 }
 
 
 .button:hover {
-  -fx-text-fill: #1f4393;
-  -fx-background-color: #dedbdb;
+  -fx-text-fill: white;
+  -fx-background-color: #0e3fab;
 }
 
 
 .menu-button {
-  -fx-text-fill: #012169;
-  -fx-background-color: white;
+  -fx-text-fill: #dedbdb;
+  -fx-background-color:  #012169;
   -fx-border-radius: 10;
   -fx-background-radius: 10;
 }
 
 .menu-button :focused, .menu-button :hover, menu-button :disabled {
-  -fx-text-fill: #1f4393;
-  -fx-background-color: #dedbdb;
+  -fx-text-fill: white;
+  -fx-background-color: #0e3fab;
 }
 
 .slider .axis {
-  -fx-tick-label-fill: #dedbdb;
+  -fx-tick-label-fill: #012169;
 }
 
 .slider {
-  -fx-control-inner-background: #dedbdb;
+  -fx-control-inner-background: #012169;
 }
 
 .slider .thumb {

@@ -43,6 +43,7 @@ public class SimulationVisualizer {
   private final int FRAMES_PER_SECOND = 3;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   public static final String DEFAULT_RESOURCE_PACKAGE = "/";
+  public static final String DEFAULT_STYLE = "darkMode";
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
   private final int SCENE_WIDTH;
@@ -110,9 +111,16 @@ public class SimulationVisualizer {
     root.setBottom(createAllAnimationControls());
     root.setTop(createVerticalMenuControls());
 
+    MenuItem darkModeButton = makeMenuItem("darkModeCommand", e -> setStyleMode("darkMode"));
+    MenuItem lightModeButton = makeMenuItem("lightModeCommand", e -> setStyleMode("lightMode"));
+    MenuButton langMenu= new MenuButton(myResources.getString("stylePrompt"),null,darkModeButton,lightModeButton);
+    langMenu.setAlignment(Pos.TOP_RIGHT);
+    root.setTop(langMenu);
+
     gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+    setStyleMode(DEFAULT_STYLE);
 
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (animationEnabled) {
@@ -131,6 +139,11 @@ public class SimulationVisualizer {
 
   }
 
+  private void setStyleMode(String styleMode) {
+    scene.getStylesheets().clear();
+    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_PACKAGE +styleMode +".css").toExternalForm());
+  }
+
 
   private HBox createAllAnimationControls() {
     playButton = makeButton("playCommand", e -> play());
@@ -141,6 +154,7 @@ public class SimulationVisualizer {
     Text text = new Text();
     text.setFont(new Font(14));
     text.setText(myResources.getString("animationSpeedPrompt"));
+    text.setId("test");
 
     HBox result = new HBox();
     result.getChildren().addAll(pauseButton, playButton, stepButton, text, slider);
@@ -229,9 +243,10 @@ public class SimulationVisualizer {
 
     if (selectedFile != null) {
       fileName = selectedFile.getName();
+      myMain.changeGUI(myStage, "doc/" + fileName);
     }
 
-    myMain.changeGUI(myStage, "doc/" + fileName);
+
   }
 
   private void resetGrid() throws Exception {
@@ -258,8 +273,6 @@ public class SimulationVisualizer {
     root.setRight(gridGroup);
     scene.setRoot(root);
     myStage.setScene(scene);
-
-
   }
 
 }
