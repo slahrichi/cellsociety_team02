@@ -38,7 +38,8 @@ public class SpreadingFire extends Simulation {
         case 1 -> state = States.SpreadingFire.BURNING;
         case 2 -> state = States.SpreadingFire.EMPTY;
       }
-      grid.getCellMap().put(c, new SpreadingFireCell(c, state, edgeType, probCatch));
+      grid.getCellMap().put(c, new SpreadingFireCell(c, state, edgeType, probCatch,
+          numberOfRows, numberOfColumns));
     }
   }
 }

@@ -18,8 +18,8 @@ public class SpreadingFireCell extends Cell {
    * @param probCatch    probability cell catches on fire if its neighbor is burning
    */
   public SpreadingFireCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      double probCatch) {
-    super(position, initialState, edgeType);
+      double probCatch, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
     this.probCatch = probCatch;
   }
 
@@ -42,7 +42,7 @@ public class SpreadingFireCell extends Cell {
 
   private boolean canCatchFire(Grid grid) {
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.SpreadingFire.BURNING) {
           return true;

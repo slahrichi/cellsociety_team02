@@ -15,8 +15,9 @@ public class PercolationCell extends Cell {
    * @param position     `Coordinate` representing position of the cell in the grid
    * @param initialState initializing state of the cell
    */
-  public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType) {
-    super(position, initialState, edgeType);
+  public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType,
+  int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
   }
 
   protected void updateState() {
@@ -39,7 +40,7 @@ public class PercolationCell extends Cell {
 
   private boolean canPercolate(Grid grid) {
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.Percolation.PERCOLATED) {
           return true;

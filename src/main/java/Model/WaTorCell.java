@@ -30,8 +30,8 @@ public class WaTorCell extends Cell {
    * @param sharkChronon number of turns before shark can reproduce
    */
   public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, int fishChronon,
-      int sharkChronon) {
-    super(c, state, edgeType);
+      int sharkChronon, int numberOfRows, int numberOfColumns) {
+    super(c, state, edgeType, numberOfRows, numberOfColumns);
     this.grid = (WaTorGrid) grid;
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
@@ -104,7 +104,8 @@ public class WaTorCell extends Cell {
   }
 
   private void updateNeighborState(Coordinate c, Enum state) {
-    WaTorCell newNeighbor = new WaTorCell(c, state, grid, edgeType, fishChronon, sharkChronon);
+    WaTorCell newNeighbor = new WaTorCell(c, state, grid, edgeType, fishChronon, sharkChronon,
+        numberOfRows, numberOfColumns);
     grid.getCellMap().put(c, newNeighbor);
     newNeighbor.updateNewNeighbors();
   }
@@ -128,7 +129,7 @@ public class WaTorCell extends Cell {
   private void determineNeighbors(Grid grid) {
     clearLists();
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.EMPTY) {
           empty.add(neighbor);
@@ -141,7 +142,7 @@ public class WaTorCell extends Cell {
 
   private void updateNewNeighbors() {
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
       if (grid.isInBounds(neighbor)) {
         WaTorCell cell = (WaTorCell) grid.getCellMap().get(position);
         cell.determineNeighbors(grid);

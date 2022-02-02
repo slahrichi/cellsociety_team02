@@ -21,8 +21,8 @@ public class SegregationCell extends Cell {
    * @param threshold    satisfaction threshold for constituents given their neighbors
    */
   public SegregationCell(Coordinate position, Enum initialState, Grid grid,
-      EdgeType edgeType, double threshold) {
-    super(position, initialState, edgeType);
+      EdgeType edgeType, double threshold, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
     this.threshold = threshold;
     this.grid = (SegregationGrid) grid;
     dissatisfied = false;
@@ -40,7 +40,7 @@ public class SegregationCell extends Cell {
     int dems = 0;
     int reps = 0;
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
+      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType);
       if (grid.isInBounds(neighbor)) {
         if (grid.getCellMap().get(neighbor).getCurrentState() == States.Segregation.DEM) {
           dems++;

@@ -44,7 +44,8 @@ public class WaTor extends Simulation {
         case 1 -> state = States.WaTor.FISH;
         case 2 -> state = States.WaTor.SHARK;
       }
-      grid.getCellMap().put(c, new WaTorCell(c, state, grid, edgeType, fishChronon, sharkChronon));
+      grid.getCellMap().put(c, new WaTorCell(c, state, grid, edgeType, fishChronon, sharkChronon,
+          numberOfRows, numberOfColumns));
     }
   }
 

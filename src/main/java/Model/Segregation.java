@@ -46,7 +46,8 @@ public class Segregation extends Simulation {
         case 1 -> state = States.Segregation.REP;
         case 2 -> state = States.Segregation.DEM;
       }
-      grid.getCellMap().put(c, new SegregationCell(c, state, grid, edgeType, threshold));
+      grid.getCellMap().put(c, new SegregationCell(c, state, grid, edgeType, threshold,
+          numberOfRows, numberOfColumns));
     }
 
   }

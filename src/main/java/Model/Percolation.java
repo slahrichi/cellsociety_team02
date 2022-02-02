@@ -40,7 +40,8 @@ public class Percolation extends Simulation {
         case 1 -> state = States.Percolation.PERCOLATED;
         case 2 -> state = States.Percolation.BLOCKED;
       }
-      grid.getCellMap().put(c, new PercolationCell(c, state, edgeType));
+      grid.getCellMap().put(c, new PercolationCell(c, state, edgeType, numberOfRows,
+          numberOfColumns));
     }
   }
 }

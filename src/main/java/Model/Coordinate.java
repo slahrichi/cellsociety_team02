@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Edge.EdgeType;
 import java.util.Objects;
 
 /**
@@ -40,9 +41,13 @@ public class Coordinate {
    *
    * @param r the value by which to increment the current row index
    * @param c the value by which to increment the current column index
+   * @param edgeType
    * @return the neighbor at a position (r, c) relative to the current point
    */
-  public Coordinate checkNeighbors(int r, int c) {
+  public Coordinate checkNeighbors(int r, int c, EdgeType edgeType) {
+    if (edgeType == EdgeType.TOROIDAL) {
+      return new Coordinate(row + r, column + c);
+    }
     return new Coordinate(row + r, column + c);
   }
 

@@ -15,13 +15,18 @@ public abstract class Cell {
   protected Enum currentState;
   protected Enum futureState;
   protected EdgeType edgeType;
+  protected int numberOfRows;
+  protected int numberOfColumns;
   protected int[] rowDelta = {-1, 1, 0, 0, 1, 1, -1, -1};
   protected int[] colDelta = {0, 0, -1, 1, -1, 1, -1, 1};
 
-  public Cell(Coordinate position, Enum initialState, EdgeType edgeType) {
+  public Cell(Coordinate position, Enum initialState, EdgeType edgeType, int numberOfRows,
+      int numberOfColumns) {
     this.position = position;
     this.currentState = initialState;
     this.edgeType = edgeType;
+    this.numberOfRows = numberOfRows;
+    this.numberOfColumns = numberOfColumns;
   }
 
   protected Coordinate getPosition() {

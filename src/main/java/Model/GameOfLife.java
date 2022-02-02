@@ -29,7 +29,8 @@ public class GameOfLife extends Simulation {
         case 0 -> state = States.GameOfLife.DEAD;
         case 1 -> state = States.GameOfLife.ALIVE;
       }
-      grid.getCellMap().put(c, new GameOfLifeCell(c, state, edgeType));
+      grid.getCellMap().put(c, new GameOfLifeCell(c, state, edgeType, numberOfRows,
+          numberOfColumns));
     }
   }
 }
