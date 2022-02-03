@@ -66,10 +66,12 @@ etc. All specific graph objects would inherit these features, and be able to int
 * that does too many things. It can be split into two or three shorter methods.
 
 
-### Method or Class
-* Design issues
+### Method or Class: SimulationVisualizer.java
 
-* Design issue
+* The class has too many dependencies, I will create separate classes for features like the animationController,
+where I will handle all the Play/Pause/Step/Speed button creation.
+
+* I could also move the menu settings to a separate class, although I am not sure whether I should do this.
 
 
 
