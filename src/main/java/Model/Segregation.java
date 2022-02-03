@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 import java.util.Map;
 
 /**
@@ -20,8 +21,8 @@ public class Segregation extends Simulation {
    * @param threshold       minimum satisfaction threshold for constituents given their neighbors
    */
   public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, double threshold) {
-    super(numberOfRows, numberOfColumns, setup, edgeType);
+      EdgeType edgeType, Direction direction, double threshold) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
     this.threshold = threshold;
     initializeGridCells();
   }
@@ -46,7 +47,7 @@ public class Segregation extends Simulation {
         case 1 -> state = States.Segregation.REP;
         case 2 -> state = States.Segregation.DEM;
       }
-      grid.getCellMap().put(c, new SegregationCell(c, state, grid, edgeType, threshold,
+      grid.getCellMap().put(c, new SegregationCell(c, state, grid, edgeType, direction, threshold,
           numberOfRows, numberOfColumns));
     }
 

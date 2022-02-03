@@ -2,6 +2,7 @@ package Model;
 
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 import java.util.Map;
 
 /**
@@ -18,13 +19,15 @@ public abstract class Simulation {
   protected int numberOfRows;
   protected Map<Coordinate, Integer> setup;
   protected EdgeType edgeType;
+  protected Direction direction;
 
   public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType) {
+      EdgeType edgeType, Direction direction) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     this.setup = setup;
     this.edgeType = edgeType;
+    this.direction = direction;
     createGrid();
     initializeGridCells();
   }

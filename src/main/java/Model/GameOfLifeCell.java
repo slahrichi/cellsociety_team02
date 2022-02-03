@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 
 /**
  * class that extends the `Cell` superclass to implement specific usage for the purpose of the Game
@@ -12,8 +13,8 @@ import Model.Edge.EdgeType;
 public class GameOfLifeCell extends Cell {
 
   public GameOfLifeCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
+      Direction direction, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
   }
 
   protected void updateState() {
@@ -33,6 +34,8 @@ public class GameOfLifeCell extends Cell {
 
   private int countLivingNeighbors(Grid grid) {
     int count = 0;
+    int[] rowDelta = Neighbors.getRowDelta(direction);
+    int[] colDelta = Neighbors.getColDelta(direction);
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);

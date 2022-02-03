@@ -2,6 +2,7 @@ package Model;
 
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 
 /**
  * Class that updates the state of a cell in a Spreading Fire model given the probability it burns
@@ -18,8 +19,8 @@ public class SpreadingFireCell extends Cell {
    * @param probCatch    probability cell catches on fire if its neighbor is burning
    */
   public SpreadingFireCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      double probCatch, int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
+      Direction direction, double probCatch, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
     this.probCatch = probCatch;
   }
 
@@ -41,6 +42,8 @@ public class SpreadingFireCell extends Cell {
   }
 
   private boolean canCatchFire(Grid grid) {
+    int[] rowDelta = Neighbors.getRowDelta(direction);
+    int[] colDelta = Neighbors.getColDelta(direction);
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);

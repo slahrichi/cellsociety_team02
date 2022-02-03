@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 
 /**
  * Extension of `Cell` superclass for modeling Percolation. Properly updates the states of the cells
@@ -16,8 +17,8 @@ public class PercolationCell extends Cell {
    * @param initialState initializing state of the cell
    */
   public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType,
-  int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
+      Direction direction, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
   }
 
   protected void updateState() {
@@ -39,6 +40,8 @@ public class PercolationCell extends Cell {
   }
 
   private boolean canPercolate(Grid grid) {
+    int[] rowDelta = Neighbors.getRowDelta(direction);
+    int[] colDelta = Neighbors.getColDelta(direction);
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);

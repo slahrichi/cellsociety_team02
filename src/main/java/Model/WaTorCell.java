@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,9 +30,9 @@ public class WaTorCell extends Cell {
    * @param fishChronon  number of turns before fish can reproduce
    * @param sharkChronon number of turns before shark can reproduce
    */
-  public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, int fishChronon,
-      int sharkChronon, int numberOfRows, int numberOfColumns) {
-    super(c, state, edgeType, numberOfRows, numberOfColumns);
+  public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, Direction direction,
+      int fishChronon, int sharkChronon, int numberOfRows, int numberOfColumns) {
+    super(c, state, edgeType, direction, numberOfRows, numberOfColumns);
     this.grid = (WaTorGrid) grid;
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
@@ -104,8 +105,8 @@ public class WaTorCell extends Cell {
   }
 
   private void updateNeighborState(Coordinate c, Enum state) {
-    WaTorCell newNeighbor = new WaTorCell(c, state, grid, edgeType, fishChronon, sharkChronon,
-        numberOfRows, numberOfColumns);
+    WaTorCell newNeighbor = new WaTorCell(c, state, grid, edgeType, direction, fishChronon,
+        sharkChronon, numberOfRows, numberOfColumns);
     grid.getCellMap().put(c, newNeighbor);
     newNeighbor.updateNewNeighbors();
   }
@@ -128,6 +129,8 @@ public class WaTorCell extends Cell {
 
   private void determineNeighbors(Grid grid) {
     clearLists();
+    int[] rowDelta = Neighbors.getRowDelta(direction);
+    int[] colDelta = Neighbors.getColDelta(direction);
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
@@ -142,6 +145,8 @@ public class WaTorCell extends Cell {
   }
 
   private void updateNewNeighbors() {
+    int[] rowDelta = Neighbors.getRowDelta(direction);
+    int[] colDelta = Neighbors.getColDelta(direction);
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);

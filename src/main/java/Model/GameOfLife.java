@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 import java.util.Map;
 
 /**
@@ -12,8 +13,8 @@ import java.util.Map;
 public class GameOfLife extends Simulation {
 
   public GameOfLife(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-  EdgeType edgeType) {
-    super(numberOfRows, numberOfColumns, setup, edgeType);
+  EdgeType edgeType, Direction direction) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
   }
 
 
@@ -29,7 +30,7 @@ public class GameOfLife extends Simulation {
         case 0 -> state = States.GameOfLife.DEAD;
         case 1 -> state = States.GameOfLife.ALIVE;
       }
-      grid.getCellMap().put(c, new GameOfLifeCell(c, state, edgeType, numberOfRows,
+      grid.getCellMap().put(c, new GameOfLifeCell(c, state, edgeType, direction, numberOfRows,
           numberOfColumns));
     }
   }

@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 
 /**
  * Extension of `Cell` superclass that manages the updating of cell states in the grid given the
@@ -20,9 +21,9 @@ public class SegregationCell extends Cell {
    * @param grid         the `Grid` object in which the cell exists
    * @param threshold    satisfaction threshold for constituents given their neighbors
    */
-  public SegregationCell(Coordinate position, Enum initialState, Grid grid,
-      EdgeType edgeType, double threshold, int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, numberOfRows, numberOfColumns);
+  public SegregationCell(Coordinate position, Enum initialState, Grid grid, EdgeType edgeType,
+      Direction direction, double threshold, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
     this.threshold = threshold;
     this.grid = (SegregationGrid) grid;
     dissatisfied = false;
@@ -39,6 +40,8 @@ public class SegregationCell extends Cell {
   protected void determineNextState(Grid grid) {
     int dems = 0;
     int reps = 0;
+    int[] rowDelta = Neighbors.getRowDelta(direction);
+    int[] colDelta = Neighbors.getColDelta(direction);
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);

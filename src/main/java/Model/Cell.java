@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 
 /**
  * Abstract class for representing the basic attributes of a cell in a cellular automata model.
@@ -17,16 +18,16 @@ public abstract class Cell {
   protected EdgeType edgeType;
   protected int numberOfRows;
   protected int numberOfColumns;
-  protected int[] rowDelta = {-1, 1, 0, 0, 1, 1, -1, -1};
-  protected int[] colDelta = {0, 0, -1, 1, -1, 1, -1, 1};
+  protected Direction direction;
 
-  public Cell(Coordinate position, Enum initialState, EdgeType edgeType, int numberOfRows,
-      int numberOfColumns) {
+  public Cell(Coordinate position, Enum initialState, EdgeType edgeType, Direction direction,
+      int numberOfRows, int numberOfColumns) {
     this.position = position;
     this.currentState = initialState;
     this.edgeType = edgeType;
     this.numberOfRows = numberOfRows;
     this.numberOfColumns = numberOfColumns;
+    this.direction = direction;
   }
 
   protected Coordinate getPosition() {

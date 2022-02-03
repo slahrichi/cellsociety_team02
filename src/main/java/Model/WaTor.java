@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Edge.EdgeType;
+import Model.Neighbors.Direction;
 import java.util.Map;
 
 /**
@@ -24,8 +25,8 @@ public class WaTor extends Simulation {
    * @param sharkChronon number of turns before shark can reproduce
    */
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, int fishChronon, int sharkChronon) {
-    super(numberOfRows, numberOfColumns, setup, edgeType);
+      EdgeType edgeType, Direction direction, int fishChronon, int sharkChronon) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
     initializeGridCells();
@@ -44,8 +45,8 @@ public class WaTor extends Simulation {
         case 1 -> state = States.WaTor.FISH;
         case 2 -> state = States.WaTor.SHARK;
       }
-      grid.getCellMap().put(c, new WaTorCell(c, state, grid, edgeType, fishChronon, sharkChronon,
-          numberOfRows, numberOfColumns));
+      grid.getCellMap().put(c, new WaTorCell(c, state, grid, edgeType, direction, fishChronon,
+          sharkChronon, numberOfRows, numberOfColumns));
     }
   }
 
