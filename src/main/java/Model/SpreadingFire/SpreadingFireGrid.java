@@ -1,4 +1,6 @@
-package Model;
+package Model.SpreadingFire;
+
+import Model.Grid;
 
 /**
  * Class for creating the `Grid` implementation for a Spreading Fire model

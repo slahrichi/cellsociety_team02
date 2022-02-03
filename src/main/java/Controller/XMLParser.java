@@ -2,13 +2,13 @@ package Controller;
 
 import Model.Cell;
 import Model.Coordinate;
-import Model.GameOfLife;
-import Model.Percolation;
-import Model.Segregation;
+import Model.GameOfLife.GameOfLife;
+import Model.Percolation.Percolation;
+import Model.Segregation.Segregation;
 import Model.Simulation;
-import Model.SpreadingFire;
+import Model.SpreadingFire.SpreadingFire;
 import Model.States;
-import Model.WaTor;
+import Model.WaTor.WaTor;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;

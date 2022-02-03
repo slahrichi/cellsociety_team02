@@ -34,7 +34,7 @@ public abstract class Cell {
     return position;
   }
 
-  protected void setPosition(Coordinate c) {
+  public void setPosition(Coordinate c) {
     position = c;
   }
 

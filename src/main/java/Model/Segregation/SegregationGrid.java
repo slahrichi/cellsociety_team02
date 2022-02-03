@@ -1,5 +1,8 @@
-package Model;
+package Model.Segregation;
 
+import Model.Cell;
+import Model.Coordinate;
+import Model.Grid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

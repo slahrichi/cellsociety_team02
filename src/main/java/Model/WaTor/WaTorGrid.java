@@ -1,4 +1,8 @@
-package Model;
+package Model.WaTor;
+
+import Model.Cell;
+import Model.Coordinate;
+import Model.Grid;
 
 /**
  * Extension of `Grid` superclass for implementing Wa-Tor simulation. Has the ability to swap cells

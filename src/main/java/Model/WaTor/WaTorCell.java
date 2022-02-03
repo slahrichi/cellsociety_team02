@@ -1,7 +1,12 @@
-package Model;
+package Model.WaTor;
 
+import Model.Cell;
+import Model.Coordinate;
 import Model.Edge.EdgeType;
+import Model.Grid;
+import Model.Neighbors;
 import Model.Neighbors.Direction;
+import Model.States;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

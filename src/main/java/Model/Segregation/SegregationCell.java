@@ -1,7 +1,13 @@
-package Model;
+package Model.Segregation;
 
+import Model.Cell;
+import Model.Coordinate;
 import Model.Edge.EdgeType;
+import Model.Grid;
+import Model.Neighbors;
 import Model.Neighbors.Direction;
+import Model.Segregation.SegregationGrid;
+import Model.States;
 
 /**
  * Extension of `Cell` superclass that manages the updating of cell states in the grid given the

@@ -1,5 +1,10 @@
 package Model;
 
+import Model.GameOfLife.GameOfLife;
+import Model.Percolation.Percolation;
+import Model.Segregation.Segregation;
+import Model.SpreadingFire.SpreadingFire;
+import Model.WaTor.WaTor;
 import java.util.HashMap;
 
 public class Playground {

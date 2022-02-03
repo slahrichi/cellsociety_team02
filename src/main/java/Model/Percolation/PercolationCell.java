@@ -1,7 +1,12 @@
-package Model;
+package Model.Percolation;
 
+import Model.Cell;
+import Model.Coordinate;
 import Model.Edge.EdgeType;
+import Model.Grid;
+import Model.Neighbors;
 import Model.Neighbors.Direction;
+import Model.States;
 
 /**
  * Extension of `Cell` superclass for modeling Percolation. Properly updates the states of the cells

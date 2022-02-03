@@ -1,8 +1,13 @@
-package Model;
+package Model.SpreadingFire;
 
 
+import Model.Cell;
+import Model.Coordinate;
 import Model.Edge.EdgeType;
+import Model.Grid;
+import Model.Neighbors;
 import Model.Neighbors.Direction;
+import Model.States;
 
 /**
  * Class that updates the state of a cell in a Spreading Fire model given the probability it burns

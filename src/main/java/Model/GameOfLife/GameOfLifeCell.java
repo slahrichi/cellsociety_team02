@@ -1,7 +1,12 @@
-package Model;
+package Model.GameOfLife;
 
+import Model.Cell;
+import Model.Coordinate;
 import Model.Edge.EdgeType;
+import Model.Grid;
+import Model.Neighbors;
 import Model.Neighbors.Direction;
+import Model.States;
 
 /**
  * class that extends the `Cell` superclass to implement specific usage for the purpose of the Game
