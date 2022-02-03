@@ -30,14 +30,12 @@ public class Main extends Application {
   private int numCols;
   private int numRows;
   private Simulation currentSimulation;
-  private String currentFilePath;
   private XMLParser parser;
 
   @Override
   public void start(Stage stage){
   try {
     parser = new XMLParser();
-    currentFilePath = DEFAULT_FILE_PATH;
     extractDataStartSimulation(DEFAULT_FILE_PATH);
     stage = new ResetableStage(DEFAULT_FILE_PATH);
     startGUI(stage);

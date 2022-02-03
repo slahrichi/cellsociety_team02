@@ -164,9 +164,8 @@ public class SimulationVisualizer {
 
     Slider slider = setUpSlider();
     Text text = new Text();
-    text.setFont(new Font(14));
     text.setText(myResources.getString("animationSpeedPrompt"));
-    text.setId("test");
+    text.setId("animationSpeedPrompt");
 
     HBox result = new HBox();
     result.getChildren().addAll(pauseButton, playButton, stepButton, text, slider);
