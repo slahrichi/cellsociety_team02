@@ -1,6 +1,6 @@
 # Refactoring Lab Discussion
-#### NAMES
-#### TEAM
+#### Matthew Giglio, Luka Mdivani, Saad Lahrichi
+#### Team 2
 
 
 ## Principles
@@ -38,8 +38,13 @@
 
 #### Abstraction #1
 * Open/Close
+  * Instead of having an XML parser, we can have a Parser superclass. This would allow support for any type
+    of files in the future, should we want to use .json or any other type.
 
 * Liskov Substution
+    * The parsing in general has some methods that would be used for any file type (e.g. createDocumentBuilder, createTransformer)...
+    * As the specific type of parser would inherit the same methods as the superclass, the other classes would be able to interact with it without knowing  
+    * the specific file type.
 
 #### Abstraction #2
 * Open/Close
