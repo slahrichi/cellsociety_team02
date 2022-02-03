@@ -100,10 +100,11 @@ where I will handle all the Play/Pause/Step/Speed button creation.
 
 ## Refactoring Work
 
-* Issue chosen: Fix and Alternatives
+* Issue chosen: in XMLParser.createSimulation, I chained some calls instead of storing unnecessary variables and only parsed the parameters 
+* inside the Simulations that require then.
 
 
-* Issue chosen: Fix and Alternatives
+* Issue chosen: fixing the instance variables in the Cell superclass to be private (done on Matthew)
 
 
-* Issue chosen:
+* Issue chosen: splitting the classes in view to have better readability and separation
