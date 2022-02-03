@@ -30,28 +30,28 @@ public class SpreadingFireCell extends Cell {
   }
 
   protected void updateState() {
-    currentState = futureState;
+    setCurrentState(getFutureState());
   }
 
   protected void determineNextState(Grid grid) {
-    if (currentState == States.SpreadingFire.EMPTY ||
-        currentState == States.SpreadingFire.BURNING) {
-      futureState = States.SpreadingFire.EMPTY;
+    if (getCurrentState() == States.SpreadingFire.EMPTY ||
+        getCurrentState() == States.SpreadingFire.BURNING) {
+      setFutureState(States.SpreadingFire.EMPTY);
       return;
     }
     if (canCatchFire(grid) && Math.random() <= probCatch) {
-      futureState = States.SpreadingFire.BURNING;
+      setFutureState(States.SpreadingFire.BURNING);
     } else {
-      futureState = States.SpreadingFire.TREE;
+      setFutureState(States.SpreadingFire.TREE);
     }
   }
 
   private boolean canCatchFire(Grid grid) {
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
           States.SpreadingFire.BURNING) {
           return true;

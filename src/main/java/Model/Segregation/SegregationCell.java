@@ -6,7 +6,6 @@ import Model.Edge.EdgeType;
 import Model.Grid;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
-import Model.Segregation.SegregationGrid;
 import Model.States;
 
 /**
@@ -38,7 +37,7 @@ public class SegregationCell extends Cell {
 
   protected void updateState() {
     if (dissatisfied) {
-      grid.moveCell(position);
+      grid.moveCell(getPosition());
     }
     ;
   }
@@ -46,11 +45,11 @@ public class SegregationCell extends Cell {
   protected void determineNextState(Grid grid) {
     int dems = 0;
     int reps = 0;
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor)) {
         Enum state = getNeighborState(neighbor, grid);
         if (state == States.Segregation.DEM) {
@@ -64,9 +63,9 @@ public class SegregationCell extends Cell {
   }
 
   private void checkIfSatisfied(int dems, int reps) {
-    if (currentState == States.Segregation.EMPTY) {
+    if (getCurrentState() == States.Segregation.EMPTY) {
       dissatisfied = false;
-    } else if (currentState == States.Segregation.DEM) {
+    } else if (getCurrentState() == States.Segregation.DEM) {
       if (dems * 1.0 / (dems + reps) < threshold) {
         dissatisfied = true;
       }

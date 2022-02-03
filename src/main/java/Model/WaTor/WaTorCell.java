@@ -49,9 +49,9 @@ public class WaTorCell extends Cell {
 
   @Override
   protected void updateState() {
-    if (currentState == States.WaTor.FISH) {
+    if (getCurrentState() == States.WaTor.FISH) {
       updateFish();
-    } else if (currentState == States.WaTor.SHARK) {
+    } else if (getCurrentState() == States.WaTor.SHARK) {
       updateShark();
     }
   }
@@ -61,7 +61,7 @@ public class WaTorCell extends Cell {
       eatFish();
     }
     if (hasDied()) {
-      currentState = States.WaTor.EMPTY;
+      setCurrentState(States.WaTor.EMPTY);
       clearTurnsElapsed();
     } else if (canReproduce(States.WaTor.SHARK)) {
       reproduce(States.WaTor.SHARK);
@@ -110,8 +110,8 @@ public class WaTorCell extends Cell {
   }
 
   private void updateNeighborState(Coordinate c, Enum state) {
-    WaTorCell newNeighbor = new WaTorCell(c, state, grid, edgeType, direction, fishChronon,
-        sharkChronon, numberOfRows, numberOfColumns);
+    WaTorCell newNeighbor = new WaTorCell(c, state, grid, getEdgeType(), getDirection(),
+        fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns());
     grid.getCellMap().put(c, newNeighbor);
     newNeighbor.updateNewNeighbors();
   }
@@ -119,12 +119,12 @@ public class WaTorCell extends Cell {
   private void moveToNeighbor() {
     if (!empty.isEmpty()) {
       Coordinate emptySpot = empty.remove(random.nextInt(empty.size()));
-      grid.makeSwap(position, emptySpot);
+      grid.makeSwap(getPosition(), emptySpot);
     }
   }
 
   private boolean hasDied() {
-    return currentState == States.WaTor.SHARK && turnsElapsed == DEATH;
+    return getCurrentState() == States.WaTor.SHARK && turnsElapsed == DEATH;
   }
 
 
@@ -134,11 +134,11 @@ public class WaTorCell extends Cell {
 
   private void determineNeighbors(Grid grid) {
     clearLists();
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor)) {
         Enum state = getNeighborState(neighbor, grid);
         if (state == States.WaTor.EMPTY) {
@@ -151,13 +151,13 @@ public class WaTorCell extends Cell {
   }
 
   private void updateNewNeighbors() {
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor)) {
-        WaTorCell cell = (WaTorCell) grid.getCellMap().get(position);
+        WaTorCell cell = (WaTorCell) grid.getCellMap().get(getPosition());
         cell.determineNeighbors(grid);
       }
     }

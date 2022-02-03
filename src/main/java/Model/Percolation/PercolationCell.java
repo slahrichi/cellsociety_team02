@@ -27,29 +27,29 @@ public class PercolationCell extends Cell {
   }
 
   protected void updateState() {
-    currentState = futureState;
+    setCurrentState(getFutureState());
   }
 
 
   protected void determineNextState(Grid grid) {
-    if (currentState == States.Percolation.BLOCKED ||
-        currentState == States.Percolation.PERCOLATED) {
-      futureState = currentState;
+    if (getCurrentState() == States.Percolation.BLOCKED ||
+        getCurrentState() == States.Percolation.PERCOLATED) {
+      setFutureState(getCurrentState());
       return;
     }
     if (canPercolate(grid)) {
-      futureState = States.Percolation.PERCOLATED;
+      setFutureState(States.Percolation.PERCOLATED);
     } else {
-      futureState = States.Percolation.OPEN;
+      setFutureState(States.Percolation.OPEN);
     }
   }
 
   private boolean canPercolate(Grid grid) {
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor)) {
         if (getNeighborState(neighbor, grid) == States.Percolation.PERCOLATED) {
           return true;

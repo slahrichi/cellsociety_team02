@@ -22,29 +22,29 @@ public class RockPaperScissorsCell extends Cell {
   }
 
 
-  protected void updateState() {currentState = futureState;}
+  protected void updateState() {setCurrentState(getFutureState());}
 
   protected void determineNextState(Grid grid) {
     int count = countWinningNeighbors(grid);
     int randomFactor = random.nextInt(RANDOM_FACTOR);
     count += randomFactor;
     if (count > threshold) {
-      futureState = States.RockPaperScissors.getWinningNeighbor(currentState);
+      setFutureState(States.RockPaperScissors.getWinningNeighbor(getCurrentState()));
     }
     else {
-      futureState = currentState;
+      setFutureState(getCurrentState());
     }
   }
 
   private int countWinningNeighbors(Grid grid) {
     int count = 0;
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
-          States.RockPaperScissors.getWinningNeighbor(currentState)) {
+          States.RockPaperScissors.getWinningNeighbor(getCurrentState())) {
           count++;
         }
       }
