@@ -2,7 +2,8 @@ package cellsociety;
 
 import Controller.XMLParser;
 import Model.Simulation;
-import Visualizer.SimulationVisualizer;
+import visualizer.SimulationVisualizer;
+import visualizer.ResetableStage;
 import java.util.HashMap;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -33,22 +34,33 @@ public class Main extends Application {
   private XMLParser parser;
 
   @Override
-  public void start(Stage stage) throws Exception {
-
+  public void start(Stage stage){
+  try {
     parser = new XMLParser();
     currentFilePath = DEFAULT_FILE_PATH;
     extractDataStartSimulation(DEFAULT_FILE_PATH);
-
+    stage = new ResetableStage(DEFAULT_FILE_PATH);
     startGUI(stage);
 
   }
+  catch(Exception e){
+      System.out.println("placeholder");//FIXME
+    }
+  }
 
-  private void extractDataStartSimulation(String filePath) throws Exception {
-    data = parser.parseXML(filePath);
+  private void extractDataStartSimulation(String filePath){
+    try{
+    data = parser.parseXML(filePath);}
+    catch (Exception e){}
     currentSimulation = parser.createSimulation(data);
     getNumberOfColumnAndRow();
   }
+  public void startAdditionalGUI(String filePath){
+    ResetableStage newStage = new ResetableStage(filePath);
+    extractDataStartSimulation(filePath);
+    startGUI(newStage);
 
+  }
   private void startGUI(Stage stage) {
     visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL, SIZE_VERTICAL,
         numRows, numCols, this, style);
@@ -63,9 +75,10 @@ public class Main extends Application {
    * @throws Exception if the selected file is not .xml; needed for the parseXML method called in
    *                   the <code> extractDataStartSimulation() </code>
    */
-  public void changeGUI(Stage stage, String filepath) throws Exception {
-    currentFilePath = filepath;
-    extractDataStartSimulation(currentFilePath);
+  public void changeGUI(Stage stage, String filepath){
+    stage.close();
+    ((ResetableStage) stage).setCurrentFile(filepath);
+    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
     style = visualizer.getStyle();
     startGUI(stage);
 
@@ -78,8 +91,9 @@ public class Main extends Application {
    * @throws Exception if the selected file is not .xml; needed for the parseXML method * called in
    *                   the <code> extractDataStartSimulation() </code>
    */
-  public void resetModel(Stage stage) throws Exception {
-    extractDataStartSimulation(currentFilePath);
+  public void resetModel(Stage stage)  {
+    stage.close();
+    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
     style = visualizer.getStyle();
     startGUI(stage);
 
