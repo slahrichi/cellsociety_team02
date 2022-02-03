@@ -7,20 +7,31 @@
 
 ### Current Abstractions
 
-#### Abstraction #1
+#### Abstraction #1 - Simulation
 * Open/Close
+  * Has all the essential features of any simulation, so any new simulation can extend this
+  class and add its own features that are specific to its algorithm
+  * Example: the superclass has numColumns, numRows, a `Grid` data structure, the `edgeType`,
+  and the neighbor configuration, which occurs in any simulation, but the `SpreadingFire` 
+  specifically has `probCatch`
 
 * Liskov Substution
+  * Since all of the `Simulation`s inherit the same methods, the controller and view can interact
+  with any of the simulations without knowing which type of `Simulation` it is
 
-#### Abstraction #2
+#### Abstraction #2 - Grid
 * Open/Close
+  * Same reasoning as above
 
 * Liskov Substution
+  * Same reasoning as above
 
-#### Abstraction #3
+#### Abstraction #3 - Cell
 * Open/Close
+  * Same reasoning as above
 
 * Liskov Substution
+  * Same reasoning as above
 
 
 ### New Abstractions
