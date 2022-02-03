@@ -80,4 +80,11 @@ public class States {
     }
   }
 
+  public enum FallingSand {
+    EMPTY,
+    METAL,
+    SAND,
+    WATER;
+  }
+
 }
