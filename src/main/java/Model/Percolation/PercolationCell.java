@@ -51,7 +51,7 @@ public class PercolationCell extends Cell {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
-        if (grid.getCellMap().get(neighbor).getCurrentState() == States.Percolation.PERCOLATED) {
+        if (getNeighborState(neighbor, grid) == States.Percolation.PERCOLATED) {
           return true;
         }
       }

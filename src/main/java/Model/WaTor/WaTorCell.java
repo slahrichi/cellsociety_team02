@@ -140,9 +140,10 @@ public class WaTorCell extends Cell {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
-        if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.EMPTY) {
+        Enum state = getNeighborState(neighbor, grid);
+        if (state == States.WaTor.EMPTY) {
           empty.add(neighbor);
-        } else if (grid.getCellMap().get(neighbor).getCurrentState() == States.WaTor.FISH) {
+        } else if (state == States.WaTor.FISH) {
           fish.add(neighbor);
         }
       }

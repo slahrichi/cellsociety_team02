@@ -52,12 +52,11 @@ public class SpreadingFireCell extends Cell {
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
-      if (grid.isInBounds(neighbor)) {
-        if (grid.getCellMap().get(neighbor).getCurrentState() == States.SpreadingFire.BURNING) {
+      if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
+          States.SpreadingFire.BURNING) {
           return true;
         }
       }
-    }
     return false;
   }
 }

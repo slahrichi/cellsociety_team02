@@ -52,9 +52,10 @@ public class SegregationCell extends Cell {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
-        if (grid.getCellMap().get(neighbor).getCurrentState() == States.Segregation.DEM) {
+        Enum state = getNeighborState(neighbor, grid);
+        if (state == States.Segregation.DEM) {
           dems++;
-        } else if (grid.getCellMap().get(neighbor).getCurrentState() == States.Segregation.REP) {
+        } else if (state == States.Segregation.REP) {
           reps++;
         }
       }

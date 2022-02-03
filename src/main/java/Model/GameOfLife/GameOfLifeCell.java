@@ -45,7 +45,7 @@ public class GameOfLifeCell extends Cell {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor)) {
-        if (grid.getCellMap().get(neighbor).getCurrentState() == States.GameOfLife.ALIVE) {
+        if (getNeighborState(neighbor, grid) == States.GameOfLife.ALIVE) {
           count++;
         }
       }

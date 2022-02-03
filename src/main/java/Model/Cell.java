@@ -50,6 +50,10 @@ public abstract class Cell {
 
   protected abstract void determineNextState(Grid grid);
 
+  protected Enum getNeighborState(Coordinate c, Grid grid) {
+    return grid.getCellMap().get(c).getCurrentState();
+  }
+
   @Override
   public String toString() {
     return currentState.toString();

@@ -43,13 +43,11 @@ public class RockPaperScissorsCell extends Cell {
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
           numberOfRows, numberOfColumns);
-      if (grid.isInBounds(neighbor)) {
-        Enum neighborState = grid.getCellMap().get(neighbor).getCurrentState();
-        if (neighborState == States.RockPaperScissors.getWinningNeighbor(currentState)) {
+      if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
+          States.RockPaperScissors.getWinningNeighbor(currentState)) {
           count++;
         }
       }
-    }
     return count;
   }
 }
