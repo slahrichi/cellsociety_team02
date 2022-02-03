@@ -78,10 +78,23 @@ where I will handle all the Play/Pause/Step/Speed button creation.
 ## Refactoring Plan
 
 * What are the code's biggest issues?
+  * Some long methods in the controller
+  * Some protected vs private issues with superclasses in the model
+  * Lack of class separation in the view
 
 * Which issues are easy to fix and which are hard?
+  * Splitting methods in view should be relatively straightforward
+  * The instance variables in the `Cell`, `Simulation`, and `Grid` superclasses were accidentally
+  made protected, so while shifting them to private is not necessarily difficult from a conceptual
+  standpoint, it is a bit tedious given the refactoring with new protected getter methods
+  * The controller line reduction is not incredibly difficult, but dealing with the different data
+  types parsed in the XML files and the numerous amount of simulations to choose from, it is not
+  immediately obvious how to break down the methods
 
 * What are good ways to implement the changes "in place"?
+  * For all the issues above, making incremental changes and checking that each individual stage
+  still functions as opposed to making large overhauls in a single step will allow for optimal 
+  changing
 
 
 
@@ -91,3 +104,6 @@ where I will handle all the Play/Pause/Step/Speed button creation.
 
 
 * Issue chosen: Fix and Alternatives
+
+
+* Issue chosen:
