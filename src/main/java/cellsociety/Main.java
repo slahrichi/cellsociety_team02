@@ -4,6 +4,7 @@ import Controller.XMLParser;
 import Model.Simulation;
 import Visualizer.SimulationVisualizer;
 import java.util.HashMap;
+import java.util.Map;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,7 +26,7 @@ public class Main extends Application {
   public static String language = "English";
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
   private SimulationVisualizer visualizer;
-  private HashMap<String, String> data;
+  private Map<String, String> data;
   private int numCols;
   private int numRows;
   private Simulation currentSimulation;
@@ -94,8 +95,8 @@ public class Main extends Application {
   }
 
   private void getNumberOfColumnAndRow() {
-    numCols = Integer.parseInt(data.get("numberOfColumns"));
-    numRows = Integer.parseInt(data.get("numberOfRows"));
+    numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", "10"));
+    numRows = Integer.parseInt(data.getOrDefault("numberOfRows", "10"));
   }
 }
 

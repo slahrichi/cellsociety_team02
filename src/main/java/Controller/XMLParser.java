@@ -34,7 +34,7 @@ public class XMLParser {
       0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 1 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0
@@ -44,14 +44,14 @@ public class XMLParser {
   private final String DEFAULT_SIM = "SpreadingFire";
   private final String DEFAULT_NCOLS = "10";
   private final String DEFAULT_NROWS = "10";
-  private final String DEFAULT_PROB_CATCH = "0";
+  private final String DEFAULT_PROB_CATCH = "1";
   private final String DEFAULT_THRESHOLD = "0.3";
   private final String DEFAULT_FISH_CHRONON = "3";
   private final String DEFAULT_SHARK_CHRONON = "6";
   private final DocumentBuilder DOCUMENT_BUILDER;
   private static Simulation CURRENT_SIMULATION;
   private static Enum[] STATE_VALUES;
-  private static HashMap<String, String> data;
+  private HashMap<String, String> data;
 
   /**
    * Instantiates Document Builder object to do the parsing
@@ -71,7 +71,7 @@ public class XMLParser {
    * @return
    * @throws Exception if DOCUEMENT_BUILDER tries to parse a non-XML file
    */
-  public HashMap<String, String> parseXML(String filePath) throws Exception {
+  public Map<String, String> parseXML(String filePath) throws Exception {
     if (filePath.substring(filePath.lastIndexOf('.')).equals(".xml")) {
       File XMLFile = new File(filePath);
       Document XMLDocument = DOCUMENT_BUILDER.parse(XMLFile);
@@ -144,18 +144,13 @@ public class XMLParser {
    * @param data hashMap returned by parseXML with the Simulation's data
    * @return
    */
-  public Simulation createSimulation(HashMap<String, String> data) {
+  public Simulation createSimulation(Map<String, String> data) {
 
     // returns the String simulation type or SpreadingFire by default
     String simulation = data.getOrDefault("type", DEFAULT_SIM);
     int numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", DEFAULT_NCOLS));
     int numRows = Integer.parseInt(data.getOrDefault("numberOfRows", DEFAULT_NROWS));
-    double probCatch = Double.parseDouble(data.getOrDefault("probCatch", DEFAULT_PROB_CATCH));
-    double threshold = Double.parseDouble(data.getOrDefault("threshold", DEFAULT_THRESHOLD));
-    int fishChronon = Integer.parseInt(data.getOrDefault("fishChronon", DEFAULT_FISH_CHRONON));
-    int sharkChronon = Integer.parseInt(data.getOrDefault("sharkChronon", DEFAULT_SHARK_CHRONON));
-    String grid = data.getOrDefault("grid", DEFAULT_GRID);
-    String allCells = grid.replaceAll("[^0-9]", "");
+    String allCells = data.getOrDefault("grid", DEFAULT_GRID).replaceAll("[^0-9]", "");
     int[][] cellsArray = new int[numRows][numCols];
     for (int a = 0; a < numRows * numCols; a += numCols) {
       for (int b = 0; b < numCols; b++) {
@@ -163,6 +158,7 @@ public class XMLParser {
             allCells.substring(a, a + numCols).substring(b, b + 1));
       }
     }
+
     Map<Coordinate, Integer> map = new HashMap<>();
     for (int i = 0; i < numRows; i++) {
       for (int j = 0; j < numCols; j++) {
@@ -172,21 +168,23 @@ public class XMLParser {
 
     switch (simulation) {
       case "GameOfLife" -> {
-        CURRENT_SIMULATION = new GameOfLife( numRows,numCols, map);
+        CURRENT_SIMULATION = new GameOfLife(numRows,numCols, map);
         STATE_VALUES = States.GameOfLife.values();
       }
       case "SpreadingFire" -> {
-        CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, probCatch);
+        CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map,
+            Double.parseDouble(data.getOrDefault("probCatch", DEFAULT_PROB_CATCH)));
         STATE_VALUES = States.SpreadingFire.values();
       }
       case "Segregation" -> {
         CURRENT_SIMULATION = new Segregation(numRows, numCols, map,
-            threshold);
+        Double.parseDouble(data.getOrDefault("threshold", DEFAULT_THRESHOLD)));
         STATE_VALUES = States.Segregation.values();
       }
       case "WaTor" -> {
-        CURRENT_SIMULATION = new WaTor(numRows, numCols, map, fishChronon,
-            sharkChronon);
+        CURRENT_SIMULATION = new WaTor(numRows, numCols, map,
+            Integer.parseInt(data.getOrDefault("fishChronon", DEFAULT_FISH_CHRONON)),
+            Integer.parseInt(data.getOrDefault("sharkChronon", DEFAULT_SHARK_CHRONON)));
         STATE_VALUES = States.WaTor.values();
       }
       case "Percolation" -> {
