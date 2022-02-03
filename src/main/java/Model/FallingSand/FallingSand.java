@@ -1,5 +1,6 @@
 package Model.FallingSand;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -33,5 +34,26 @@ public class FallingSand extends Simulation {
     }
   }
 
-
+  protected void updateData() {
+    int empty = 0, metal = 0, sand = 0, water = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.FallingSand.EMPTY) {
+        empty++;
+      }
+      else if (state == States.FallingSand.METAL) {
+        metal++;
+      }
+      else if (state == States.FallingSand.SAND) {
+        sand++;
+      }
+      else if (state == States.FallingSand.WATER) {
+        water++;
+      }
+    }
+    data.put(States.FallingSand.EMPTY, empty);
+    data.put(States.FallingSand.METAL, metal);
+    data.put(States.FallingSand.SAND, sand);
+    data.put(States.FallingSand.WATER, water);
+  }
 }

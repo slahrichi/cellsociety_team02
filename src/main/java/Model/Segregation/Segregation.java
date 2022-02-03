@@ -1,5 +1,6 @@
 package Model.Segregation;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -56,4 +57,22 @@ public class Segregation extends Simulation {
 
   }
 
+  protected void updateData() {
+    int empty = 0, reps = 0, dems = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.Segregation.EMPTY) {
+        empty++;
+      }
+      else if (state == States.Segregation.REP) {
+        reps++;
+      }
+      else if (state == States.Segregation.DEM) {
+        dems++;
+      }
+    }
+    data.put(States.Segregation.EMPTY, empty);
+    data.put(States.Segregation.REP, reps);
+    data.put(States.Segregation.DEM, dems);
+  }
 }

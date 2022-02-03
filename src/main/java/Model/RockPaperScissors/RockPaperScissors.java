@@ -1,5 +1,6 @@
 package Model.RockPaperScissors;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -35,6 +36,26 @@ public class RockPaperScissors extends Simulation {
       grid.getCellMap().put(c, new RockPaperScissorsCell(c, state, edgeType, direction,
           numberOfRows, numberOfColumns, threshold));
     }
+  }
+
+
+  protected void updateData() {
+    int rock = 0, paper = 0, scissors = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.RockPaperScissors.ROCK) {
+        rock++;
+      }
+      else if (state == States.RockPaperScissors.PAPER) {
+        paper++;
+      }
+      else if (state == States.RockPaperScissors.SCISSORS) {
+        scissors++;
+      }
+    }
+    data.put(States.RockPaperScissors.ROCK, rock);
+    data.put(States.RockPaperScissors.PAPER, paper);
+    data.put(States.RockPaperScissors.SCISSORS, scissors);
   }
 }
 

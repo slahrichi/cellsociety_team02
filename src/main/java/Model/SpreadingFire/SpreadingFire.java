@@ -1,5 +1,6 @@
 package Model.SpreadingFire;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -45,5 +46,25 @@ public class SpreadingFire extends Simulation {
       grid.getCellMap().put(c, new SpreadingFireCell(c, state, edgeType, direction, probCatch,
           numberOfRows, numberOfColumns));
     }
+  }
+
+
+  protected void updateData() {
+    int trees = 0, burning = 0, empty = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.SpreadingFire.TREE) {
+        trees++;
+      }
+      else if (state == States.SpreadingFire.BURNING) {
+        burning++;
+      }
+      else if (state == States.SpreadingFire.EMPTY) {
+        empty++;
+      }
+    }
+    data.put(States.SpreadingFire.TREE, trees);
+    data.put(States.SpreadingFire.BURNING, burning);
+    data.put(States.SpreadingFire.EMPTY, empty);
   }
 }

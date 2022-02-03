@@ -1,5 +1,6 @@
 package Model.WaTor;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -53,4 +54,22 @@ public class WaTor extends Simulation {
     }
   }
 
+  protected void updateData() {
+    int empty = 0, fish = 0, sharks = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.WaTor.EMPTY) {
+        empty++;
+      }
+      else if (state == States.WaTor.FISH) {
+        fish++;
+      }
+      else if (state == States.WaTor.SHARK) {
+        sharks++;
+      }
+    }
+    data.put(States.WaTor.EMPTY, empty);
+    data.put(States.WaTor.FISH, fish);
+    data.put(States.WaTor.SHARK, sharks);
+  }
 }

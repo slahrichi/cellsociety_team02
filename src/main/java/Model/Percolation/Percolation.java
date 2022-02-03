@@ -1,5 +1,6 @@
 package Model.Percolation;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -47,5 +48,24 @@ public class Percolation extends Simulation {
       grid.getCellMap().put(c, new PercolationCell(c, state, edgeType, direction, numberOfRows,
           numberOfColumns));
     }
+  }
+
+  protected void updateData() {
+    int open = 0, percolated = 0, blocked = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.Percolation.OPEN) {
+        open++;
+      }
+      else if (state == States.Percolation.PERCOLATED) {
+        percolated++;
+      }
+      else if (state == States.Percolation.BLOCKED) {
+        blocked++;
+      }
+    }
+    data.put(States.Percolation.OPEN, open);
+    data.put(States.Percolation.PERCOLATED, percolated);
+    data.put(States.Percolation.BLOCKED, blocked);
   }
 }

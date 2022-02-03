@@ -1,5 +1,6 @@
 package Model.GameOfLife;
 
+import Model.Cell;
 import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
@@ -36,5 +37,20 @@ public class GameOfLife extends Simulation {
       grid.getCellMap().put(c, new GameOfLifeCell(c, state, edgeType, direction, numberOfRows,
           numberOfColumns));
     }
+  }
+
+  protected void updateData() {
+    int dead = 0, alive = 0;
+    for (Cell cell : grid.getCellMap().values()) {
+      Enum state = cell.getCurrentState();
+      if (state == States.GameOfLife.DEAD) {
+        dead++;
+      }
+      else if (state == States.GameOfLife.ALIVE) {
+        alive++;
+      }
+    }
+    data.put(States.GameOfLife.DEAD, dead);
+    data.put(States.GameOfLife.ALIVE, alive);
   }
 }

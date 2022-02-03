@@ -3,6 +3,7 @@ package Model;
 
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,6 +21,7 @@ public abstract class Simulation {
   protected Map<Coordinate, Integer> setup;
   protected EdgeType edgeType;
   protected Direction direction;
+  protected Map<Enum, Integer> data;
 
   public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction) {
@@ -28,6 +30,7 @@ public abstract class Simulation {
     this.setup = setup;
     this.edgeType = edgeType;
     this.direction = direction;
+    this.data = new HashMap<>();
     createGrid();
     initializeGridCells();
   }
@@ -53,7 +56,12 @@ public abstract class Simulation {
   public void update() {
     determineNewCellStates();
     updateCellStates();
+    updateData();
   }
+
+  protected abstract void updateData();
+
+  public Map<Enum, Integer> getData() {return data;}
 
   protected void determineNewCellStates() {
     for (Cell cell : grid.getCellMap().values()) {
