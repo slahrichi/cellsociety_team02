@@ -36,7 +36,7 @@
 
 ### New Abstractions
 
-#### Abstraction #1
+#### Abstraction #1 : General Parser
 * Open/Close
   * Instead of having an XML parser, we can have a Parser superclass. This would allow support for any type
     of files in the future, should we want to use .json or any other type.
@@ -46,12 +46,18 @@
     * As the specific type of parser would inherit the same methods as the superclass, the other classes would be able to interact with it without knowing  
     * the specific file type.
 
-#### Abstraction #2
+#### Abstraction #2 : General Graph
 * Open/Close
 
-* Liskov Substution
+  Since the graphs for different models will have different number of cell types etc., it might be 
+smarter to create a superclass which has all the abstractions for general methods they would need.
+And then add subclass with specific methods for specific simulations, given the number of celltypes,
+what data needs to be visualized etc.
 
+* Liskov Substitution
 
+Since all the graphs will need to have shared properties like the graph view background, graph size,
+etc. All specific graph objects would inherit these features, and be able to interact with it without knowing.
 
 ## Issues in Current Code
 
