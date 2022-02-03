@@ -61,10 +61,10 @@ etc. All specific graph objects would inherit these features, and be able to int
 
 ## Issues in Current Code
 
-### Method or Class
-* Design issues
+### Method or Class: XMLParser.createSimulation 
+* The method createSimulation does too many things, which is why it is too long. I did that to avoid DRY code, but it resulted in a method
+* that does too many things. It can be split into two or three shorter methods.
 
-* Design issue
 
 ### Method or Class
 * Design issues
