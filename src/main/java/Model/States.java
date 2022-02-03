@@ -62,4 +62,10 @@ public class States {
     }
   }
 
+  public enum RockPaperScissors {
+    ROCK,
+    PAPER,
+    SCISSORS;
+  }
+
 }
