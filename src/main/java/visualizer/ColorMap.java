@@ -1,4 +1,4 @@
-package Visualizer;
+package visualizer;
 
 import java.util.HashMap;
 import java.util.Map;

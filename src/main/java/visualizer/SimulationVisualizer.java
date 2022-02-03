@@ -1,4 +1,4 @@
-package Visualizer;
+package visualizer;
 
 import Model.Grid;
 import Model.Simulation;
@@ -13,7 +13,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -44,7 +43,6 @@ public class SimulationVisualizer {
   private final int FRAMES_PER_SECOND = 3;
   private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   public static final String DEFAULT_RESOURCE_PACKAGE = "/";
-  public static final String DEFAULT_STYLE = "darkMode";
   public static final String DEFAULT_LANGUAGE = "English";
   private final int GRID_WIDTH = 600;
   private final int GRID_HEIGHT = 500;
@@ -190,20 +188,8 @@ public class SimulationVisualizer {
   }
 
   private MenuButton createFileMenu() {
-    loadButton = makeMenuItem("loadCommand", e -> {
-      try {
-        chooseFile();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
-    resetButton = makeMenuItem("resetCommand", e -> {
-      try {
-        resetGrid();
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      }
-    });
+    loadButton = makeMenuItem("loadCommand", e -> changeModel());
+    resetButton = makeMenuItem("resetCommand", e -> resetGrid());
     exportButton = makeMenuItem("exportCommand", e -> {
       try {
         exportGridToFile();
@@ -213,9 +199,9 @@ public class SimulationVisualizer {
         ex.printStackTrace();
       }
     });
-
+    MenuItem newUIButton = makeMenuItem("newWindowCommand", e -> openNewWindow());
     return new MenuButton(myResources.getString("settingsPrompt"), null, loadButton, resetButton,
-        exportButton);
+        exportButton,newUIButton);
   }
 
   private MenuItem makeMenuItem(String itemName, EventHandler<ActionEvent> handler) {
@@ -248,22 +234,34 @@ public class SimulationVisualizer {
     updateGrid();
   }
 
-  private void chooseFile() throws Exception {
+  private String chooseFile(){
     pause();
     File XMLFile = new File("doc/");
     fileChooser.setInitialDirectory(XMLFile);
     File selectedFile = fileChooser.showOpenDialog(myStage);
     String fileName = "";
-
     if (selectedFile != null) {
+
       fileName = selectedFile.getName();
-      myMain.changeGUI(myStage, "doc/" + fileName);
     }
+
+
+    return fileName;
+
 
 
   }
 
-  private void resetGrid() throws Exception {
+  private void changeModel() {
+    String fileName = chooseFile();
+
+    if (!fileName.equals("")){
+      myMain.changeGUI(myStage, "doc/" + fileName);
+  }
+
+  }
+
+  private void resetGrid(){
     pause();
     myMain.resetModel(myStage);
     myStage.show();
@@ -293,7 +291,6 @@ public class SimulationVisualizer {
     Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English"));
     Button kaButton = makeButton("georgianLanguageCommand", e -> setLanguage("Georgian"));
     Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic"));
-    //MenuButton cb = makenew MenuButton(myResources.getString("languagePrompt"),null,enButton,kaButton,arButton);
     HBox result = new HBox();
     result.getChildren().addAll(enButton, kaButton, arButton);
     return result;
@@ -313,7 +310,12 @@ public class SimulationVisualizer {
     createUIControls();
 
   }
-
+  private void openNewWindow(){
+    String fileName = chooseFile();
+    if (!fileName.equals("")){
+      myMain.startAdditionalGUI("doc/" + fileName);
+    }
+  }
   public String getStyle() {
     return myStyle;
   }
