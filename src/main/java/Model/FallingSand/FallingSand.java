@@ -5,7 +5,6 @@ import Model.Coordinate;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
 import Model.Simulation;
-import Model.SpreadingFire.SpreadingFireCell;
 import Model.States;
 import java.util.Map;
 

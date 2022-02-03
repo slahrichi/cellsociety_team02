@@ -12,13 +12,13 @@ import Model.Neighbors.Direction;
  */
 public abstract class Cell {
 
-  protected Coordinate position;
-  protected Enum currentState;
-  protected Enum futureState;
-  protected EdgeType edgeType;
-  protected int numberOfRows;
-  protected int numberOfColumns;
-  protected Direction direction;
+  private Coordinate position;
+  private Enum currentState;
+  private Enum futureState;
+  private EdgeType edgeType;
+  private int numberOfRows;
+  private int numberOfColumns;
+  private Direction direction;
 
   public Cell(Coordinate position, Enum initialState, EdgeType edgeType, Direction direction,
       int numberOfRows, int numberOfColumns) {
@@ -34,9 +34,40 @@ public abstract class Cell {
     return position;
   }
 
+  protected EdgeType getEdgeType() {
+    return edgeType;
+  }
+
+  protected Direction getDirection() {
+    return direction;
+  }
+
+  protected int getNumberOfRows() {
+    return numberOfRows;
+  }
+
+  protected int getNumberOfColumns() {
+    return numberOfColumns;
+  }
+
+  protected void setFutureState(Enum state) {
+    futureState = state;
+  }
+
+  protected Enum getFutureState() {
+    return futureState;
+  }
+
+  protected void setCurrentState(Enum state) {
+    currentState = state;
+  }
+
+
   public void setPosition(Coordinate c) {
     position = c;
   }
+
+
 
   /**
    * Getter method for a cell's current state, particularly helpful for

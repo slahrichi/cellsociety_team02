@@ -23,27 +23,27 @@ public class GameOfLifeCell extends Cell {
   }
 
   protected void updateState() {
-    currentState = futureState;
+    setCurrentState(getFutureState());
   }
 
   protected void determineNextState(Grid grid) {
     int alive = countLivingNeighbors(grid);
     if (alive == 2) {
-      futureState = currentState;
+      setFutureState(getCurrentState());
     } else if (alive < 2 || alive > 3) {
-      futureState = States.GameOfLife.DEAD;
+      setFutureState(States.GameOfLife.DEAD);
     } else {
-      futureState = States.GameOfLife.ALIVE;
+      setFutureState(States.GameOfLife.ALIVE);
     }
   }
 
   private int countLivingNeighbors(Grid grid) {
     int count = 0;
-    int[] rowDelta = Neighbors.getRowDelta(direction);
-    int[] colDelta = Neighbors.getColDelta(direction);
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor)) {
         if (getNeighborState(neighbor, grid) == States.GameOfLife.ALIVE) {
           count++;

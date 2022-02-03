@@ -36,13 +36,13 @@ public class FallingSandCell extends Cell {
   protected void updateState() {
     Coordinate neighbor = null;
     if (canDrop) {
-      neighbor = position.checkNeighbors(BOTTOM_NEIGHBOR_ROW,
+      neighbor = getPosition().checkNeighbors(BOTTOM_NEIGHBOR_ROW,
           BOTTOM_NEIGHBOR_COL, edgeType, numberOfRows, numberOfColumns);
     }
     else if (!emptySpots.isEmpty()) {
       neighbor = emptySpots.remove(random.nextInt(emptySpots.size()));
     }
-    grid.makeSwap(position, neighbor);
+    grid.makeSwap(getPosition(), neighbor);
 
 
   }
@@ -67,7 +67,7 @@ public class FallingSandCell extends Cell {
 
   private void checkEmptyNeighbors(Grid grid) {
     for (int i = 0; i < ROW_NEIGHBORS.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(ROW_NEIGHBORS[i], COL_NEIGHBORS[i], edgeType,
+      Coordinate neighbor = getPosition().checkNeighbors(ROW_NEIGHBORS[i], COL_NEIGHBORS[i], edgeType,
           numberOfRows, numberOfColumns);
       if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
       States.FallingSand.EMPTY) {
@@ -77,7 +77,7 @@ public class FallingSandCell extends Cell {
   }
 
   private void checkCanDrop(Grid grid) {
-    Coordinate neighbor = position.checkNeighbors(BOTTOM_NEIGHBOR_ROW,
+    Coordinate neighbor = getPosition().checkNeighbors(BOTTOM_NEIGHBOR_ROW,
         BOTTOM_NEIGHBOR_COL, edgeType, numberOfRows, numberOfColumns);
     if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
         States.FallingSand.EMPTY) {
