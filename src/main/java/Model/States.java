@@ -66,6 +66,18 @@ public class States {
     ROCK,
     PAPER,
     SCISSORS;
+
+    public static Enum getWinningNeighbor(Enum currentState) {
+      if (currentState == SCISSORS) {
+        return ROCK;
+      }
+      else if (currentState == PAPER) {
+        return SCISSORS;
+      }
+      else {
+        return PAPER;
+        }
+    }
   }
 
 }
