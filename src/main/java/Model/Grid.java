@@ -43,5 +43,14 @@ public abstract class Grid {
         position.getColumn() >= 0 && position.getColumn() < numberOfColumns;
   }
 
-
+  public void makeSwap(Coordinate c, Coordinate newHome) {
+    if (newHome != null) {
+      Cell current = cellMap.get(c);
+      Cell swap = cellMap.get(newHome);
+      current.setPosition(newHome);
+      swap.setPosition(c);
+      cellMap.put(newHome, current);
+      cellMap.put(c, swap);
+    }
+  }
 }

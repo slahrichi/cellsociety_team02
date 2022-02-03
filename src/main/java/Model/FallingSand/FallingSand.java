@@ -29,7 +29,7 @@ public class FallingSand extends Simulation {
 
       }
       grid.getCellMap().put(c, new FallingSandCell(c, state, edgeType, direction, numberOfRows,
-          numberOfColumns));
+          numberOfColumns, grid));
     }
   }
 
