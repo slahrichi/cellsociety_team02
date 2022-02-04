@@ -13,8 +13,8 @@ import javafx.scene.shape.Rectangle;
  */
 public class RectangleGridVisualizer extends GridVisualizer {
 
-  private int cellWidth;
-  private int cellHeight;
+  private double cellWidth;
+  private double cellHeight;
   private int gapBetweenCells = 0;
 
   /**
@@ -34,19 +34,13 @@ public class RectangleGridVisualizer extends GridVisualizer {
 
   @Override
   protected void calculateCellSize() {
-    cellHeight = (getHeight() - (getNumRows() + 1) * gapBetweenCells) / getNumRows();
-    cellWidth = (getWidth() - (getNumColumns() + 1) * gapBetweenCells) / getNumColumns();
+    cellHeight = (getHeight() - (getNumRows() + 1) * gapBetweenCells) / Double.valueOf(getNumRows());
+    cellWidth = (getWidth() - (getNumColumns() + 1) * gapBetweenCells) / Double.valueOf(getNumColumns());
   }
 
   @Override
   public Group makeRoot() {
     Group gridRoot = new Group();
-    Rectangle grid = new Rectangle();
-    grid.setWidth(getWidth());
-    grid.setHeight(getHeight());
-    grid.setFill(Color.NAVY);
-    grid.setStroke(Color.BLACK);
-    gridRoot.getChildren().add(grid);
     gridRoot.getChildren().add(arrangeCells());
     return gridRoot;
   }
@@ -54,8 +48,8 @@ public class RectangleGridVisualizer extends GridVisualizer {
   @Override
   protected Group arrangeCells() {
     Group cellGroup = new Group();
-    int xPos = gapBetweenCells;
-    int yPos = gapBetweenCells;
+    double xPos = gapBetweenCells;
+    double yPos = gapBetweenCells;
     for (int i = 0; i < getNumRows(); i++) {
       xPos = gapBetweenCells;
       for (int j = 0; j < getNumColumns(); j++) {
@@ -70,7 +64,7 @@ public class RectangleGridVisualizer extends GridVisualizer {
   }
 
   @Override
-  protected Rectangle createCell(int xPos, int yPos, Coordinate c) {
+  protected Rectangle createCell(double xPos, double yPos, Coordinate c) {
     Rectangle newCell = new Rectangle(xPos, yPos, cellWidth, cellHeight);
     newCell.setStroke(Color.BLACK);
     newCell.setFill(getColorMap().getStateMatch(getGrid().getCellMap().get(c).toString()));

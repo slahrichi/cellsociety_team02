@@ -77,7 +77,7 @@ public abstract class GridVisualizer {
    *             2D array of cells.
    * @return the cell Shape object.
    */
-  protected abstract Shape createCell(int xPos, int yPos, Coordinate c);
+  protected abstract Shape createCell(double xPos, double yPos, Coordinate c);
 
   /**
    * Convenient getter for use in subclasses, avoids having protected instance variables.
