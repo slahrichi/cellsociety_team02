@@ -37,7 +37,7 @@ public class FallingSandCell extends Cell {
     Coordinate neighbor = null;
     if (canDrop) {
       neighbor = getPosition().checkNeighbors(BOTTOM_NEIGHBOR_ROW,
-          BOTTOM_NEIGHBOR_COL, edgeType, numberOfRows, numberOfColumns);
+          BOTTOM_NEIGHBOR_COL, getEdgeType(), getNumberOfRows(), getNumberOfColumns());
     }
     else if (!emptySpots.isEmpty()) {
       neighbor = emptySpots.remove(random.nextInt(emptySpots.size()));
@@ -49,13 +49,14 @@ public class FallingSandCell extends Cell {
 
   protected void determineNextState(Grid grid) {
     resetStates();
-    if (currentState == States.FallingSand.EMPTY || currentState == States.FallingSand.METAL) {
+    Enum state = getCurrentState();
+    if (state == States.FallingSand.EMPTY || state == States.FallingSand.METAL) {
       return;
     }
-    else if (currentState == States.FallingSand.SAND) {
+    else if (state == States.FallingSand.SAND) {
       checkCanDrop(grid);
     }
-    else if (currentState == States.FallingSand.WATER) {
+    else if (state == States.FallingSand.WATER) {
       checkEmptyNeighbors(grid);
     }
   }
@@ -67,8 +68,8 @@ public class FallingSandCell extends Cell {
 
   private void checkEmptyNeighbors(Grid grid) {
     for (int i = 0; i < ROW_NEIGHBORS.length; i++) {
-      Coordinate neighbor = getPosition().checkNeighbors(ROW_NEIGHBORS[i], COL_NEIGHBORS[i], edgeType,
-          numberOfRows, numberOfColumns);
+      Coordinate neighbor = getPosition().checkNeighbors(ROW_NEIGHBORS[i], COL_NEIGHBORS[i],
+          getEdgeType(), getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
       States.FallingSand.EMPTY) {
         emptySpots.add(neighbor);
@@ -78,7 +79,7 @@ public class FallingSandCell extends Cell {
 
   private void checkCanDrop(Grid grid) {
     Coordinate neighbor = getPosition().checkNeighbors(BOTTOM_NEIGHBOR_ROW,
-        BOTTOM_NEIGHBOR_COL, edgeType, numberOfRows, numberOfColumns);
+        BOTTOM_NEIGHBOR_COL, getEdgeType(), getNumberOfRows(), getNumberOfColumns());
     if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
         States.FallingSand.EMPTY) {
       canDrop = true;

@@ -13,11 +13,11 @@ import java.util.Map;
  */
 public abstract class Grid {
 
-  protected Map<Coordinate, Cell> cellMap;
-  protected int numberOfColumns;
-  protected int numberOfRows;
+  private Map<Coordinate, Cell> cellMap;
+  private int numberOfColumns;
+  private int numberOfRows;
 
-  protected Grid(int numberOfRows, int numberOfColumns) {
+  public Grid(int numberOfRows, int numberOfColumns) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     cellMap = new HashMap<>();
