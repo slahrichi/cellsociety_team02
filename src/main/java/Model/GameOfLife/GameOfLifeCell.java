@@ -17,6 +17,9 @@ import Model.States;
  */
 public class GameOfLifeCell extends Cell {
 
+  private static final int STABLE = 2;
+  private static final int BIRTH = 3;
+
   public GameOfLifeCell(Coordinate position, Enum initialState, EdgeType edgeType,
       Direction direction, int numberOfRows, int numberOfColumns) {
     super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
@@ -28,11 +31,11 @@ public class GameOfLifeCell extends Cell {
 
   protected void determineNextState(Grid grid) {
     int alive = countLivingNeighbors(grid);
-    if (alive == 2) {
+    if (alive == STABLE) {
       setFutureState(getCurrentState());
-    } else if (alive < 2 || alive > 3) {
+    } else if (alive < STABLE || alive > BIRTH) {
       setFutureState(States.GameOfLife.DEAD);
-    } else {
+    } else if (alive == BIRTH){
       setFutureState(States.GameOfLife.ALIVE);
     }
   }
@@ -44,12 +47,10 @@ public class GameOfLifeCell extends Cell {
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
           getNumberOfRows(), getNumberOfColumns());
-      if (grid.isInBounds(neighbor)) {
-        if (getNeighborState(neighbor, grid) == States.GameOfLife.ALIVE) {
+      if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) == States.GameOfLife.ALIVE) {
           count++;
         }
       }
-    }
     return count;
   }
 }

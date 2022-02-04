@@ -50,12 +50,11 @@ public class PercolationCell extends Cell {
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
           getNumberOfRows(), getNumberOfColumns());
-      if (grid.isInBounds(neighbor)) {
-        if (getNeighborState(neighbor, grid) == States.Percolation.PERCOLATED) {
+      if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
+          States.Percolation.PERCOLATED) {
           return true;
         }
       }
-    }
     return false;
   }
 }
