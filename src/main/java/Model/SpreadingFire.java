@@ -26,7 +26,7 @@ public class SpreadingFire extends Simulation {
   }
 
   protected void createGrid() {
-    grid = new SpreadingFireGrid(numberOfColumns, numberOfRows);
+    grid = new SpreadingFireGrid(numberOfRows, numberOfColumns);
   }
 
   protected void initializeGridCells() {
