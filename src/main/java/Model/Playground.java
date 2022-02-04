@@ -3,12 +3,11 @@ package Model;
 import Model.GameOfLife.GameOfLife;
 import Model.Percolation.Percolation;
 import Model.Segregation.Segregation;
-import Model.SpreadingFire.SpreadingFire;
 import Model.WaTor.WaTor;
 import java.util.HashMap;
 
 public class Playground {
-
+/*
   public HashMap<Coordinate, Integer> setupPercolation(int rows, int cols) {
     HashMap<Coordinate, Integer> map = new HashMap<>();
       for(int i = 0; i < rows; i++) {
@@ -132,7 +131,7 @@ public class Playground {
     //p.testSegregation(p);
   }
 
-
+ */
 
 
 }
