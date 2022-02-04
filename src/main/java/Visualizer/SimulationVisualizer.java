@@ -48,8 +48,10 @@ public class SimulationVisualizer {
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
 
-
-
+  private boolean animationEnabled = false;
+  private Button playButton;
+  private Button pauseButton;
+  private Button stepButton;
   private MenuItem loadButton;
   private MenuItem resetButton;
   private MenuItem exportButton;
@@ -66,7 +68,6 @@ public class SimulationVisualizer {
   private int numRows;
   private Main myMain;
   private ResourceBundle myResources;
-  private animationController ac;
 
 
   /**
@@ -105,9 +106,8 @@ public class SimulationVisualizer {
 
     gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
     root = new BorderPane();
-    animation = new Timeline();
-    ac= new animationController(myResources,animation,this);
-    root.setBottom(ac.getAnimationController());
+
+    root.setBottom(createAllAnimationControls());
     root.setTop(createVerticalMenuControls());
 
     gridGroup = gv.makeRoot();
@@ -115,11 +115,11 @@ public class SimulationVisualizer {
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
 
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-      if (ac.getAnimationStatus()) {
-        ac.step();
+      if (animationEnabled) {
+        step();
       }
     });
-
+    animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
@@ -132,8 +132,34 @@ public class SimulationVisualizer {
   }
 
 
+  private HBox createAllAnimationControls() {
+    playButton = makeButton("playCommand", e -> play());
+    pauseButton = makeButton("pauseCommand", e -> pause());
+    stepButton = makeButton("stepCommand", e -> step());
 
+    Slider slider = setUpSlider();
+    Text text = new Text();
+    text.setFont(new Font(14));
+    text.setText(myResources.getString("animationSpeedPrompt"));
 
+    HBox result = new HBox();
+    result.getChildren().addAll(pauseButton, playButton, stepButton, text, slider);
+    result.setAlignment(Pos.CENTER);
+    return result;
+  }
+
+  private Slider setUpSlider() {
+    Slider slider = new Slider();
+    slider.setMin(0.1);
+    slider.setMax(2);
+    slider.setValue(1);
+    slider.setShowTickLabels(true);
+    slider.setShowTickMarks(true);
+    slider.setMajorTickUnit(0.1);
+    slider.valueProperty()
+        .addListener((observable, oldValue, newValue) -> setAnimationSpeed(newValue));
+    return slider;
+  }
 
   private MenuButton createVerticalMenuControls() {
     loadButton = makeMenuItem("loadCommand", e -> {
@@ -173,12 +199,29 @@ public class SimulationVisualizer {
     return item;
   }
 
+  private Button makeButton(String buttonName, EventHandler<ActionEvent> handler) {
+    Button button = new Button();
+    button.setText(myResources.getString(buttonName));
+    button.setOnAction(handler);
 
+    return button;
+  }
 
+  private void play() {
+    animationEnabled = true;
+    animation.play();
+  }
 
+  private void pause() {
+    animation.pause();
+  }
+
+  private void step() {
+    updateGrid();
+  }
 
   private void chooseFile() throws Exception {
-    ac.pause();
+    pause();
     File XMLFile = new File("doc/");
     fileChooser.setInitialDirectory(XMLFile);
     File selectedFile = fileChooser.showOpenDialog(myStage);
@@ -192,19 +235,21 @@ public class SimulationVisualizer {
   }
 
   private void resetGrid() throws Exception {
-    ac.pause();
+    pause();
     myMain.resetModel(myStage);
     myStage.show();
   }
 
-
+  private void setAnimationSpeed(Number factor) {
+    animation.setRate(factor.doubleValue());
+  }
 
   private void exportGridToFile() throws ParserConfigurationException, TransformerException {
-    ac.pause();
+    pause();
     myMain.export();
   }
 
-  public void updateGrid() {
+  private void updateGrid() {
     mySimulation.update();
     myGrid = mySimulation.getGrid();
 
