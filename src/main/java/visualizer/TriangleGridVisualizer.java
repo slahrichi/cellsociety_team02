@@ -51,7 +51,8 @@ public class TriangleGridVisualizer extends GridVisualizer {
       xPos =0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        Text text = new Text(xPos+cellWidth/4, yPos+cellHeight/2, "("+c.getRow()+","+c.getColumn()+")");
+        String cellState =getGrid().getCellMap().get(c).toString();
+        Text text = new Text(xPos+cellWidth/3, yPos+cellHeight/1.5, cellState);
 
         cellGroup.getChildren().add(createCell(xPos, yPos, c));
         cellGroup.getChildren().add(text);
@@ -67,14 +68,14 @@ public class TriangleGridVisualizer extends GridVisualizer {
   protected Polygon createCell(double xPos, double yPos, Coordinate c) {
     Polygon newCell ;
     if((c.getRow()+c.getColumn())%2==1) {newCell = new Polygon(xPos, yPos, xPos + cellWidth, yPos, xPos + cellWidth / 2,
-        yPos + cellHeight);
+        yPos + cellHeight );
     }
-    else {newCell=new Polygon( xPos + cellWidth / 2, yPos,
+    else {newCell=new Polygon(xPos + cellWidth / 2, yPos,
         xPos + cellWidth, yPos+cellHeight,
         xPos,yPos+cellHeight);
 
     }
-    newCell.setStroke(Color.BLACK);
+    //newCell.setStroke(Color.BLACK);
     newCell.setFill(getColorMap().getStateMatch(getGrid().getCellMap().get(c).toString()));
     return newCell;
   }
