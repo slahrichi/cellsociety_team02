@@ -33,20 +33,20 @@ public class Percolation extends Simulation {
 
 
   protected void createGrid() {
-    grid = new PercolationGrid(numberOfRows, numberOfColumns);
+    grid = new PercolationGrid(getNumberOfRows(), getNumberOfColumns());
   }
 
 
   protected void initializeGridCells() {
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> state = States.Percolation.OPEN;
         case 1 -> state = States.Percolation.PERCOLATED;
         case 2 -> state = States.Percolation.BLOCKED;
       }
-      grid.getCellMap().put(c, new PercolationCell(c, state, edgeType, direction, numberOfRows,
-          numberOfColumns));
+      grid.getCellMap().put(c, new PercolationCell(c, state, getEdgeType(), getDirection(),
+          getNumberOfRows(), getNumberOfColumns()));
     }
   }
 
@@ -64,8 +64,8 @@ public class Percolation extends Simulation {
         blocked++;
       }
     }
-    data.put(States.Percolation.OPEN, open);
-    data.put(States.Percolation.PERCOLATED, percolated);
-    data.put(States.Percolation.BLOCKED, blocked);
+    getData().put(States.Percolation.OPEN, open);
+    getData().put(States.Percolation.PERCOLATED, percolated);
+    getData().put(States.Percolation.BLOCKED, blocked);
   }
 }

@@ -21,20 +21,21 @@ public class RockPaperScissors extends Simulation {
 
   }
 
-  protected void createGrid() {grid = new RockPaperScissorsGrid(numberOfRows, numberOfColumns);}
-
+  protected void createGrid() {
+    grid = new RockPaperScissorsGrid(getNumberOfRows(), getNumberOfColumns());
+  }
 
 
   protected void initializeGridCells() {
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> state = States.RockPaperScissors.ROCK;
         case 1 -> state = States.RockPaperScissors.PAPER;
         case 2 -> state = States.RockPaperScissors.SCISSORS;
       }
-      grid.getCellMap().put(c, new RockPaperScissorsCell(c, state, edgeType, direction,
-          numberOfRows, numberOfColumns, threshold));
+      grid.getCellMap().put(c, new RockPaperScissorsCell(c, state, getEdgeType(), getDirection(),
+          getNumberOfRows(), getNumberOfColumns(), threshold));
     }
   }
 
@@ -53,9 +54,9 @@ public class RockPaperScissors extends Simulation {
         scissors++;
       }
     }
-    data.put(States.RockPaperScissors.ROCK, rock);
-    data.put(States.RockPaperScissors.PAPER, paper);
-    data.put(States.RockPaperScissors.SCISSORS, scissors);
+    getData().put(States.RockPaperScissors.ROCK, rock);
+    getData().put(States.RockPaperScissors.PAPER, paper);
+    getData().put(States.RockPaperScissors.SCISSORS, scissors);
   }
 }
 

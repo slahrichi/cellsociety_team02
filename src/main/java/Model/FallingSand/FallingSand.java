@@ -16,20 +16,20 @@ public class FallingSand extends Simulation {
   }
 
 
-  protected void createGrid() {grid = new FallingSandGrid(numberOfRows, numberOfColumns);}
+  protected void createGrid() {grid = new FallingSandGrid(getNumberOfRows(), getNumberOfColumns());}
 
   protected void initializeGridCells() {
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> state = States.FallingSand.EMPTY;
         case 1 -> state = States.FallingSand.METAL;
         case 2 -> state = States.FallingSand.SAND;
         case 3 -> state = States.FallingSand.WATER;
 
       }
-      grid.getCellMap().put(c, new FallingSandCell(c, state, edgeType, direction, numberOfRows,
-          numberOfColumns, grid));
+      grid.getCellMap().put(c, new FallingSandCell(c, state, getEdgeType(), getDirection(),
+          getNumberOfRows(), getNumberOfColumns(), grid));
     }
   }
 
@@ -50,9 +50,9 @@ public class FallingSand extends Simulation {
         water++;
       }
     }
-    data.put(States.FallingSand.EMPTY, empty);
-    data.put(States.FallingSand.METAL, metal);
-    data.put(States.FallingSand.SAND, sand);
-    data.put(States.FallingSand.WATER, water);
+    getData().put(States.FallingSand.EMPTY, empty);
+    getData().put(States.FallingSand.METAL, metal);
+    getData().put(States.FallingSand.SAND, sand);
+    getData().put(States.FallingSand.WATER, water);
   }
 }

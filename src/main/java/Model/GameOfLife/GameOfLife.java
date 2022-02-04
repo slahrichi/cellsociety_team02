@@ -23,19 +23,19 @@ public class GameOfLife extends Simulation {
 
 
   protected void createGrid() {
-    grid = new GameOfLifeGrid(numberOfRows, numberOfColumns);
+    grid = new GameOfLifeGrid(getNumberOfRows(), getNumberOfColumns());
   }
 
 
   protected void initializeGridCells() {
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> state = States.GameOfLife.DEAD;
         case 1 -> state = States.GameOfLife.ALIVE;
       }
-      grid.getCellMap().put(c, new GameOfLifeCell(c, state, edgeType, direction, numberOfRows,
-          numberOfColumns));
+      grid.getCellMap().put(c, new GameOfLifeCell(c, state, getEdgeType(), getDirection(),
+          getNumberOfRows(), getNumberOfColumns()));
     }
   }
 
@@ -50,7 +50,7 @@ public class GameOfLife extends Simulation {
         alive++;
       }
     }
-    data.put(States.GameOfLife.DEAD, dead);
-    data.put(States.GameOfLife.ALIVE, alive);
+    getData().put(States.GameOfLife.DEAD, dead);
+    getData().put(States.GameOfLife.ALIVE, alive);
   }
 }

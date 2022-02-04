@@ -33,17 +33,14 @@ public class Segregation extends Simulation {
 
 
   protected void createGrid() {
-    grid = new SegregationGrid(numberOfRows, numberOfColumns);
+    grid = new SegregationGrid(getNumberOfRows(), getNumberOfColumns());
   }
 
 
   protected void initializeGridCells() {
-    if (setup == null) {
-      return;
-    }
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> {
           state = States.Segregation.EMPTY;
           ((SegregationGrid) grid).setEmptySpots(c);
@@ -51,8 +48,8 @@ public class Segregation extends Simulation {
         case 1 -> state = States.Segregation.REP;
         case 2 -> state = States.Segregation.DEM;
       }
-      grid.getCellMap().put(c, new SegregationCell(c, state, grid, edgeType, direction, threshold,
-          numberOfRows, numberOfColumns));
+      grid.getCellMap().put(c, new SegregationCell(c, state, grid, getEdgeType(), getDirection(),
+          threshold, getNumberOfRows(), getNumberOfColumns()));
     }
 
   }
@@ -71,8 +68,8 @@ public class Segregation extends Simulation {
         dems++;
       }
     }
-    data.put(States.Segregation.EMPTY, empty);
-    data.put(States.Segregation.REP, reps);
-    data.put(States.Segregation.DEM, dems);
+    getData().put(States.Segregation.EMPTY, empty);
+    getData().put(States.Segregation.REP, reps);
+    getData().put(States.Segregation.DEM, dems);
   }
 }

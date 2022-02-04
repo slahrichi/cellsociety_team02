@@ -37,20 +37,19 @@ public class WaTor extends Simulation {
   }
 
 
-  protected void createGrid() {grid = new WaTorGrid(numberOfRows, numberOfColumns);}
+  protected void createGrid() {grid = new WaTorGrid(getNumberOfRows(), getNumberOfColumns());}
 
   @Override
   protected void initializeGridCells() {
-    if (setup == null) return;
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> state = States.WaTor.EMPTY;
         case 1 -> state = States.WaTor.FISH;
         case 2 -> state = States.WaTor.SHARK;
       }
-      grid.getCellMap().put(c, new WaTorCell(c, state, grid, edgeType, direction, fishChronon,
-          sharkChronon, numberOfRows, numberOfColumns));
+      grid.getCellMap().put(c, new WaTorCell(c, state, grid, getEdgeType(), getDirection(),
+          fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns()));
     }
   }
 
@@ -68,8 +67,8 @@ public class WaTor extends Simulation {
         sharks++;
       }
     }
-    data.put(States.WaTor.EMPTY, empty);
-    data.put(States.WaTor.FISH, fish);
-    data.put(States.WaTor.SHARK, sharks);
+    getData().put(States.WaTor.EMPTY, empty);
+    getData().put(States.WaTor.FISH, fish);
+    getData().put(States.WaTor.SHARK, sharks);
   }
 }

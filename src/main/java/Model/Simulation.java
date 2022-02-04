@@ -16,12 +16,12 @@ import java.util.Map;
 public abstract class Simulation {
 
   protected Grid grid;
-  protected int numberOfColumns;
-  protected int numberOfRows;
-  protected Map<Coordinate, Integer> setup;
-  protected EdgeType edgeType;
-  protected Direction direction;
-  protected Map<Enum, Integer> data;
+  private int numberOfColumns;
+  private int numberOfRows;
+  private Map<Coordinate, Integer> setup;
+  private EdgeType edgeType;
+  private Direction direction;
+  private Map<Enum, Integer> data;
 
   public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction) {
@@ -48,6 +48,25 @@ public abstract class Simulation {
 
   protected abstract void initializeGridCells();
 
+  protected Map<Coordinate, Integer> getSetup() {
+    return setup;
+  }
+
+  protected int getNumberOfRows() {
+    return numberOfRows;
+  }
+
+  protected int getNumberOfColumns() {
+    return numberOfColumns;
+  }
+
+  protected Direction getDirection() {
+    return direction;
+  }
+
+  protected EdgeType getEdgeType() {
+    return edgeType;
+  }
   /**
    * method for updating the states of the cells in the model given the model's rules. Made public
    * so that the view portion of the program can utilize the method to properly update the graphics

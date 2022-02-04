@@ -32,19 +32,19 @@ public class SpreadingFire extends Simulation {
   }
 
   protected void createGrid() {
-    grid = new SpreadingFireGrid(numberOfRows, numberOfColumns);
+    grid = new SpreadingFireGrid(getNumberOfRows(), getNumberOfColumns());
   }
 
   protected void initializeGridCells() {
-    for (Coordinate c : setup.keySet()) {
+    for (Coordinate c : getSetup().keySet()) {
       Enum state = null;
-      switch (setup.get(c)) {
+      switch (getSetup().get(c)) {
         case 0 -> state = States.SpreadingFire.TREE;
         case 1 -> state = States.SpreadingFire.BURNING;
         case 2 -> state = States.SpreadingFire.EMPTY;
       }
-      grid.getCellMap().put(c, new SpreadingFireCell(c, state, edgeType, direction, probCatch,
-          numberOfRows, numberOfColumns));
+      grid.getCellMap().put(c, new SpreadingFireCell(c, state, getEdgeType(), getDirection(),
+          probCatch, getNumberOfRows(), getNumberOfColumns()));
     }
   }
 
@@ -63,8 +63,8 @@ public class SpreadingFire extends Simulation {
         empty++;
       }
     }
-    data.put(States.SpreadingFire.TREE, trees);
-    data.put(States.SpreadingFire.BURNING, burning);
-    data.put(States.SpreadingFire.EMPTY, empty);
+    getData().put(States.SpreadingFire.TREE, trees);
+    getData().put(States.SpreadingFire.BURNING, burning);
+    getData().put(States.SpreadingFire.EMPTY, empty);
   }
 }
