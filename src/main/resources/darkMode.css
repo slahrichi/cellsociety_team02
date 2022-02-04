@@ -1,0 +1,53 @@
+.root {
+  -fx-font-size: 11pt;
+
+  -fx-base: gray;
+  -fx-background: #696969;
+}
+
+#animationSpeedPrompt {
+  -fx-font-size: 11pt;
+  -fx-fill: #006944;
+  -fx-stroke: black;
+  -fx-stroke-width: 0.01;
+
+}
+
+
+.button {
+  -fx-text-fill: #006944;
+  -fx-background-color: #121212;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+
+.button:hover {
+  -fx-text-fill: #00A864;
+  -fx-background-color: #3a3a3a;
+}
+
+
+.menu-button {
+  -fx-text-base-color: #006464;
+  -fx-background-color: #121212;
+}
+
+.menu-button :focused, .menu-button :hover, menu-button :disabled {
+  -fx-text-base-color: #00A864;
+  -fx-background-color: #3a3a3a;
+}
+
+.slider .axis {
+  -fx-tick-label-fill: #12af41;
+}
+
+.slider {
+  -fx-control-inner-background: #00A864;
+}
+
+.slider .thumb {
+  -fx-background-color: #006944;
+  -fx-stroke: black;
+}
+

@@ -1,4 +1,4 @@
-package Visualizer;
+package visualizer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class ColorMap {
 
 
   public ColorMap() {
-    COLOR_MAP.put("EMPTY", Color.MINTCREAM);
+    COLOR_MAP.put("EMPTY", Color.LIGHTGRAY);
 
     COLOR_MAP.put("TREE", Color.GREEN);
     COLOR_MAP.put("BURNING", Color.CRIMSON);

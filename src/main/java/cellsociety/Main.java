@@ -2,9 +2,9 @@ package cellsociety;
 
 import Controller.XMLParser;
 import Model.Simulation;
-import Visualizer.SimulationVisualizer;
+import visualizer.SimulationVisualizer;
+import visualizer.ResetableStage;
 import java.util.HashMap;
-import java.util.Map;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,37 +23,45 @@ public class Main extends Application {
 
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
-  public static String language = "English";
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
+  public static String style = "lightMode";
   private SimulationVisualizer visualizer;
-  private Map<String, String> data;
+  private HashMap<String, String> data;
   private int numCols;
   private int numRows;
   private Simulation currentSimulation;
-  private String currentFilePath;
   private XMLParser parser;
 
   @Override
-  public void start(Stage stage) throws Exception {
-
+  public void start(Stage stage){
+  try {
     parser = new XMLParser();
-    currentFilePath = DEFAULT_FILE_PATH;
     extractDataStartSimulation(DEFAULT_FILE_PATH);
-
+    stage = new ResetableStage(DEFAULT_FILE_PATH);
     startGUI(stage);
 
   }
+  catch(Exception e){
+      System.out.println("placeholder");//FIXME
+    }
+  }
 
-  private void extractDataStartSimulation(String filePath) throws Exception {
-    data = parser.parseXML(filePath);
+  private void extractDataStartSimulation(String filePath){
+    try{
+    data = parser.parseXML(filePath);}
+    catch (Exception e){}
     currentSimulation = parser.createSimulation(data);
     getNumberOfColumnAndRow();
   }
+  public void startAdditionalGUI(String filePath){
+    ResetableStage newStage = new ResetableStage(filePath);
+    extractDataStartSimulation(filePath);
+    startGUI(newStage);
 
+  }
   private void startGUI(Stage stage) {
-
-    visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL,
-        SIZE_VERTICAL, numRows, numCols, this, language);
+    visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL, SIZE_VERTICAL,
+        numRows, numCols, this, style);
     visualizer.setUpScene();
   }
 
@@ -65,9 +73,11 @@ public class Main extends Application {
    * @throws Exception if the selected file is not .xml; needed for the parseXML method called in
    *                   the <code> extractDataStartSimulation() </code>
    */
-  public void changeGUI(Stage stage, String filepath) throws Exception {
-    currentFilePath = filepath;
-    extractDataStartSimulation(currentFilePath);
+  public void changeGUI(Stage stage, String filepath){
+    stage.close();
+    ((ResetableStage) stage).setCurrentFile(filepath);
+    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
+    style = visualizer.getStyle();
     startGUI(stage);
 
   }
@@ -79,8 +89,10 @@ public class Main extends Application {
    * @throws Exception if the selected file is not .xml; needed for the parseXML method * called in
    *                   the <code> extractDataStartSimulation() </code>
    */
-  public void resetModel(Stage stage) throws Exception {
-    extractDataStartSimulation(currentFilePath);
+  public void resetModel(Stage stage)  {
+    stage.close();
+    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
+    style = visualizer.getStyle();
     startGUI(stage);
 
   }
@@ -95,8 +107,8 @@ public class Main extends Application {
   }
 
   private void getNumberOfColumnAndRow() {
-    numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", "10"));
-    numRows = Integer.parseInt(data.getOrDefault("numberOfRows", "10"));
+    numCols = Integer.parseInt(data.get("numberOfColumns"));
+    numRows = Integer.parseInt(data.get("numberOfRows"));
   }
 }
 
