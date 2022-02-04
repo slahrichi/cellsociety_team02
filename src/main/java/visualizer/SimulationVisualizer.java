@@ -87,7 +87,7 @@ public class SimulationVisualizer {
    * @param style   the selected color scheme by the user.
    */
   public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height, int rows,
-      int columns, Main main, String style) {
+      int columns, Main main) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -97,7 +97,7 @@ public class SimulationVisualizer {
     numRows = rows;
     myMain = main;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
-    myStyle = style;
+    myStyle = ((ResetableStage) stage).getCurrentStyle();
   }
 
   /**
@@ -153,7 +153,7 @@ public class SimulationVisualizer {
     scene.getStylesheets().clear();
     scene.getStylesheets().add(
         getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
-    myStyle = styleMode;
+    ((ResetableStage) myStage).setCurrentStyle(styleMode);
   }
 
 
