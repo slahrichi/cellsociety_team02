@@ -3,7 +3,7 @@ package cellsociety;
 import Controller.XMLParser;
 import Model.Simulation;
 import visualizer.SimulationVisualizer;
-import visualizer.ResetableStage;
+import visualizer.ResettableStage;
 import java.util.HashMap;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -19,7 +19,6 @@ import javax.xml.transform.TransformerException;
  */
 public class Main extends Application {
 
-  // useful names for constant values used
 
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
@@ -36,9 +35,7 @@ public class Main extends Application {
   public void start(Stage stage){
   try {
     parser = new XMLParser();
-    extractDataStartSimulation(DEFAULT_FILE_PATH);
-    stage = new ResetableStage(DEFAULT_FILE_PATH,DEFAULT_STYLE);
-    startGUI(stage);
+    startAdditionalGUI(DEFAULT_FILE_PATH);
 
   }
   catch(Exception e){
@@ -54,12 +51,12 @@ public class Main extends Application {
     getNumberOfColumnAndRow();
   }
   public void startAdditionalGUI(String filePath){
-    ResetableStage newStage = new ResetableStage(filePath,DEFAULT_STYLE);
+    ResettableStage newStage = new ResettableStage(filePath,DEFAULT_STYLE);
     extractDataStartSimulation(filePath);
     startGUI(newStage);
 
   }
-  private void startGUI(Stage stage) {
+  private void startGUI(ResettableStage stage) {
     visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL, SIZE_VERTICAL,
         numRows, numCols, this);
     visualizer.setUpScene();
@@ -71,10 +68,10 @@ public class Main extends Application {
    * @param stage    the main stage of the javaFX GUI
    * @param filepath the filepath for the new file which was selected by the user to load
    */
-  public void changeGUI(Stage stage, String filepath){
+  public void changeGUI(ResettableStage stage, String filepath){
     stage.close();
-    ((ResetableStage) stage).setCurrentFile(filepath);
-    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
+    stage.setCurrentFile(filepath);
+    extractDataStartSimulation(stage.getCurrentFile());
     startGUI(stage);
 
   }
@@ -84,9 +81,9 @@ public class Main extends Application {
    *
    * @param stage the main stage of the javaFX GUI
    */
-  public void resetModel(Stage stage)  {
+  public void resetModel(ResettableStage stage)  {
     stage.close();
-    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
+    extractDataStartSimulation(stage.getCurrentFile());
     startGUI(stage);
 
   }
