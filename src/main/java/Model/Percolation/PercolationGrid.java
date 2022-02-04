@@ -1,4 +1,6 @@
-package Model;
+package Model.Percolation;
+
+import Model.Grid;
 
 /**
  * Extension of the `Grid` superclass for the purpose of modeling Percolation.

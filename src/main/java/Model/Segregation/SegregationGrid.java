@@ -1,5 +1,8 @@
-package Model;
+package Model.Segregation;
 
+import Model.Cell;
+import Model.Coordinate;
+import Model.Grid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,12 +39,4 @@ public class SegregationGrid extends Grid {
     }
   }
 
-  private void makeSwap(Coordinate c, Coordinate newHome) {
-    Cell current = cellMap.get(c);
-    Cell swap = cellMap.get(newHome);
-    current.setPosition(newHome);
-    swap.setPosition(c);
-    cellMap.put(newHome, current);
-    cellMap.put(c, swap);
-  }
 }

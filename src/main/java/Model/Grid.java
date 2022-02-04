@@ -13,11 +13,11 @@ import java.util.Map;
  */
 public abstract class Grid {
 
-  protected Map<Coordinate, Cell> cellMap;
-  protected int numberOfColumns;
-  protected int numberOfRows;
+  private Map<Coordinate, Cell> cellMap;
+  private int numberOfColumns;
+  private int numberOfRows;
 
-  protected Grid(int numberOfRows, int numberOfColumns) {
+  public Grid(int numberOfRows, int numberOfColumns) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     cellMap = new HashMap<>();
@@ -43,5 +43,14 @@ public abstract class Grid {
         position.getColumn() >= 0 && position.getColumn() < numberOfColumns;
   }
 
-
+  public void makeSwap(Coordinate c, Coordinate newHome) {
+    if (newHome != null) {
+      Cell current = cellMap.get(c);
+      Cell swap = cellMap.get(newHome);
+      current.setPosition(newHome);
+      swap.setPosition(c);
+      cellMap.put(newHome, current);
+      cellMap.put(c, swap);
+    }
+  }
 }

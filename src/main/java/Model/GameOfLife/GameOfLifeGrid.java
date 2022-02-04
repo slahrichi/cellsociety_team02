@@ -1,4 +1,6 @@
-package Model;
+package Model.GameOfLife;
+
+import Model.Grid;
 
 /**
  * class that extends the `Grid` superclass for modeling the Game of Life

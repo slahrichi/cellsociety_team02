@@ -1,4 +1,12 @@
-package Model;
+package Model.Segregation;
+
+import Model.Cell;
+import Model.Coordinate;
+import Model.Edge.EdgeType;
+import Model.Grid;
+import Model.Neighbors;
+import Model.Neighbors.Direction;
+import Model.States;
 
 /**
  * Extension of `Cell` superclass that manages the updating of cell states in the grid given the
@@ -18,9 +26,9 @@ public class SegregationCell extends Cell {
    * @param grid         the `Grid` object in which the cell exists
    * @param threshold    satisfaction threshold for constituents given their neighbors
    */
-  public SegregationCell(Coordinate position, Enum initialState, Grid grid,
-      double threshold) {
-    super(position, initialState);
+  public SegregationCell(Coordinate position, Enum initialState, Grid grid, EdgeType edgeType,
+      Direction direction, double threshold, int numberOfRows, int numberOfColumns) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
     this.threshold = threshold;
     this.grid = (SegregationGrid) grid;
     dissatisfied = false;
@@ -29,7 +37,7 @@ public class SegregationCell extends Cell {
 
   protected void updateState() {
     if (dissatisfied) {
-      grid.moveCell(position);
+      grid.moveCell(getPosition());
     }
     ;
   }
@@ -37,12 +45,16 @@ public class SegregationCell extends Cell {
   protected void determineNextState(Grid grid) {
     int dems = 0;
     int reps = 0;
+    int[] rowDelta = Neighbors.getRowDelta(getDirection());
+    int[] colDelta = Neighbors.getColDelta(getDirection());
     for (int i = 0; i < rowDelta.length; i++) {
-      Coordinate neighbor = position.checkNeighbors(rowDelta[i], colDelta[i]);
+      Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
+          getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor)) {
-        if (grid.getCellMap().get(neighbor).getCurrentState() == States.Segregation.DEM) {
+        Enum state = getNeighborState(neighbor, grid);
+        if (state == States.Segregation.DEM) {
           dems++;
-        } else if (grid.getCellMap().get(neighbor).getCurrentState() == States.Segregation.REP) {
+        } else if (state == States.Segregation.REP) {
           reps++;
         }
       }
@@ -51,9 +63,9 @@ public class SegregationCell extends Cell {
   }
 
   private void checkIfSatisfied(int dems, int reps) {
-    if (currentState == States.Segregation.EMPTY) {
+    if (getCurrentState() == States.Segregation.EMPTY) {
       dissatisfied = false;
-    } else if (currentState == States.Segregation.DEM) {
+    } else if (getCurrentState() == States.Segregation.DEM) {
       if (dems * 1.0 / (dems + reps) < threshold) {
         dissatisfied = true;
       }
