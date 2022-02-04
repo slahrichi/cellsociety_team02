@@ -3,7 +3,7 @@ package cellsociety;
 import Controller.XMLParser;
 import Model.Simulation;
 import visualizer.SimulationVisualizer;
-import visualizer.ResetableStage;
+import visualizer.ResettableStage;
 import java.util.HashMap;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -19,12 +19,11 @@ import javax.xml.transform.TransformerException;
  */
 public class Main extends Application {
 
-  // useful names for constant values used
 
   public static final int SIZE_HORIZONTAL = 725;
   public static final int SIZE_VERTICAL = 575;
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
-  public static String style = "lightMode";
+  public static final String DEFAULT_STYLE = "lightMode";
   private SimulationVisualizer visualizer;
   private HashMap<String, String> data;
   private int numCols;
@@ -36,9 +35,7 @@ public class Main extends Application {
   public void start(Stage stage){
   try {
     parser = new XMLParser();
-    extractDataStartSimulation(DEFAULT_FILE_PATH);
-    stage = new ResetableStage(DEFAULT_FILE_PATH);
-    startGUI(stage);
+    startAdditionalGUI(DEFAULT_FILE_PATH);
 
   }
   catch(Exception e){
@@ -54,14 +51,14 @@ public class Main extends Application {
     getNumberOfColumnAndRow();
   }
   public void startAdditionalGUI(String filePath){
-    ResetableStage newStage = new ResetableStage(filePath);
+    ResettableStage newStage = new ResettableStage(filePath,DEFAULT_STYLE);
     extractDataStartSimulation(filePath);
     startGUI(newStage);
 
   }
-  private void startGUI(Stage stage) {
+  private void startGUI(ResettableStage stage) {
     visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL, SIZE_VERTICAL,
-        numRows, numCols, this, style);
+        numRows, numCols, this);
     visualizer.setUpScene();
   }
 
@@ -70,14 +67,11 @@ public class Main extends Application {
    *
    * @param stage    the main stage of the javaFX GUI
    * @param filepath the filepath for the new file which was selected by the user to load
-   * @throws Exception if the selected file is not .xml; needed for the parseXML method called in
-   *                   the <code> extractDataStartSimulation() </code>
    */
-  public void changeGUI(Stage stage, String filepath){
+  public void changeGUI(ResettableStage stage, String filepath){
     stage.close();
-    ((ResetableStage) stage).setCurrentFile(filepath);
-    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
-    style = visualizer.getStyle();
+    stage.setCurrentFile(filepath);
+    extractDataStartSimulation(stage.getCurrentFile());
     startGUI(stage);
 
   }
@@ -86,13 +80,10 @@ public class Main extends Application {
    * Called from the visualizer when a user decides to reload the current model.
    *
    * @param stage the main stage of the javaFX GUI
-   * @throws Exception if the selected file is not .xml; needed for the parseXML method * called in
-   *                   the <code> extractDataStartSimulation() </code>
    */
-  public void resetModel(Stage stage)  {
+  public void resetModel(ResettableStage stage)  {
     stage.close();
-    extractDataStartSimulation(((ResetableStage) stage).getCurrentFile());
-    style = visualizer.getStyle();
+    extractDataStartSimulation(stage.getCurrentFile());
     startGUI(stage);
 
   }

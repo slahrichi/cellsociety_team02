@@ -4,18 +4,13 @@ import Model.Coordinate;
 import Model.Grid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
-/**
- * Extension of grid class which Sets up a rectangular graphical grid. With rectangular cells.
- *
- * @author Luka Mdivani
- */
-public class RectangleGridVisualizer extends GridVisualizer {
-
+public class TriangleGridVisualizer extends GridVisualizer {
   private double cellWidth;
   private double cellHeight;
-  private int gapBetweenCells = 0;
 
   /**
    * @param width           width of the space allocated for the grid on the screen.
@@ -25,7 +20,7 @@ public class RectangleGridVisualizer extends GridVisualizer {
    * @param grid            the Grid object taken from the Simulation object, used to get the states
    *                        of the cells during simulation.
    */
-  public RectangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
+  public TriangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
       Grid grid) {
     super(width, height, numberOfRows, numberOfColumns, grid);
     calculateCellSize();
@@ -34,13 +29,14 @@ public class RectangleGridVisualizer extends GridVisualizer {
 
   @Override
   protected void calculateCellSize() {
-    cellHeight = (getHeight() - (getNumRows() + 1) * gapBetweenCells) / Double.valueOf(getNumRows());
-    cellWidth = (getWidth() - (getNumColumns() + 1) * gapBetweenCells) / Double.valueOf(getNumColumns());
+    cellHeight = getHeight() / Double.valueOf(getNumRows());
+    cellWidth = getWidth()   / Double.valueOf( getNumColumns()/2+1);
   }
 
   @Override
   public Group makeRoot() {
     Group gridRoot = new Group();
+
     gridRoot.getChildren().add(arrangeCells());
     return gridRoot;
   }
@@ -48,25 +44,38 @@ public class RectangleGridVisualizer extends GridVisualizer {
   @Override
   protected Group arrangeCells() {
     Group cellGroup = new Group();
-    double xPos = gapBetweenCells;
-    double yPos = gapBetweenCells;
+    double xPos = 0;
+    double yPos = 0;
+    int initial_i=0;
     for (int i = 0; i < getNumRows(); i++) {
-      xPos = gapBetweenCells;
+      xPos =0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
+        String cellState =getGrid().getCellMap().get(c).toString();
+        Text text = new Text(xPos+cellWidth/3, yPos+cellHeight/1.5, cellState);
 
         cellGroup.getChildren().add(createCell(xPos, yPos, c));
-        xPos = xPos + cellWidth + gapBetweenCells;
+        cellGroup.getChildren().add(text);
+
+        xPos = xPos + cellWidth/2;
       }
-      yPos = yPos + cellHeight + gapBetweenCells;
+        yPos = yPos + cellHeight ;
     }
     return cellGroup;
   }
 
   @Override
-  protected Rectangle createCell(double xPos, double yPos, Coordinate c) {
-    Rectangle newCell = new Rectangle(xPos, yPos, cellWidth, cellHeight);
-    newCell.setStroke(Color.BLACK);
+  protected Polygon createCell(double xPos, double yPos, Coordinate c) {
+    Polygon newCell ;
+    if((c.getRow()+c.getColumn())%2==1) {newCell = new Polygon(xPos, yPos, xPos + cellWidth, yPos, xPos + cellWidth / 2,
+        yPos + cellHeight );
+    }
+    else {newCell=new Polygon(xPos + cellWidth / 2, yPos,
+        xPos + cellWidth, yPos+cellHeight,
+        xPos,yPos+cellHeight);
+
+    }
+    //newCell.setStroke(Color.BLACK);
     newCell.setFill(getColorMap().getStateMatch(getGrid().getCellMap().get(c).toString()));
     return newCell;
   }

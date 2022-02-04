@@ -18,10 +18,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -58,7 +56,7 @@ public class SimulationVisualizer {
   private MenuItem exportButton;
   private Timeline animation;
   private FileChooser fileChooser = new FileChooser();
-  private Stage myStage;
+  private ResettableStage myStage;
   private Grid myGrid;
   private Simulation mySimulation;
   private BorderPane root;
@@ -84,10 +82,9 @@ public class SimulationVisualizer {
    * @param columns    number of columns in the model grid
    * @param main       the instance of <class> Main.java </class>, used to call the file change or
    *                   reset methods.
-   * @param style   the selected color scheme by the user.
    */
-  public SimulationVisualizer(Stage stage, Simulation simulation, int width, int height, int rows,
-      int columns, Main main, String style) {
+  public SimulationVisualizer(ResettableStage stage, Simulation simulation, int width, int height, int rows,
+      int columns, Main main) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -97,7 +94,7 @@ public class SimulationVisualizer {
     numRows = rows;
     myMain = main;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
-    myStyle = style;
+    myStyle = stage.getCurrentStyle();
   }
 
   /**
@@ -108,7 +105,7 @@ public class SimulationVisualizer {
    */
   public void setUpScene() {
 
-    gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
+    gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
     root = new BorderPane();
     createUIControls();
 
@@ -153,7 +150,7 @@ public class SimulationVisualizer {
     scene.getStylesheets().clear();
     scene.getStylesheets().add(
         getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
-    myStyle = styleMode;
+    myStage.setCurrentStyle(styleMode);
   }
 
 
