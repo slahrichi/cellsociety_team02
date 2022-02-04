@@ -18,6 +18,13 @@ public class Segregation extends Simulation {
 
   private double threshold;
 
+  private static final int EMPTY = 0;
+  private static final int REP = 1;
+  private static final int DEM = 2;
+  private static final String INVALID = "Invalid state number";
+
+
+
   /**
    * @param numberOfRows    number of rows in the grid
    * @param numberOfColumns number of columns in the grid
@@ -39,14 +46,16 @@ public class Segregation extends Simulation {
 
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> {
+        case EMPTY -> {
           state = States.Segregation.EMPTY;
           ((SegregationGrid) grid).setEmptySpots(c);
         }
-        case 1 -> state = States.Segregation.REP;
-        case 2 -> state = States.Segregation.DEM;
+        case REP -> state = States.Segregation.REP;
+        case DEM -> state = States.Segregation.DEM;
+        default -> throw new IllegalArgumentException(INVALID);
+
       }
       grid.getCellMap().put(c, new SegregationCell(c, state, grid, getEdgeType(), getDirection(),
           threshold, getNumberOfRows(), getNumberOfColumns()));

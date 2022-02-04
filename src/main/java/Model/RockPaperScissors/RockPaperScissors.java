@@ -13,6 +13,13 @@ public class RockPaperScissors extends Simulation {
 
   private int threshold;
 
+  private static final int ROCK = 0;
+  private static final int PAPER = 1;
+  private static final int SCISSORS = 2;
+  private static final String INVALID = "Invalid state number";
+
+
+
   public RockPaperScissors(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction, int threshold) {
     super(numberOfRows, numberOfColumns, setup, edgeType, direction);
@@ -28,11 +35,13 @@ public class RockPaperScissors extends Simulation {
 
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> state = States.RockPaperScissors.ROCK;
-        case 1 -> state = States.RockPaperScissors.PAPER;
-        case 2 -> state = States.RockPaperScissors.SCISSORS;
+        case ROCK -> state = States.RockPaperScissors.ROCK;
+        case PAPER -> state = States.RockPaperScissors.PAPER;
+        case SCISSORS -> state = States.RockPaperScissors.SCISSORS;
+        default -> throw new IllegalArgumentException(INVALID);
+
       }
       grid.getCellMap().put(c, new RockPaperScissorsCell(c, state, getEdgeType(), getDirection(),
           getNumberOfRows(), getNumberOfColumns(), threshold));

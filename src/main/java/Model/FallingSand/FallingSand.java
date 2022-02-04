@@ -10,6 +10,12 @@ import java.util.Map;
 
 public class FallingSand extends Simulation {
 
+  private static final int EMPTY = 0;
+  private static final int METAL = 1;
+  private static final int SAND = 2;
+  private static final int WATER = 3;
+  private static final String INVALID = "Invalid state number";
+
   public FallingSand(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction) {
     super(numberOfRows, numberOfColumns, setup, edgeType, direction);
@@ -20,13 +26,13 @@ public class FallingSand extends Simulation {
 
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> state = States.FallingSand.EMPTY;
-        case 1 -> state = States.FallingSand.METAL;
-        case 2 -> state = States.FallingSand.SAND;
-        case 3 -> state = States.FallingSand.WATER;
-
+        case EMPTY -> state = States.FallingSand.EMPTY;
+        case METAL -> state = States.FallingSand.METAL;
+        case SAND -> state = States.FallingSand.SAND;
+        case WATER -> state = States.FallingSand.WATER;
+        default -> throw new IllegalArgumentException(INVALID);
       }
       grid.getCellMap().put(c, new FallingSandCell(c, state, getEdgeType(), getDirection(),
           getNumberOfRows(), getNumberOfColumns(), grid));

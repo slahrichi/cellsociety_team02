@@ -16,6 +16,11 @@ import java.util.Map;
  */
 public class GameOfLife extends Simulation {
 
+  private static final int DEAD = 0;
+  private static final int ALIVE = 1;
+  private static final String INVALID = "Invalid state number";
+
+
   public GameOfLife(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
   EdgeType edgeType, Direction direction) {
     super(numberOfRows, numberOfColumns, setup, edgeType, direction);
@@ -29,10 +34,11 @@ public class GameOfLife extends Simulation {
 
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> state = States.GameOfLife.DEAD;
-        case 1 -> state = States.GameOfLife.ALIVE;
+        case DEAD -> state = States.GameOfLife.DEAD;
+        case ALIVE -> state = States.GameOfLife.ALIVE;
+        default -> throw new IllegalArgumentException(INVALID);
       }
       grid.getCellMap().put(c, new GameOfLifeCell(c, state, getEdgeType(), getDirection(),
           getNumberOfRows(), getNumberOfColumns()));

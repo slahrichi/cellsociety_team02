@@ -19,6 +19,12 @@ public class WaTor extends Simulation {
   private int fishChronon;
   private int sharkChronon;
 
+  private static final int EMPTY = 0;
+  private static final int FISH = 1;
+  private static final int SHARK = 2;
+  private static final String INVALID = "Invalid state number";
+
+
 
   /**
    *
@@ -42,11 +48,13 @@ public class WaTor extends Simulation {
   @Override
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> state = States.WaTor.EMPTY;
-        case 1 -> state = States.WaTor.FISH;
-        case 2 -> state = States.WaTor.SHARK;
+        case EMPTY -> state = States.WaTor.EMPTY;
+        case FISH -> state = States.WaTor.FISH;
+        case SHARK -> state = States.WaTor.SHARK;
+        default -> throw new IllegalArgumentException(INVALID);
+
       }
       grid.getCellMap().put(c, new WaTorCell(c, state, grid, getEdgeType(), getDirection(),
           fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns()));

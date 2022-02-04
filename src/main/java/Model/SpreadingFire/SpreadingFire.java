@@ -18,6 +18,13 @@ public class SpreadingFire extends Simulation {
 
   private double probCatch;
 
+  private static final int TREE = 0;
+  private static final int BURNING = 1;
+  private static final int EMPTY = 2;
+  private static final String INVALID = "Invalid state number";
+
+
+
   /**
    * @param numberOfRows    number of rows in the grid
    * @param numberOfColumns number of columns in the grid
@@ -37,11 +44,13 @@ public class SpreadingFire extends Simulation {
 
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> state = States.SpreadingFire.TREE;
-        case 1 -> state = States.SpreadingFire.BURNING;
-        case 2 -> state = States.SpreadingFire.EMPTY;
+        case TREE -> state = States.SpreadingFire.TREE;
+        case BURNING -> state = States.SpreadingFire.BURNING;
+        case EMPTY -> state = States.SpreadingFire.EMPTY;
+        default -> throw new IllegalArgumentException(INVALID);
+
       }
       grid.getCellMap().put(c, new SpreadingFireCell(c, state, getEdgeType(), getDirection(),
           probCatch, getNumberOfRows(), getNumberOfColumns()));

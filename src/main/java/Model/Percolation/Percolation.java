@@ -17,6 +17,13 @@ import java.util.Map;
 
 public class Percolation extends Simulation {
 
+  private static final int OPEN = 0;
+  private static final int PERCOLATED = 1;
+  private static final int BLOCKED = 2;
+  private static final String INVALID = "Invalid state number";
+
+
+
 
   /**
    * object for modeling a simulation of Percolation
@@ -39,11 +46,12 @@ public class Percolation extends Simulation {
 
   protected void initializeGridCells() {
     for (Coordinate c : getSetup().keySet()) {
-      Enum state = null;
+      Enum state;
       switch (getSetup().get(c)) {
-        case 0 -> state = States.Percolation.OPEN;
-        case 1 -> state = States.Percolation.PERCOLATED;
-        case 2 -> state = States.Percolation.BLOCKED;
+        case OPEN -> state = States.Percolation.OPEN;
+        case PERCOLATED -> state = States.Percolation.PERCOLATED;
+        case BLOCKED -> state = States.Percolation.BLOCKED;
+        default -> throw new IllegalArgumentException(INVALID);
       }
       grid.getCellMap().put(c, new PercolationCell(c, state, getEdgeType(), getDirection(),
           getNumberOfRows(), getNumberOfColumns()));
