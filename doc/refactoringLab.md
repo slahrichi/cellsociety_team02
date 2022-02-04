@@ -1,4 +1,4 @@
-# Refactoring Lab Discussion
+ # Refactoring Lab Discussion
 #### Matthew Giglio, Luka Mdivani, Saad Lahrichi
 #### Team 2
 
