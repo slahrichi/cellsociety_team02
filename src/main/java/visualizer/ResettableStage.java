@@ -2,12 +2,13 @@ package visualizer;
 
 import javafx.stage.Stage;
 
-public class ResetableStage extends Stage {
+public class ResettableStage extends Stage {
   private String currentFile;
   private String currentStyle;
 
 
-  public ResetableStage(String filePath,String style){
+  public ResettableStage(String filePath,String style){
+    super();
     currentFile = filePath;
     currentStyle= style;
   }
