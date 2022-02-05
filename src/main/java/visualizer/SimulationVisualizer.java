@@ -50,7 +50,7 @@ public class SimulationVisualizer {
   private String myStyle;
   private animationControlPanel myAnimationPanel;
   private menuBarControlPanel myMenuBarPanel;
-  private boolean gridLineRule=true;
+  private boolean gridLineRule = true;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -87,7 +87,8 @@ public class SimulationVisualizer {
   public void setUpScene() {
     animation = new Timeline();
 
-    gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,gridLineRule);
+    gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
+        gridLineRule);
     root = new BorderPane();
     myAnimationPanel = new animationControlPanel(myResources, animation, this);
     myMenuBarPanel = new menuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
@@ -140,7 +141,7 @@ public class SimulationVisualizer {
     myStage.setScene(scene);
   }
 
-  public void toggleGridLineRule(){
+  public void toggleGridLineRule() {
     gv.toggleGridRule();
     reRenderGrid();
   }

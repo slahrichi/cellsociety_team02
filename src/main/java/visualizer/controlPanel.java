@@ -7,10 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 
 public class controlPanel {
+
   private ResourceBundle myResources;
 
-  public controlPanel(ResourceBundle resources){
-    this.myResources=resources;
+  public controlPanel(ResourceBundle resources) {
+    this.myResources = resources;
   }
 
   protected Button makeButton(String buttonName, EventHandler<ActionEvent> handler) {
@@ -30,12 +31,12 @@ public class controlPanel {
     return item;
   }
 
-  protected ResourceBundle getResourceBundle(){
+  protected ResourceBundle getResourceBundle() {
     return myResources;
   }
 
-  protected void setResourceBundle(ResourceBundle newResourceBundle){
-    myResources=newResourceBundle;
+  protected void setResourceBundle(ResourceBundle newResourceBundle) {
+    myResources = newResourceBundle;
   }
 
-  }
+}

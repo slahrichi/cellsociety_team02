@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class animationControlPanel extends controlPanel {
+
   private HBox animationControls;
   private Button playButton;
   private Button pauseButton;
@@ -17,16 +18,20 @@ public class animationControlPanel extends controlPanel {
   private Timeline myAnimation;
   private SimulationVisualizer sv;
 
-  public animationControlPanel(ResourceBundle resources, Timeline animation,SimulationVisualizer s) {
+  public animationControlPanel(ResourceBundle resources, Timeline animation,
+      SimulationVisualizer s) {
     super(resources);
-    this.myAnimation=animation;
-    sv=s;
+    this.myAnimation = animation;
+    sv = s;
   }
-  public boolean getAnimationStatus(){
+
+  public boolean getAnimationStatus() {
     return animationEnabled;
   }
 
-  public HBox getAnimationControls(){return animationControls;}
+  public HBox getAnimationControls() {
+    return animationControls;
+  }
 
   public void createAllAnimationControls() {
     playButton = makeButton("playCommand", e -> play());
@@ -42,6 +47,7 @@ public class animationControlPanel extends controlPanel {
     animationControls.getChildren().addAll(pauseButton, playButton, stepButton, text, slider);
     animationControls.setAlignment(Pos.CENTER);
   }
+
   private Slider setUpSlider() {
     Slider slider = new Slider();
     slider.setMin(0.1);
@@ -63,6 +69,7 @@ public class animationControlPanel extends controlPanel {
     animationEnabled = true;
     myAnimation.play();
   }
+
   public void pause() {
     myAnimation.pause();
   }

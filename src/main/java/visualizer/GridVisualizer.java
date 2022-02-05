@@ -34,7 +34,8 @@ public abstract class GridVisualizer {
    * @param grid            the Grid object taken from the Simulation object, used to get the states
    *                        of the cells during simulation.
    */
-  public GridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid, boolean gridRule) {
+  public GridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid,
+      boolean gridRule) {
     this.gridWidth = width;
     this.gridHeight = height;
     this.numRows = numberOfRows;
@@ -138,8 +139,14 @@ public abstract class GridVisualizer {
   protected Grid getGrid() {
     return this.myGrid;
   }
-  protected boolean getGridRule(){return this.gridLineRule;}
-  public void toggleGridRule(){this.gridLineRule=!this.getGridRule();}
+
+  protected boolean getGridRule() {
+    return this.gridLineRule;
+  }
+
+  public void toggleGridRule() {
+    this.gridLineRule = !this.getGridRule();
+  }
 
 
 }

@@ -28,15 +28,17 @@ public class RectangleGridVisualizer extends GridVisualizer {
    */
   public RectangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
       Grid grid, boolean gridRule) {
-    super(width, height, numberOfRows, numberOfColumns, grid,gridRule);
+    super(width, height, numberOfRows, numberOfColumns, grid, gridRule);
     calculateCellSize();
 
   }
 
   @Override
   protected void calculateCellSize() {
-    cellHeight = (getHeight() - (getNumRows() + 1) * gapBetweenCells) / Double.valueOf(getNumRows());
-    cellWidth = (getWidth() - (getNumColumns() + 1) * gapBetweenCells) / Double.valueOf(getNumColumns());
+    cellHeight =
+        (getHeight() - (getNumRows() + 1) * gapBetweenCells) / Double.valueOf(getNumRows());
+    cellWidth =
+        (getWidth() - (getNumColumns() + 1) * gapBetweenCells) / Double.valueOf(getNumColumns());
   }
 
   @Override
@@ -55,9 +57,10 @@ public class RectangleGridVisualizer extends GridVisualizer {
       xPos = gapBetweenCells;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        Text stateTag = new Text(xPos+cellWidth/4,yPos+cellHeight/2, getCellStateString(c));
+        Text stateTag = new Text(xPos + cellWidth / 4, yPos + cellHeight / 2,
+            getCellStateString(c));
         stateTag.setId("stateTag");
-        cellGroup.getChildren().addAll(createCell(xPos, yPos, c),stateTag);
+        cellGroup.getChildren().addAll(createCell(xPos, yPos, c), stateTag);
         xPos = xPos + cellWidth + gapBetweenCells;
       }
       yPos = yPos + cellHeight + gapBetweenCells;

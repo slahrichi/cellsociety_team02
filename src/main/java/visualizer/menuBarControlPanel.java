@@ -41,12 +41,16 @@ public class menuBarControlPanel extends controlPanel {
   public HBox getMenuBar() {
     return menuBar;
   }
-  public void setScene(Scene scene){myScene=scene;}
+
+  public void setScene(Scene scene) {
+    myScene = scene;
+  }
 
   public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv) {
     menuBar = new HBox();
     menuBar.getChildren()
-        .addAll(createFileMenu(), createStyleMenu(), createLanguageMenu(myRoot, sv),createToggleMenu(sv));
+        .addAll(createFileMenu(), createStyleMenu(), createLanguageMenu(myRoot, sv),
+            createToggleMenu(sv));
 
 
   }
@@ -110,10 +114,8 @@ public class menuBarControlPanel extends controlPanel {
   }
 
   private MenuButton createStyleMenu() {
-    MenuItem darkModeButton = makeMenuItem("darkModeCommand",
-        e -> setStyleMode("darkMode"));
-    MenuItem lightModeButton = makeMenuItem("lightModeCommand",
-        e -> setStyleMode("lightMode"));
+    MenuItem darkModeButton = makeMenuItem("darkModeCommand", e -> setStyleMode("darkMode"));
+    MenuItem lightModeButton = makeMenuItem("lightModeCommand", e -> setStyleMode("lightMode"));
 
     return new MenuButton(getResourceBundle().getString("stylePrompt"), null, darkModeButton,
         lightModeButton);
@@ -143,7 +145,7 @@ public class menuBarControlPanel extends controlPanel {
 
   }
 
-  private MenuButton createToggleMenu(SimulationVisualizer sv){
+  private MenuButton createToggleMenu(SimulationVisualizer sv) {
     MenuItem gridToggleButton = makeMenuItem("gridCommand", e -> toggleGridLine(sv));
     return new MenuButton(getResourceBundle().getString("togglePrompt"), null, gridToggleButton);
   }
@@ -151,7 +153,6 @@ public class menuBarControlPanel extends controlPanel {
   private void toggleGridLine(SimulationVisualizer sv) {
     sv.toggleGridLineRule();
   }
-
 
 
 }
