@@ -44,8 +44,8 @@ public class GameOfLifeCell extends Cell {
 
   private int countLivingNeighbors(Grid grid) {
     int count = 0;
-    int[] rowDelta = Neighbors.getRowDelta(getDirection());
-    int[] colDelta = Neighbors.getColDelta(getDirection());
+    int[] rowDelta = Neighbors.getRowDelta(getDirection(), getNeighborConfig());
+    int[] colDelta = Neighbors.getColDelta(getDirection(), getNeighborConfig());
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
           getNumberOfRows(), getNumberOfColumns());
