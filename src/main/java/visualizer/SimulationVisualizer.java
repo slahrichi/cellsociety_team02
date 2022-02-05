@@ -105,7 +105,7 @@ public class SimulationVisualizer {
    */
   public void setUpScene() {
 
-    gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
+    gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
     root = new BorderPane();
     createUIControls();
 
