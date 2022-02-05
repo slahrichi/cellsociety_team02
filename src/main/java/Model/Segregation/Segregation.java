@@ -25,7 +25,6 @@ public class Segregation extends Simulation {
   private static final String INVALID = "Invalid state number";
 
 
-
   /**
    * @param numberOfRows    number of rows in the grid
    * @param numberOfColumns number of columns in the grid
@@ -70,11 +69,9 @@ public class Segregation extends Simulation {
       Enum state = cell.getCurrentState();
       if (state == States.Segregation.EMPTY) {
         empty++;
-      }
-      else if (state == States.Segregation.REP) {
+      } else if (state == States.Segregation.REP) {
         reps++;
-      }
-      else if (state == States.Segregation.DEM) {
+      } else if (state == States.Segregation.DEM) {
         dems++;
       }
     }

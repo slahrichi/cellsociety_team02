@@ -26,14 +26,15 @@ public class WaTor extends Simulation {
   private static final String INVALID = "Invalid state number";
 
 
-
   /**
-   *
-   * @param numberOfRows number of rows in grid
+   * @param numberOfRows    number of rows in grid
    * @param numberOfColumns number of cells in grid
-   * @param setup `Map` to initialize the state of all cells
-   * @param fishChronon number of turns before fish can reproduce
-   * @param sharkChronon number of turns before shark can reproduce
+   * @param setup           `Map` to initialize the state of all cells
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
+   * @param fishChronon     number of turns before fish can reproduce
+   * @param sharkChronon    number of turns before shark can reproduce
    */
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction, List<Integer> neighborConfig, int fishChronon,
@@ -45,7 +46,9 @@ public class WaTor extends Simulation {
   }
 
 
-  protected void createGrid() {grid = new WaTorGrid(getNumberOfRows(), getNumberOfColumns());}
+  protected void createGrid() {
+    grid = new WaTorGrid(getNumberOfRows(), getNumberOfColumns());
+  }
 
   @Override
   protected void initializeGridCells() {
@@ -69,11 +72,9 @@ public class WaTor extends Simulation {
       Enum state = cell.getCurrentState();
       if (state == States.WaTor.EMPTY) {
         empty++;
-      }
-      else if (state == States.WaTor.FISH) {
+      } else if (state == States.WaTor.FISH) {
         fish++;
-      }
-      else if (state == States.WaTor.SHARK) {
+      } else if (state == States.WaTor.SHARK) {
         sharks++;
       }
     }

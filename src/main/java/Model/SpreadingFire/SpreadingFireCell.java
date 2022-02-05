@@ -19,10 +19,16 @@ import java.util.List;
 public class SpreadingFireCell extends Cell {
 
   private double probCatch;
+
   /**
-   * @param position     Coordinate position of the cell in the grid
-   * @param initialState initial state of the cell
-   * @param probCatch    probability cell catches on fire if its neighbor is burning
+   * @param position        Coordinate position of the cell in the grid
+   * @param initialState    initial state of the cell
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param probCatch       probability cell catches on fire if its neighbor is burning
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
    */
   public SpreadingFireCell(Coordinate position, Enum initialState, EdgeType edgeType,
       Direction direction, double probCatch, int numberOfRows, int numberOfColumns,
@@ -57,9 +63,9 @@ public class SpreadingFireCell extends Cell {
           getNumberOfRows(), getNumberOfColumns());
       if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) ==
           States.SpreadingFire.BURNING) {
-          return true;
-        }
+        return true;
       }
+    }
     return false;
   }
 }

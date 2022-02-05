@@ -24,8 +24,6 @@ public class Percolation extends Simulation {
   private static final String INVALID = "Invalid state number";
 
 
-
-
   /**
    * object for modeling a simulation of Percolation
    *
@@ -33,6 +31,9 @@ public class Percolation extends Simulation {
    * @param numberOfColumns number of columns in the model's grid
    * @param setup           map storing integer representations of states in order to initialize
    *                        simulation states
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
    */
   public Percolation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
@@ -65,11 +66,9 @@ public class Percolation extends Simulation {
       Enum state = cell.getCurrentState();
       if (state == States.Percolation.OPEN) {
         open++;
-      }
-      else if (state == States.Percolation.PERCOLATED) {
+      } else if (state == States.Percolation.PERCOLATED) {
         percolated++;
-      }
-      else if (state == States.Percolation.BLOCKED) {
+      } else if (state == States.Percolation.BLOCKED) {
         blocked++;
       }
     }

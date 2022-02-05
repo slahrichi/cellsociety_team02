@@ -22,10 +22,15 @@ public class SegregationCell extends Cell {
   private SegregationGrid grid;
 
   /**
-   * @param position     `Coordinate` value of the cell on the grid
-   * @param initialState initial state of the cell
-   * @param grid         the `Grid` object in which the cell exists
-   * @param threshold    satisfaction threshold for constituents given their neighbors
+   * @param position        `Coordinate` value of the cell on the grid
+   * @param initialState    initial state of the cell
+   * @param grid            the `Grid` object in which the cell exists
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param threshold       satisfaction threshold for constituents given their neighbors
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
    */
   public SegregationCell(Coordinate position, Enum initialState, Grid grid, EdgeType edgeType,
       Direction direction, double threshold, int numberOfRows, int numberOfColumns,

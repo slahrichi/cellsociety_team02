@@ -27,13 +27,19 @@ public class WaTorCell extends Cell {
   private int turnsElapsed;
   private Random random;
   private static int DEATH;
+  private static int THRESHOLD = 3;
 
   /**
-   * @param c            position of the cell in the grid
-   * @param state        initial state for the cell
-   * @param grid         `Grid` object in which the cell exists
-   * @param fishChronon  number of turns before fish can reproduce
-   * @param sharkChronon number of turns before shark can reproduce
+   * @param c               position of the cell in the grid
+   * @param state           initial state for the cell
+   * @param grid            `Grid` object in which the cell exists
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param fishChronon     number of turns before fish can reproduce
+   * @param sharkChronon    number of turns before shark can reproduce
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
    */
   public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, Direction direction,
       int fishChronon, int sharkChronon, int numberOfRows, int numberOfColumns,
@@ -45,7 +51,7 @@ public class WaTorCell extends Cell {
     empty = new ArrayList<>();
     fish = new ArrayList<>();
     random = new Random();
-    DEATH = sharkChronon + 3;
+    DEATH = sharkChronon + THRESHOLD;
   }
 
   @Override
@@ -85,9 +91,7 @@ public class WaTorCell extends Cell {
     turnsElapsed = 0;
   }
 
-  //let's treat reproduction like making one of the neighbors an offspring as opposed to
-  //directly leaving something behind
-  //let's also make health and turns elapsed equivalent
+
   private void reproduce(States.WaTor state) {
     Coordinate offspring = empty.remove(random.nextInt(empty.size()));
     updateNeighborState(offspring, state);

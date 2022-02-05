@@ -21,6 +21,11 @@ public class PercolationCell extends Cell {
   /**
    * @param position     `Coordinate` representing position of the cell in the grid
    * @param initialState initializing state of the cell
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
    */
   public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType,
       Direction direction, int numberOfRows, int numberOfColumns, List<Integer> neighborConfig) {

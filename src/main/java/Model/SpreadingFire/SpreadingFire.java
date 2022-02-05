@@ -25,11 +25,13 @@ public class SpreadingFire extends Simulation {
   private static final String INVALID = "Invalid state number";
 
 
-
   /**
    * @param numberOfRows    number of rows in the grid
    * @param numberOfColumns number of columns in the grid
    * @param setup           map for setting up the initial states of the cells in the grid
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
    * @param probCatch       probability that a tree catches on fire if its neighbor is burning
    */
   public SpreadingFire(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
@@ -65,11 +67,9 @@ public class SpreadingFire extends Simulation {
       Enum state = cell.getCurrentState();
       if (state == States.SpreadingFire.TREE) {
         trees++;
-      }
-      else if (state == States.SpreadingFire.BURNING) {
+      } else if (state == States.SpreadingFire.BURNING) {
         burning++;
-      }
-      else if (state == States.SpreadingFire.EMPTY) {
+      } else if (state == States.SpreadingFire.EMPTY) {
         empty++;
       }
     }
