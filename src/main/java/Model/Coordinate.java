@@ -12,6 +12,11 @@ public class Coordinate {
   private int row;
   private int column;
 
+  /**
+   *
+   * @param row row index of coordinate
+   * @param column column index of coordinate
+   */
   public Coordinate(int row, int column) {
     this.row = row;
     this.column = column;
@@ -72,7 +77,7 @@ public class Coordinate {
   }
 
   /**
-   * overriden hashcode method developed in order to allow effective use of Coordinates in HashMap
+   * overridden hashcode method developed in order to allow effective use of Coordinates in HashMap
    * objects
    *
    * @return the hashcode of the coordinate
