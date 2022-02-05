@@ -79,6 +79,10 @@ public abstract class GridVisualizer {
    */
   protected abstract Shape createCell(double xPos, double yPos, Coordinate c);
 
+  protected String getCellStateString(Coordinate c) {
+    return getGrid().getCellMap().get(c).toString();
+  }
+
   /**
    * Convenient getter for use in subclasses, avoids having protected instance variables.
    *

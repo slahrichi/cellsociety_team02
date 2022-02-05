@@ -3,9 +3,7 @@ package visualizer;
 import Model.Coordinate;
 import Model.Grid;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class TriangleGridVisualizer extends GridVisualizer {
@@ -46,23 +44,21 @@ public class TriangleGridVisualizer extends GridVisualizer {
     Group cellGroup = new Group();
     double xPos = 0;
     double yPos = 0;
-    int initial_i=0;
     for (int i = 0; i < getNumRows(); i++) {
       xPos =0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        String cellState =getGrid().getCellMap().get(c).toString();
-        Text text = new Text(xPos+cellWidth/3, yPos+cellHeight/1.5, cellState);
-
-        cellGroup.getChildren().add(createCell(xPos, yPos, c));
-        cellGroup.getChildren().add(text);
-
+        Text stateTag = new Text(xPos+cellWidth/3, yPos+cellHeight/1.5, getCellStateString(c));
+        stateTag.setId("stateTag");
+        cellGroup.getChildren().addAll(createCell(xPos, yPos, c),stateTag);
         xPos = xPos + cellWidth/2;
       }
         yPos = yPos + cellHeight ;
     }
     return cellGroup;
   }
+
+
 
   @Override
   protected Polygon createCell(double xPos, double yPos, Coordinate c) {
@@ -76,7 +72,7 @@ public class TriangleGridVisualizer extends GridVisualizer {
 
     }
     //newCell.setStroke(Color.BLACK);
-    newCell.setFill(getColorMap().getStateMatch(getGrid().getCellMap().get(c).toString()));
+    newCell.setFill(getColorMap().getStateMatch(getCellStateString(c)));
     return newCell;
   }
 

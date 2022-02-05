@@ -5,6 +5,7 @@ import Model.Grid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 /**
  * Extension of grid class which Sets up a rectangular graphical grid. With rectangular cells.
@@ -54,8 +55,9 @@ public class RectangleGridVisualizer extends GridVisualizer {
       xPos = gapBetweenCells;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-
-        cellGroup.getChildren().add(createCell(xPos, yPos, c));
+        Text stateTag = new Text(xPos+cellWidth/4,yPos+cellHeight/2, getCellStateString(c));
+        stateTag.setId("stateTag");
+        cellGroup.getChildren().addAll(createCell(xPos, yPos, c),stateTag);
         xPos = xPos + cellWidth + gapBetweenCells;
       }
       yPos = yPos + cellHeight + gapBetweenCells;
@@ -67,7 +69,7 @@ public class RectangleGridVisualizer extends GridVisualizer {
   protected Rectangle createCell(double xPos, double yPos, Coordinate c) {
     Rectangle newCell = new Rectangle(xPos, yPos, cellWidth, cellHeight);
     newCell.setStroke(Color.BLACK);
-    newCell.setFill(getColorMap().getStateMatch(getGrid().getCellMap().get(c).toString()));
+    newCell.setFill(getColorMap().getStateMatch(getCellStateString(c)));
     return newCell;
   }
 
