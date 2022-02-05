@@ -2,6 +2,14 @@ package Model;
 
 import java.util.List;
 
+/**
+ * class for holding infrastructure for different cell shapes. Provides customized row and column
+ * delta arrays for the cell classes to consider their neighbors given the cell shape and a
+ * requested configuration of neighbors
+ *
+ * @author Matthew Giglio
+ */
+
 public class Neighbors {
 
   private static final int[] SQUARE_ROW = {-1, -1, -1, 0, 0, 1, 1, 1};
@@ -14,12 +22,22 @@ public class Neighbors {
   private static final int FULL = -1;
   private static final String INVALID = "Invalid message";
 
+  /**
+   * enums for holding possible states for shape organization of cell
+   */
   public enum Direction {
     SQUARE,
     TRIANGULAR,
     HEXAGONAL;
   }
 
+  /**
+   * method for getting the row coordinates of all neighbors to be considered
+   *
+   * @param direction shape configuration of cell
+   * @param config    list of neighbors from which should be considered
+   * @return an int[] of selected row coordinates
+   */
   public static int[] getRowDelta(Direction direction, List<Integer> config) {
     if (direction == Direction.SQUARE) {
       return getNeighbors(SQUARE_ROW, config);
@@ -32,6 +50,13 @@ public class Neighbors {
     }
   }
 
+  /**
+   * method for getting the row coordinates of all neighbors to be considered
+   *
+   * @param direction shape configuration of cell
+   * @param config    list of neighbors from which should be considered
+   * @return an int[] of column coordinates
+   */
   public static int[] getColDelta(Direction direction, List<Integer> config) {
     if (direction == Direction.SQUARE) {
       return getNeighbors(SQUARE_COL, config);
@@ -45,10 +70,19 @@ public class Neighbors {
   }
 
   private static int[] getNeighbors(int[] neighbors, List<Integer> config) {
-    if (isFull(config)) return neighbors;
+    if (isFull(config)) {
+      return neighbors;
+    } else if (config.size() > neighbors.length) {
+      throw new IllegalArgumentException("Neighbor configuration has more neighbors than"
+          + "physically possible");
+    }
     int size = config.size();
     int[] coords = new int[size];
     for (int i = 0; i < size; i++) {
+      int index = config.get(i);
+      if (index < 0 || index >= neighbors.length) {
+        throw new IllegalArgumentException("Index is out of range of requested neighbor formation");
+      }
       coords[i] = neighbors[config.get(i)];
     }
     return coords;
