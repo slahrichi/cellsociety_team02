@@ -10,6 +10,12 @@ import Model.States;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class to simulate a cellular automata model inspired by rock-paper-scissors. The class
+ * initializes the states of all cells given the states defined in the model
+ *
+ * @author Matthew Giglio
+ */
 public class RockPaperScissors extends Simulation {
 
   private int threshold;
@@ -19,7 +25,15 @@ public class RockPaperScissors extends Simulation {
   private static final int SCISSORS = 2;
   private static final String INVALID = "Invalid state number";
 
-
+  /**
+   * @param numberOfRows    number of rows in simulation grid
+   * @param numberOfColumns number of columns in simulation grid
+   * @param setup           map to initialize the states of the grid's cells
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
+   * @param threshold       number of dominating neighbors a cell needs to change states
+   */
 
   public RockPaperScissors(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction, List<Integer> neighborConfig, int threshold) {
@@ -56,11 +70,9 @@ public class RockPaperScissors extends Simulation {
       Enum state = cell.getCurrentState();
       if (state == States.RockPaperScissors.ROCK) {
         rock++;
-      }
-      else if (state == States.RockPaperScissors.PAPER) {
+      } else if (state == States.RockPaperScissors.PAPER) {
         paper++;
-      }
-      else if (state == States.RockPaperScissors.SCISSORS) {
+      } else if (state == States.RockPaperScissors.SCISSORS) {
         scissors++;
       }
     }

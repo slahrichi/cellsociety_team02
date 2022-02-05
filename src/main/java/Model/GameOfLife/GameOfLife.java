@@ -21,9 +21,16 @@ public class GameOfLife extends Simulation {
   private static final int ALIVE = 1;
   private static final String INVALID = "Invalid state number";
 
-
+  /**
+   * @param numberOfRows    number of rows in simulation grid
+   * @param numberOfColumns number of columns in simulation grid
+   * @param setup           map to initialize the states of the grid's cells
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
+   */
   public GameOfLife(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-  EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+      EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
     super(numberOfRows, numberOfColumns, setup, edgeType, direction, neighborConfig);
   }
 
@@ -52,8 +59,7 @@ public class GameOfLife extends Simulation {
       Enum state = cell.getCurrentState();
       if (state == States.GameOfLife.DEAD) {
         dead++;
-      }
-      else if (state == States.GameOfLife.ALIVE) {
+      } else if (state == States.GameOfLife.ALIVE) {
         alive++;
       }
     }

@@ -9,6 +9,12 @@ import Model.States;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for updating the state of a cell and updating the states of its neighbors given the
+ * modeling algorithm for the Falling Sand simulation
+ *
+ * @author Matthew Giglio
+ */
 public class FallingSand extends Simulation {
 
   private static final int EMPTY = 0;
@@ -16,6 +22,16 @@ public class FallingSand extends Simulation {
   private static final int SAND = 2;
   private static final int WATER = 3;
   private static final String INVALID = "Invalid state number";
+
+  /**
+   *
+   * @param numberOfRows    number of rows in simulation grid
+   * @param numberOfColumns number of columns in simulation grid
+   * @param setup           map to initialize the states of the grid's cells
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
+   */
 
   public FallingSand(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {

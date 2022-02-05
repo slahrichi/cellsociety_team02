@@ -21,6 +21,15 @@ public class GameOfLifeCell extends Cell {
   private static final int STABLE = 2;
   private static final int BIRTH = 3;
 
+  /**
+   * @param position        position of the cell in the grid
+   * @param initialState    initial state for the cell
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
+   */
   public GameOfLifeCell(Coordinate position, Enum initialState, EdgeType edgeType,
       Direction direction, int numberOfRows, int numberOfColumns, List<Integer> neighborConfig) {
     super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
@@ -37,7 +46,7 @@ public class GameOfLifeCell extends Cell {
       setFutureState(getCurrentState());
     } else if (alive < STABLE || alive > BIRTH) {
       setFutureState(States.GameOfLife.DEAD);
-    } else if (alive == BIRTH){
+    } else if (alive == BIRTH) {
       setFutureState(States.GameOfLife.ALIVE);
     }
   }
@@ -49,10 +58,11 @@ public class GameOfLifeCell extends Cell {
     for (int i = 0; i < rowDelta.length; i++) {
       Coordinate neighbor = getPosition().checkNeighbors(rowDelta[i], colDelta[i], getEdgeType(),
           getNumberOfRows(), getNumberOfColumns());
-      if (grid.isInBounds(neighbor) && getNeighborState(neighbor, grid) == States.GameOfLife.ALIVE) {
-          count++;
-        }
+      if (grid.isInBounds(neighbor)
+          && getNeighborState(neighbor, grid) == States.GameOfLife.ALIVE) {
+        count++;
       }
+    }
     return count;
   }
 }

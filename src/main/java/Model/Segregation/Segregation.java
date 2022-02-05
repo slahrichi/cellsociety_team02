@@ -26,9 +26,12 @@ public class Segregation extends Simulation {
 
 
   /**
-   * @param numberOfRows    number of rows in the grid
-   * @param numberOfColumns number of columns in the grid
+   * @param numberOfRows    number of rows in simulation grid
+   * @param numberOfColumns number of columns in simulation grid
    * @param setup           map to initialize the states of the grid's cells
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
    * @param threshold       minimum satisfaction threshold for constituents given their neighbors
    */
   public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
