@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +26,7 @@ public class menuBarControlPanel extends controlPanel {
   private Main myMain;
   private ResettableStage myStage;
   private animationControlPanel myAnimationPanel;
+  private Scene myScene;
   private FileChooser fileChooser = new FileChooser();
 
   public menuBarControlPanel(ResourceBundle resources, Main main,
@@ -39,11 +41,12 @@ public class menuBarControlPanel extends controlPanel {
   public HBox getMenuBar() {
     return menuBar;
   }
+  public void setScene(Scene scene){myScene=scene;}
 
-  public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv, Scene myScene) {
+  public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv) {
     menuBar = new HBox();
     menuBar.getChildren()
-        .addAll(createFileMenu(), createStyleMenu(myScene), createLanguageMenu(myRoot, sv));
+        .addAll(createFileMenu(), createStyleMenu(), createLanguageMenu(myRoot, sv),createToggleMenu(sv));
 
 
   }
@@ -106,17 +109,17 @@ public class menuBarControlPanel extends controlPanel {
     return fileName;
   }
 
-  private MenuButton createStyleMenu(Scene myScene) {
+  private MenuButton createStyleMenu() {
     MenuItem darkModeButton = makeMenuItem("darkModeCommand",
-        e -> setStyleMode("darkMode", myScene));
+        e -> setStyleMode("darkMode"));
     MenuItem lightModeButton = makeMenuItem("lightModeCommand",
-        e -> setStyleMode("lightMode", myScene));
+        e -> setStyleMode("lightMode"));
 
     return new MenuButton(getResourceBundle().getString("stylePrompt"), null, darkModeButton,
         lightModeButton);
   }
 
-  public void setStyleMode(String styleMode, Scene myScene) {
+  public void setStyleMode(String styleMode) {
     myScene.getStylesheets().clear();
     myScene.getStylesheets().add(
         getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
@@ -139,6 +142,16 @@ public class menuBarControlPanel extends controlPanel {
     sv.createUIControls();
 
   }
+
+  private MenuButton createToggleMenu(SimulationVisualizer sv){
+    MenuItem gridToggleButton = makeMenuItem("gridCommand", e -> toggleGridLine(sv));
+    return new MenuButton(getResourceBundle().getString("togglePrompt"), null, gridToggleButton);
+  }
+
+  private void toggleGridLine(SimulationVisualizer sv) {
+    sv.toggleGridLineRule();
+  }
+
 
 
 }

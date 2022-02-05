@@ -19,8 +19,8 @@ public class TriangleGridVisualizer extends GridVisualizer {
    *                        of the cells during simulation.
    */
   public TriangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
-      Grid grid) {
-    super(width, height, numberOfRows, numberOfColumns, grid);
+      Grid grid, boolean gridRule) {
+    super(width, height, numberOfRows, numberOfColumns, grid,gridRule);
     calculateCellSize();
 
   }

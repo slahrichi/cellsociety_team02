@@ -16,8 +16,8 @@ public class HexagonalGridVisualizer extends GridVisualizer {
   private double gapBalancer;
 
   public HexagonalGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
-      Grid grid) {
-    super(width, height, numberOfRows, numberOfColumns, grid);
+      Grid grid,boolean gridRule) {
+    super(width, height, numberOfRows, numberOfColumns, grid,gridRule);
     calculateCellSize();
 
   }
@@ -86,7 +86,8 @@ public class HexagonalGridVisualizer extends GridVisualizer {
 );
 
     }
-    newCell.setStroke(Color.BLACK);
+    if(getGridRule()){
+    newCell.setStroke(Color.BLACK);}
     newCell.setFill(getColorMap().getStateMatch(getCellStateString(c)));
     return newCell;
 

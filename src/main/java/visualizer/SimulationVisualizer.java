@@ -50,6 +50,7 @@ public class SimulationVisualizer {
   private String myStyle;
   private animationControlPanel myAnimationPanel;
   private menuBarControlPanel myMenuBarPanel;
+  private boolean gridLineRule=true;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -86,7 +87,7 @@ public class SimulationVisualizer {
   public void setUpScene() {
     animation = new Timeline();
 
-    gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid);
+    gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,gridLineRule);
     root = new BorderPane();
     myAnimationPanel = new animationControlPanel(myResources, animation, this);
     myMenuBarPanel = new menuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
@@ -96,8 +97,8 @@ public class SimulationVisualizer {
     gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
-
-    myMenuBarPanel.setStyleMode(myStyle, scene);
+    myMenuBarPanel.setScene(scene);
+    myMenuBarPanel.setStyleMode(myStyle);
 
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (myAnimationPanel.getAnimationStatus()) {
@@ -119,7 +120,7 @@ public class SimulationVisualizer {
   public void createUIControls() {
     myAnimationPanel.createAllAnimationControls();
     root.setBottom(myAnimationPanel.getAnimationControls());
-    myMenuBarPanel.arrangeMenuComponents(root, this, scene);
+    myMenuBarPanel.arrangeMenuComponents(root, this);
     root.setTop(myMenuBarPanel.getMenuBar());
   }
 
@@ -137,6 +138,11 @@ public class SimulationVisualizer {
     root.setRight(gridGroup);
     scene.setRoot(root);
     myStage.setScene(scene);
+  }
+
+  public void toggleGridLineRule(){
+    gv.toggleGridRule();
+    reRenderGrid();
   }
 
 
