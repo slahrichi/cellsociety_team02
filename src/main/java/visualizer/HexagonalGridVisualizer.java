@@ -4,6 +4,7 @@ package visualizer;
 import Model.Coordinate;
 import Model.Grid;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
@@ -15,8 +16,8 @@ public class HexagonalGridVisualizer extends GridVisualizer {
   private double gapBalancer;
 
   public HexagonalGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
-      Grid grid) {
-    super(width, height, numberOfRows, numberOfColumns, grid);
+      Grid grid, boolean gridRule) {
+    super(width, height, numberOfRows, numberOfColumns, grid, gridRule);
     calculateCellSize();
 
   }
@@ -25,8 +26,8 @@ public class HexagonalGridVisualizer extends GridVisualizer {
   protected void calculateCellSize() {
     cellHeight = getHeight() / Double.valueOf(getNumRows());
     cellWidth = getWidth() / Double.valueOf(getNumColumns());
-    hexEdgeWidth=cellWidth/2;
-    gapBalancer=hexEdgeWidth;
+    hexEdgeWidth = cellWidth / 2;
+    gapBalancer = hexEdgeWidth;
   }
 
   @Override
@@ -46,15 +47,22 @@ public class HexagonalGridVisualizer extends GridVisualizer {
       xPos = 0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        double textXCord=0;
-        double textYCord=0;
-        if(j%2==0){textXCord=xPos +hexEdgeWidth/2;textYCord=yPos + cellHeight;}
-        else{textXCord=xPos;textYCord=yPos + cellHeight/2;}
+        double textXCord = 0;
+        double textYCord = 0;
+        if (j % 2 == 1) {
+          textXCord = xPos - hexEdgeWidth / 2;
+          textYCord = yPos + cellHeight;
+        } else {
+          textXCord = xPos;
+          textYCord = yPos + cellHeight / 2;
+        }
         Text stateTag = new Text(textXCord, textYCord, getCellStateString(c));
         stateTag.setId("stateTag");
         cellGroup.getChildren().addAll(createCell(xPos, yPos, c), stateTag);
         xPos = xPos + cellWidth;
-        if(j%2==1 ){xPos=xPos-hexEdgeWidth;}
+        if (j % 2 == 1) {
+          xPos = xPos - hexEdgeWidth;
+        }
       }
       yPos = yPos + cellHeight;
     }
@@ -65,26 +73,21 @@ public class HexagonalGridVisualizer extends GridVisualizer {
   @Override
   protected Polygon createCell(double xPos, double yPos, Coordinate c) {
     Polygon newCell;
-    if (c.getColumn() % 2 == 0) {
-      newCell = new Polygon(
-          xPos+hexEdgeWidth/2,yPos+cellHeight/2,
-          xPos,yPos+cellHeight,
-          xPos+hexEdgeWidth/2,yPos+cellHeight*1.5,
-          xPos+1.5*hexEdgeWidth,yPos+cellHeight*1.5,
-        xPos+cellWidth,yPos+cellHeight,
-         xPos+hexEdgeWidth*1.5,yPos+cellHeight/2);
+    if (c.getColumn() % 2 == 1) {
+      newCell = new Polygon(xPos - hexEdgeWidth / 2, yPos + cellHeight / 2, xPos - hexEdgeWidth,
+          yPos + cellHeight, xPos - hexEdgeWidth / 2, yPos + cellHeight * 1.5,
+          xPos + hexEdgeWidth / 2, yPos + cellHeight * 1.5, xPos + hexEdgeWidth, yPos + cellHeight,
+          xPos + hexEdgeWidth / 2, yPos + cellHeight / 2);
+
     } else {
-      newCell = new Polygon(
-          xPos,yPos,
-          xPos-hexEdgeWidth/2,yPos+cellHeight/2,
-          xPos,yPos+cellHeight,
-          xPos+hexEdgeWidth,yPos+cellHeight,
-          xPos+0.75*cellWidth,yPos+cellHeight/2,
-          xPos+hexEdgeWidth,yPos
-);
+      newCell = new Polygon(xPos, yPos, xPos - hexEdgeWidth / 2, yPos + cellHeight / 2, xPos,
+          yPos + cellHeight, xPos + hexEdgeWidth, yPos + cellHeight, xPos + 0.75 * cellWidth,
+          yPos + cellHeight / 2, xPos + hexEdgeWidth, yPos);
 
     }
-    //newCell.setStroke(Color.BLACK);
+    if (getGridRule()) {
+      newCell.setStroke(Color.BLACK);
+    }
     newCell.setFill(getColorMap().getStateMatch(getCellStateString(c)));
     return newCell;
 

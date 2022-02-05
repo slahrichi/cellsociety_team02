@@ -24,6 +24,7 @@ public abstract class GridVisualizer {
   private final int numColumns;
   private final ColorMap colorMap;
   private final Grid myGrid;
+  private boolean gridLineRule;
 
   /**
    * @param width           width of the space allocated for the grid on the screen.
@@ -33,13 +34,15 @@ public abstract class GridVisualizer {
    * @param grid            the Grid object taken from the Simulation object, used to get the states
    *                        of the cells during simulation.
    */
-  public GridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid) {
+  public GridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid,
+      boolean gridRule) {
     this.gridWidth = width;
     this.gridHeight = height;
     this.numRows = numberOfRows;
     this.numColumns = numberOfColumns;
     this.colorMap = new ColorMap();
     this.myGrid = grid;
+    this.gridLineRule = gridRule;
 
   }
 
@@ -135,6 +138,14 @@ public abstract class GridVisualizer {
    */
   protected Grid getGrid() {
     return this.myGrid;
+  }
+
+  protected boolean getGridRule() {
+    return this.gridLineRule;
+  }
+
+  public void toggleGridRule() {
+    this.gridLineRule = !this.getGridRule();
   }
 
 

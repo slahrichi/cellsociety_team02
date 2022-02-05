@@ -7,6 +7,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
 public class TriangleGridVisualizer extends GridVisualizer {
+
   private double cellWidth;
   private double cellHeight;
 
@@ -19,8 +20,8 @@ public class TriangleGridVisualizer extends GridVisualizer {
    *                        of the cells during simulation.
    */
   public TriangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
-      Grid grid) {
-    super(width, height, numberOfRows, numberOfColumns, grid);
+      Grid grid, boolean gridRule) {
+    super(width, height, numberOfRows, numberOfColumns, grid, gridRule);
     calculateCellSize();
 
   }
@@ -28,7 +29,7 @@ public class TriangleGridVisualizer extends GridVisualizer {
   @Override
   protected void calculateCellSize() {
     cellHeight = getHeight() / Double.valueOf(getNumRows());
-    cellWidth = getWidth()   / Double.valueOf( getNumColumns()/2+1);
+    cellWidth = getWidth() / Double.valueOf(getNumColumns() / 2 + 1);
   }
 
   @Override
@@ -45,30 +46,31 @@ public class TriangleGridVisualizer extends GridVisualizer {
     double xPos = 0;
     double yPos = 0;
     for (int i = 0; i < getNumRows(); i++) {
-      xPos =0;
+      xPos = 0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        Text stateTag = new Text(xPos+cellWidth/3, yPos+cellHeight/1.5, getCellStateString(c));
+        Text stateTag = new Text(xPos + cellWidth / 3, yPos + cellHeight / 1.5,
+            getCellStateString(c));
         stateTag.setId("stateTag");
-        cellGroup.getChildren().addAll(createCell(xPos, yPos, c),stateTag);
-        xPos = xPos + cellWidth/2;
+        cellGroup.getChildren().addAll(createCell(xPos, yPos, c), stateTag);
+        xPos = xPos + cellWidth / 2;
       }
-        yPos = yPos + cellHeight ;
+      yPos = yPos + cellHeight;
     }
     return cellGroup;
   }
 
 
-
   @Override
   protected Polygon createCell(double xPos, double yPos, Coordinate c) {
-    Polygon newCell ;
-    if((c.getRow()+c.getColumn())%2==1) {newCell = new Polygon(xPos, yPos, xPos + cellWidth, yPos, xPos + cellWidth / 2,
-        yPos + cellHeight );
-    }
-    else {newCell=new Polygon(xPos + cellWidth / 2, yPos,
-        xPos + cellWidth, yPos+cellHeight,
-        xPos,yPos+cellHeight);
+    Polygon newCell;
+    if ((c.getRow() + c.getColumn()) % 2 == 1) {
+      newCell = new Polygon(xPos, yPos, xPos + cellWidth, yPos, xPos + cellWidth / 2,
+          yPos + cellHeight);
+    } else {
+      newCell = new Polygon(xPos + cellWidth / 2, yPos,
+          xPos + cellWidth, yPos + cellHeight,
+          xPos, yPos + cellHeight);
 
     }
     //newCell.setStroke(Color.BLACK);
