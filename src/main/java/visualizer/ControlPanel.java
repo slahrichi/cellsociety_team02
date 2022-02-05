@@ -6,11 +6,11 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 
-public class controlPanel {
+public class ControlPanel {
 
   private ResourceBundle myResources;
 
-  public controlPanel(ResourceBundle resources) {
+  public ControlPanel(ResourceBundle resources) {
     this.myResources = resources;
   }
 

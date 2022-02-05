@@ -35,7 +35,6 @@ public class SimulationVisualizer {
   private final int SCENE_HEIGHT;
 
 
-  private Timeline animation;
   private ResettableStage myStage;
   private Grid myGrid;
   private Simulation mySimulation;
@@ -48,9 +47,9 @@ public class SimulationVisualizer {
   private Main myMain;
   private ResourceBundle myResources;
   private String myStyle;
-  private animationControlPanel myAnimationPanel;
-  private menuBarControlPanel myMenuBarPanel;
-  private boolean gridLineRule = true;
+  private AnimationControlPanel myAnimationPanel;
+  private MenuBarControlPanel myMenuBarPanel;
+  private boolean defaultGridLineRule = true;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -85,13 +84,13 @@ public class SimulationVisualizer {
    * <code>GridVisualizer</code> superclass exists, this is easily extendable when necessary. * <p>
    */
   public void setUpScene() {
-    animation = new Timeline();
+    Timeline animation = new Timeline();
 
     gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
-        gridLineRule);
+        defaultGridLineRule);
     root = new BorderPane();
-    myAnimationPanel = new animationControlPanel(myResources, animation, this);
-    myMenuBarPanel = new menuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
+    myAnimationPanel = new AnimationControlPanel(myResources, animation, this);
+    myMenuBarPanel = new MenuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
 
     createUIControls();
 

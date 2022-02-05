@@ -21,10 +21,9 @@ public class Main extends Application {
 
 
   public static final int SIZE_HORIZONTAL = 725;
-  public static final int SIZE_VERTICAL = 575;
+  public static final int SIZE_VERTICAL = 625;
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
   public static final String DEFAULT_STYLE = "lightMode";
-  private SimulationVisualizer visualizer;
   private HashMap<String, String> data;
   private int numCols;
   private int numRows;
@@ -57,7 +56,8 @@ public class Main extends Application {
 
   }
   private void startGUI(ResettableStage stage) {
-    visualizer = new SimulationVisualizer(stage, currentSimulation, SIZE_HORIZONTAL, SIZE_VERTICAL,
+    SimulationVisualizer visualizer = new SimulationVisualizer(stage, currentSimulation,
+        SIZE_HORIZONTAL, SIZE_VERTICAL,
         numRows, numCols, this);
     visualizer.setUpScene();
   }
