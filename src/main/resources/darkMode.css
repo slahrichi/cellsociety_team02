@@ -45,6 +45,9 @@
 .slider {
   -fx-control-inner-background: #00A864;
 }
+#stateTag{
+  -fx-font-size: 5pt;
+}
 
 .slider .thumb {
   -fx-background-color: #006944;
