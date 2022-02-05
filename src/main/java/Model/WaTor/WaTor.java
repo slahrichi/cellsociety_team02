@@ -6,6 +6,7 @@ import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
 import Model.Simulation;
 import Model.States;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,8 +36,9 @@ public class WaTor extends Simulation {
    * @param sharkChronon number of turns before shark can reproduce
    */
   public WaTor(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, Direction direction, int fishChronon, int sharkChronon) {
-    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
+      EdgeType edgeType, Direction direction, List<Integer> neighborConfig, int fishChronon,
+      int sharkChronon) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction, neighborConfig);
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
     initializeGridCells();

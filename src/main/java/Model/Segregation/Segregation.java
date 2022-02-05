@@ -6,6 +6,7 @@ import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
 import Model.Simulation;
 import Model.States;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +33,8 @@ public class Segregation extends Simulation {
    * @param threshold       minimum satisfaction threshold for constituents given their neighbors
    */
   public Segregation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, Direction direction, double threshold) {
-    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
+      EdgeType edgeType, Direction direction, List<Integer> neighborConfig, double threshold) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction, neighborConfig);
     this.threshold = threshold;
     initializeGridCells();
   }

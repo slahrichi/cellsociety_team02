@@ -7,6 +7,7 @@ import Model.Neighbors.Direction;
 import Model.Simulation;
 import Model.States;
 
+import java.util.List;
 import java.util.Map;
 
 public class RockPaperScissors extends Simulation {
@@ -21,8 +22,8 @@ public class RockPaperScissors extends Simulation {
 
 
   public RockPaperScissors(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, Direction direction, int threshold) {
-    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
+      EdgeType edgeType, Direction direction, List<Integer> neighborConfig, int threshold) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction, neighborConfig);
     this.threshold = threshold;
     initializeGridCells();
 

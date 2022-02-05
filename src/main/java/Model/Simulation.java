@@ -4,6 +4,7 @@ package Model;
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,15 +22,17 @@ public abstract class Simulation {
   private Map<Coordinate, Integer> setup;
   private EdgeType edgeType;
   private Direction direction;
+  private List<Integer> neighborConfig;
   private Map<Enum, Integer> data;
 
   public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, Direction direction) {
+      EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
     this.numberOfColumns = numberOfColumns;
     this.numberOfRows = numberOfRows;
     this.setup = setup;
     this.edgeType = edgeType;
     this.direction = direction;
+    this.neighborConfig = neighborConfig;
     this.data = new HashMap<>();
     createGrid();
     initializeGridCells();

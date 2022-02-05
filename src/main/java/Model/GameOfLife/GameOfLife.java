@@ -6,6 +6,7 @@ import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
 import Model.Simulation;
 import Model.States;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +23,8 @@ public class GameOfLife extends Simulation {
 
 
   public GameOfLife(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-  EdgeType edgeType, Direction direction) {
-    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
+  EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction, neighborConfig);
   }
 
 

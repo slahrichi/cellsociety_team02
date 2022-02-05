@@ -6,6 +6,7 @@ import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
 import Model.Simulation;
 import Model.States;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,8 +33,8 @@ public class SpreadingFire extends Simulation {
    * @param probCatch       probability that a tree catches on fire if its neighbor is burning
    */
   public SpreadingFire(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
-      EdgeType edgeType, Direction direction, double probCatch) {
-    super(numberOfRows, numberOfColumns, setup, edgeType, direction);
+      EdgeType edgeType, Direction direction, List<Integer> neighborConfig, double probCatch) {
+    super(numberOfRows, numberOfColumns, setup, edgeType, direction, neighborConfig);
     this.probCatch = probCatch;
     initializeGridCells();
   }
