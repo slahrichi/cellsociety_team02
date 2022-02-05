@@ -59,7 +59,7 @@ public class Segregation extends Simulation {
 
       }
       grid.getCellMap().put(c, new SegregationCell(c, state, grid, getEdgeType(), getDirection(),
-          threshold, getNumberOfRows(), getNumberOfColumns()));
+          threshold, getNumberOfRows(), getNumberOfColumns(), getNeighborConfig()));
     }
 
   }

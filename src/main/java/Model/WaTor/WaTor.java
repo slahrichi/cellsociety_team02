@@ -59,7 +59,7 @@ public class WaTor extends Simulation {
 
       }
       grid.getCellMap().put(c, new WaTorCell(c, state, grid, getEdgeType(), getDirection(),
-          fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns()));
+          fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns(), getNeighborConfig()));
     }
   }
 

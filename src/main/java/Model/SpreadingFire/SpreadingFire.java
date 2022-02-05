@@ -54,7 +54,7 @@ public class SpreadingFire extends Simulation {
 
       }
       grid.getCellMap().put(c, new SpreadingFireCell(c, state, getEdgeType(), getDirection(),
-          probCatch, getNumberOfRows(), getNumberOfColumns()));
+          probCatch, getNumberOfRows(), getNumberOfColumns(), getNeighborConfig()));
     }
   }
 

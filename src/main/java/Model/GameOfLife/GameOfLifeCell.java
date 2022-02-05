@@ -7,6 +7,7 @@ import Model.Grid;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
 import Model.States;
+import java.util.List;
 
 /**
  * class that extends the `Cell` superclass to implement specific usage for the purpose of the Game
@@ -21,8 +22,9 @@ public class GameOfLifeCell extends Cell {
   private static final int BIRTH = 3;
 
   public GameOfLifeCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      Direction direction, int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
+      Direction direction, int numberOfRows, int numberOfColumns, List<Integer> neighborConfig) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
+        neighborConfig);
   }
 
   protected void updateState() {

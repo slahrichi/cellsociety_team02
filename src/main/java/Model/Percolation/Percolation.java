@@ -55,7 +55,7 @@ public class Percolation extends Simulation {
         default -> throw new IllegalArgumentException(INVALID);
       }
       grid.getCellMap().put(c, new PercolationCell(c, state, getEdgeType(), getDirection(),
-          getNumberOfRows(), getNumberOfColumns()));
+          getNumberOfRows(), getNumberOfColumns(), getNeighborConfig()));
     }
   }
 

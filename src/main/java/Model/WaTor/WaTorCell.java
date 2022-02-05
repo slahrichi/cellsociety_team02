@@ -36,8 +36,9 @@ public class WaTorCell extends Cell {
    * @param sharkChronon number of turns before shark can reproduce
    */
   public WaTorCell(Coordinate c, Enum state, Grid grid, EdgeType edgeType, Direction direction,
-      int fishChronon, int sharkChronon, int numberOfRows, int numberOfColumns) {
-    super(c, state, edgeType, direction, numberOfRows, numberOfColumns);
+      int fishChronon, int sharkChronon, int numberOfRows, int numberOfColumns,
+      List<Integer> neighborConfig) {
+    super(c, state, edgeType, direction, numberOfRows, numberOfColumns, neighborConfig);
     this.grid = (WaTorGrid) grid;
     this.fishChronon = fishChronon;
     this.sharkChronon = sharkChronon;
@@ -111,7 +112,7 @@ public class WaTorCell extends Cell {
 
   private void updateNeighborState(Coordinate c, Enum state) {
     WaTorCell newNeighbor = new WaTorCell(c, state, grid, getEdgeType(), getDirection(),
-        fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns());
+        fishChronon, sharkChronon, getNumberOfRows(), getNumberOfColumns(), getNeighborConfig());
     grid.getCellMap().put(c, newNeighbor);
     newNeighbor.updateNewNeighbors();
   }

@@ -42,7 +42,7 @@ public class GameOfLife extends Simulation {
         default -> throw new IllegalArgumentException(INVALID);
       }
       grid.getCellMap().put(c, new GameOfLifeCell(c, state, getEdgeType(), getDirection(),
-          getNumberOfRows(), getNumberOfColumns()));
+          getNumberOfRows(), getNumberOfColumns(), getNeighborConfig()));
     }
   }
 

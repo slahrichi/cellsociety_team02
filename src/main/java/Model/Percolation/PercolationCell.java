@@ -7,6 +7,7 @@ import Model.Grid;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
 import Model.States;
+import java.util.List;
 
 /**
  * Extension of `Cell` superclass for modeling Percolation. Properly updates the states of the cells
@@ -22,8 +23,9 @@ public class PercolationCell extends Cell {
    * @param initialState initializing state of the cell
    */
   public PercolationCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      Direction direction, int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
+      Direction direction, int numberOfRows, int numberOfColumns, List<Integer> neighborConfig) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
+        neighborConfig);
   }
 
   protected void updateState() {

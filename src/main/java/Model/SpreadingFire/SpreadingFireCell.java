@@ -8,6 +8,7 @@ import Model.Grid;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
 import Model.States;
+import java.util.List;
 
 /**
  * Class that updates the state of a cell in a Spreading Fire model given the probability it burns
@@ -24,8 +25,10 @@ public class SpreadingFireCell extends Cell {
    * @param probCatch    probability cell catches on fire if its neighbor is burning
    */
   public SpreadingFireCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      Direction direction, double probCatch, int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
+      Direction direction, double probCatch, int numberOfRows, int numberOfColumns,
+      List<Integer> neighborConfig) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
+        neighborConfig);
     this.probCatch = probCatch;
   }
 

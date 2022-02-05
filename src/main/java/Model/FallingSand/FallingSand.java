@@ -36,7 +36,7 @@ public class FallingSand extends Simulation {
         default -> throw new IllegalArgumentException(INVALID);
       }
       grid.getCellMap().put(c, new FallingSandCell(c, state, getEdgeType(), getDirection(),
-          getNumberOfRows(), getNumberOfColumns(), grid));
+          getNumberOfRows(), getNumberOfColumns(), getNeighborConfig(), grid));
     }
   }
 

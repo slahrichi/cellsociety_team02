@@ -7,6 +7,7 @@ import Model.Grid;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
 import Model.States;
+import java.util.List;
 
 /**
  * Extension of `Cell` superclass that manages the updating of cell states in the grid given the
@@ -27,8 +28,10 @@ public class SegregationCell extends Cell {
    * @param threshold    satisfaction threshold for constituents given their neighbors
    */
   public SegregationCell(Coordinate position, Enum initialState, Grid grid, EdgeType edgeType,
-      Direction direction, double threshold, int numberOfRows, int numberOfColumns) {
-    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
+      Direction direction, double threshold, int numberOfRows, int numberOfColumns,
+      List<Integer> neighborConfig) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
+        neighborConfig);
     this.threshold = threshold;
     this.grid = (SegregationGrid) grid;
     dissatisfied = false;

@@ -70,6 +70,10 @@ public abstract class Simulation {
   protected EdgeType getEdgeType() {
     return edgeType;
   }
+
+  protected List<Integer> getNeighborConfig() {
+    return neighborConfig;
+  }
   /**
    * method for updating the states of the cells in the model given the model's rules. Made public
    * so that the view portion of the program can utilize the method to properly update the graphics

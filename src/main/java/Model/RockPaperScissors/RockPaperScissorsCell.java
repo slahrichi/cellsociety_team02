@@ -7,6 +7,7 @@ import Model.Grid;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
 import Model.States;
+import java.util.List;
 import java.util.Random;
 
 public class RockPaperScissorsCell extends Cell {
@@ -15,8 +16,9 @@ public class RockPaperScissorsCell extends Cell {
   private Random random;
   private static int RANDOM_FACTOR = 3;
   public RockPaperScissorsCell(Coordinate position, Enum initialState, EdgeType edgeType, Direction direction,
-      int numberOfRows, int numberOfColumns, int threshold) {
-    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
+      int numberOfRows, int numberOfColumns, List<Integer> neighborConfig, int threshold) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
+        neighborConfig);
     this.threshold = threshold;
     this.random = new Random();
   }

@@ -45,7 +45,7 @@ public class RockPaperScissors extends Simulation {
 
       }
       grid.getCellMap().put(c, new RockPaperScissorsCell(c, state, getEdgeType(), getDirection(),
-          getNumberOfRows(), getNumberOfColumns(), threshold));
+          getNumberOfRows(), getNumberOfColumns(), getNeighborConfig(), threshold));
     }
   }
 

@@ -2,6 +2,7 @@ package Model;
 
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
+import java.util.List;
 
 /**
  * Abstract class for representing the basic attributes of a cell in a cellular automata model.
@@ -19,15 +20,17 @@ public abstract class Cell {
   private int numberOfRows;
   private int numberOfColumns;
   private Direction direction;
+  private List<Integer> neighborConfig;
 
   public Cell(Coordinate position, Enum initialState, EdgeType edgeType, Direction direction,
-      int numberOfRows, int numberOfColumns) {
+      int numberOfRows, int numberOfColumns, List<Integer> neighborConfig) {
     this.position = position;
     this.currentState = initialState;
     this.edgeType = edgeType;
     this.numberOfRows = numberOfRows;
     this.numberOfColumns = numberOfColumns;
     this.direction = direction;
+    this.neighborConfig = neighborConfig;
   }
 
   protected Coordinate getPosition() {
@@ -62,8 +65,11 @@ public abstract class Cell {
     currentState = state;
   }
 
+  protected List<Integer> getNeighborConfig() {
+    return neighborConfig;
+  }
 
-  public void setPosition(Coordinate c) {
+  protected void setPosition(Coordinate c) {
     position = c;
   }
 

@@ -24,8 +24,10 @@ public class FallingSandCell extends Cell {
 
 
   public FallingSandCell(Coordinate position, Enum initialState, EdgeType edgeType,
-      Direction direction, int numberOfRows, int numberOfColumns, Grid grid) {
-    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns);
+      Direction direction, int numberOfRows, int numberOfColumns, List<Integer> neighborConfig,
+      Grid grid) {
+    super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
+        neighborConfig);
     this.grid = grid;
     canDrop = false;
     emptySpots = new ArrayList<>();
