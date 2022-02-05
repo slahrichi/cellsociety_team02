@@ -82,13 +82,7 @@ public abstract class Cell {
     position = c;
   }
 
-
-  /**
-   * Getter method for a cell's current state, particularly helpful for
-   *
-   * @return the current state of the cell
-   */
-  public Enum getCurrentState() {
+  protected Enum getCurrentState() {
     return currentState;
   }
 
