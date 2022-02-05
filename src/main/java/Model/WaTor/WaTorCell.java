@@ -124,7 +124,7 @@ public class WaTorCell extends Cell {
   private void moveToNeighbor() {
     if (!empty.isEmpty()) {
       Coordinate emptySpot = empty.remove(random.nextInt(empty.size()));
-      grid.makeSwap(getPosition(), emptySpot);
+      grid.handleSwap(getPosition(), emptySpot);
     }
   }
 

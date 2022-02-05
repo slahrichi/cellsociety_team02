@@ -22,4 +22,7 @@ public class WaTorGrid extends Grid {
   }
 
 
+  protected void handleSwap(Coordinate c, Coordinate newHome) {
+    makeSwap(c, newHome);
+  }
 }

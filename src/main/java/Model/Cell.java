@@ -22,6 +22,15 @@ public abstract class Cell {
   private Direction direction;
   private List<Integer> neighborConfig;
 
+  /**
+   * @param position        Coordinate position of the cell in the grid
+   * @param initialState    initial state of the cell
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param numberOfRows    number of rows in grid in which cell exists
+   * @param numberOfColumns number of columns in grid in which cell exists
+   * @param neighborConfig  configuration of neighbors being considered
+   */
   public Cell(Coordinate position, Enum initialState, EdgeType edgeType, Direction direction,
       int numberOfRows, int numberOfColumns, List<Integer> neighborConfig) {
     this.position = position;
@@ -74,9 +83,9 @@ public abstract class Cell {
   }
 
 
-
   /**
    * Getter method for a cell's current state, particularly helpful for
+   *
    * @return the current state of the cell
    */
   public Enum getCurrentState() {
@@ -91,6 +100,11 @@ public abstract class Cell {
     return grid.getCellMap().get(c).getCurrentState();
   }
 
+  /**
+   * overridden method to return a Cell object as a String
+   *
+   * @return the state of the cell as a String
+   */
   @Override
   public String toString() {
     return currentState.toString();

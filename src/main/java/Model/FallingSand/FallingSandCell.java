@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class FallingSandCell extends Cell {
 
-  private Grid grid;
+  private FallingSandGrid grid;
   private boolean canDrop;
   private List<Coordinate> emptySpots;
   private Random random;
@@ -39,7 +39,7 @@ public class FallingSandCell extends Cell {
       Grid grid) {
     super(position, initialState, edgeType, direction, numberOfRows, numberOfColumns,
         neighborConfig);
-    this.grid = grid;
+    this.grid = (FallingSandGrid) grid;
     canDrop = false;
     emptySpots = new ArrayList<>();
     random = new Random();
@@ -54,7 +54,7 @@ public class FallingSandCell extends Cell {
     } else if (!emptySpots.isEmpty()) {
       neighbor = emptySpots.remove(random.nextInt(emptySpots.size()));
     }
-    grid.makeSwap(getPosition(), neighbor);
+    grid.handleSwap(getPosition(), neighbor);
 
 
   }

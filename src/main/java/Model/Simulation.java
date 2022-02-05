@@ -25,6 +25,14 @@ public abstract class Simulation {
   private List<Integer> neighborConfig;
   private Map<Enum, Integer> data;
 
+  /**
+   * @param numberOfRows    number of rows in simulation grid
+   * @param numberOfColumns number of columns in simulation grid
+   * @param setup           map to initialize the states of the grid's cells
+   * @param edgeType        edge type of grid boundaries
+   * @param direction       directions from which a cell can have neighbors given its shape
+   * @param neighborConfig  configuration of neighbors being considered
+   */
   public Simulation(int numberOfRows, int numberOfColumns, Map<Coordinate, Integer> setup,
       EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
     this.numberOfColumns = numberOfColumns;
@@ -74,6 +82,7 @@ public abstract class Simulation {
   protected List<Integer> getNeighborConfig() {
     return neighborConfig;
   }
+
   /**
    * method for updating the states of the cells in the model given the model's rules. Made public
    * so that the view portion of the program can utilize the method to properly update the graphics
@@ -87,7 +96,14 @@ public abstract class Simulation {
 
   protected abstract void updateData();
 
-  public Map<Enum, Integer> getData() {return data;}
+  /**
+   * getter method for getting the data for histogram development
+   *
+   * @return map storing frequencies of each state in a simulation
+   */
+  public Map<Enum, Integer> getData() {
+    return data;
+  }
 
   protected void determineNewCellStates() {
     for (Cell cell : grid.getCellMap().values()) {
