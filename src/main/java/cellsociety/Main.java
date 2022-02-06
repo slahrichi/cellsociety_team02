@@ -2,9 +2,9 @@ package cellsociety;
 
 import Controller.XMLParser;
 import Model.Simulation;
+import java.util.Map;
 import visualizer.SimulationVisualizer;
 import visualizer.ResettableStage;
-import java.util.HashMap;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,22 +24,19 @@ public class Main extends Application {
   public static final int SIZE_VERTICAL = 625;
   public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
   public static final String DEFAULT_STYLE = "lightMode";
-  private HashMap<String, String> data;
+  private Map<String, String> data;
   private int numCols;
   private int numRows;
   private Simulation currentSimulation;
   private XMLParser parser;
 
   @Override
-  public void start(Stage stage){
-  try {
+  public void start(Stage stage) throws ParserConfigurationException {
+
     parser = new XMLParser();
     startAdditionalGUI(DEFAULT_FILE_PATH);
 
-  }
-  catch(Exception e){
-      System.out.println("placeholder");//FIXME
-    }
+
   }
 
   private void extractDataStartSimulation(String filePath){
