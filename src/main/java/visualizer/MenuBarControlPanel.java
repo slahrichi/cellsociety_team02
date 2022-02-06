@@ -179,6 +179,8 @@ public class MenuBarControlPanel extends ControlPanel {
   private void setLanguage(String language, Pane myRoot, SimulationVisualizer sv) {
     myRoot.getChildren().removeAll(menuBar, myAnimationPanel.getAnimationControls());
     setResourceBundle(ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language));
+    myAnimationPanel.setResourceBundle(
+        ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language));
     sv.createUIControls();
 
   }
