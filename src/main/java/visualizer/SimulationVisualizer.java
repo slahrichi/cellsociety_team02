@@ -3,15 +3,12 @@ package visualizer;
 import Model.Grid;
 import Model.Simulation;
 import cellsociety.Main;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 

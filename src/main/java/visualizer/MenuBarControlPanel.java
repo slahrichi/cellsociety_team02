@@ -169,8 +169,9 @@ public class MenuBarControlPanel extends ControlPanel {
     Button kaButton = makeButton("georgianLanguageCommand",
         e -> setLanguage("Georgian", sv));
     Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", sv));
+    Button tstButton = makeButton("testLanguageCommand", e -> setLanguage("MissingTest", sv));
     HBox result = new HBox();
-    result.getChildren().addAll(enButton, kaButton, arButton);
+    result.getChildren().addAll(enButton, kaButton, arButton,tstButton);
     return result;
   }
 
