@@ -3,12 +3,15 @@ package visualizer;
 import Model.Grid;
 import Model.Simulation;
 import cellsociety.Main;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
@@ -48,7 +51,7 @@ public class SimulationVisualizer {
   private int numColumns;
   private int numRows;
   private final Main myMain;
-  private final ResourceBundle myResources;
+  private ResourceBundle myResources;
   private final String myStyle;
   private AnimationControlPanel myAnimationPanel;
   private MenuBarControlPanel myMenuBarPanel;
@@ -101,6 +104,7 @@ public class SimulationVisualizer {
 
     gridGroup = gv.makeRoot();
     root.setRight(gridGroup);
+
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     myMenuBarPanel.setScene(scene);
     myMenuBarPanel.setStyleMode(myStyle);
@@ -204,6 +208,7 @@ public class SimulationVisualizer {
     try {
       myAnimationPanel.setResourceBundle(newResourceBundle);
       myMenuBarPanel.setResourceBundle(newResourceBundle);
+      myResources = newResourceBundle;
       createUIControls();
     } catch (MissingResourceException e) {
       ErrorWindow newErr = new ErrorWindow(e.getMessage() + ".\nGUI set to English by default.");
@@ -211,6 +216,7 @@ public class SimulationVisualizer {
           ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE));
       myMenuBarPanel.setResourceBundle(
           ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE));
+      myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
       createUIControls();
     }
 
