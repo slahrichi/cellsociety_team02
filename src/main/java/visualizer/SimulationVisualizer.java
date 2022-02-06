@@ -121,7 +121,10 @@ public class SimulationVisualizer {
 
   }
 
-  private void createUIControls() {
+  /**
+   * method for creating all necessary UI control panels, and adding them to stage root
+   */
+  public void createUIControls() {
     myAnimationPanel.createAllAnimationControls(this);
     root.setBottom(myAnimationPanel.getAnimationControls());
     myMenuBarPanel.arrangeMenuComponents(root, this);
@@ -170,7 +173,7 @@ public class SimulationVisualizer {
    */
   public void chooseGridType(String gridType) {
     switch (gridType) {
-      case "Rectangle" -> gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
+      default -> gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
           numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
       case "Triangle" -> gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
           numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
