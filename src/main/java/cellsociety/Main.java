@@ -3,6 +3,7 @@ package cellsociety;
 import Controller.XMLParser;
 import Model.Simulation;
 import java.util.Map;
+import visualizer.ErrorWindow;
 import visualizer.SimulationVisualizer;
 import visualizer.ResettableStage;
 import javafx.application.Application;
@@ -39,23 +40,26 @@ public class Main extends Application {
 
   }
 
-  private void extractDataStartSimulation(String filePath){
-    try{
-    data = parser.parseXML(filePath);}
-    catch (Exception e){}
+  private void extractDataStartSimulation(String filePath) {
+    try {
+      data = parser.parseXML(filePath);
+    } catch (Exception e) {
+    }
     currentSimulation = parser.createSimulation(data);
     getNumberOfColumnAndRow();
   }
-  public void startAdditionalGUI(String filePath){
-    ResettableStage newStage = new ResettableStage(filePath,DEFAULT_STYLE);
+
+  public void startAdditionalGUI(String filePath) {
+    ResettableStage newStage = new ResettableStage(filePath, DEFAULT_STYLE);
     extractDataStartSimulation(filePath);
     startGUI(newStage);
 
   }
+
   private void startGUI(ResettableStage stage) {
     SimulationVisualizer visualizer = new SimulationVisualizer(stage, currentSimulation,
         SIZE_HORIZONTAL, SIZE_VERTICAL,
-        numRows, numCols, this,data.get("direction"));
+        numRows, numCols, this, data.get("direction"));
     visualizer.setUpScene();
   }
 
@@ -65,7 +69,7 @@ public class Main extends Application {
    * @param stage    the main stage of the javaFX GUI
    * @param filepath the filepath for the new file which was selected by the user to load
    */
-  public void changeGUI(ResettableStage stage, String filepath){
+  public void changeGUI(ResettableStage stage, String filepath) {
     stage.close();
     stage.setCurrentFile(filepath);
     extractDataStartSimulation(stage.getCurrentFile());
@@ -78,7 +82,7 @@ public class Main extends Application {
    *
    * @param stage the main stage of the javaFX GUI
    */
-  public void resetModel(ResettableStage stage)  {
+  public void resetModel(ResettableStage stage) {
     stage.close();
     extractDataStartSimulation(stage.getCurrentFile());
     startGUI(stage);
@@ -90,8 +94,17 @@ public class Main extends Application {
    * @throws TransformerException         specifies an exceptional condition that occurred during
    *                                      the transformation process.
    */
-  public void export() throws ParserConfigurationException, TransformerException {
-    parser.saveGrid();
+  public void export() {
+    try {
+      parser.saveGrid();
+    } catch (ParserConfigurationException parserConfigurationException) {
+      ErrorWindow newErr = new ErrorWindow(
+          parserConfigurationException.getMessage());
+    } catch (TransformerException transformerException) {
+      ErrorWindow newErr = new ErrorWindow(
+          transformerException.getMessage());
+    }
+
   }
 
   private void getNumberOfColumnAndRow() {

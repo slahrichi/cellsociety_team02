@@ -9,8 +9,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 /**
  * This class extends the ControlPanel superclass, it is used to create the  menu bar controls,so
@@ -89,15 +87,7 @@ public class MenuBarControlPanel extends ControlPanel {
   private MenuButton createFileMenu() {
     MenuItem loadButton = makeMenuItem("loadCommand", e -> changeModel());
     MenuItem resetButton = makeMenuItem("resetCommand", e -> resetGrid());
-    MenuItem exportButton = makeMenuItem("exportCommand", e -> {
-      try {
-        exportGridToFile();
-      } catch (ParserConfigurationException ex) {
-        ex.printStackTrace();
-      } catch (TransformerException ex) {
-        ex.printStackTrace();
-      }
-    });
+    MenuItem exportButton = makeMenuItem("exportCommand", e -> exportGridToFile());
     MenuItem newUIButton = makeMenuItem("newWindowCommand", e -> openNewWindow());
     return new MenuButton(getResourceBundle().getString("settingsPrompt"), null, loadButton,
         resetButton, exportButton, newUIButton);
@@ -125,7 +115,7 @@ public class MenuBarControlPanel extends ControlPanel {
     }
   }
 
-  private void exportGridToFile() throws ParserConfigurationException, TransformerException {
+  private void exportGridToFile() {
     myAnimationPanel.pause();
     myMain.export();
   }
@@ -159,8 +149,15 @@ public class MenuBarControlPanel extends ControlPanel {
    */
   public void setStyleMode(String styleMode) {
     myScene.getStylesheets().clear();
-    myScene.getStylesheets().add(
-        getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
+    try {
+      myScene.getStylesheets().add(
+          getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
+    } catch (NullPointerException e) {
+      ErrorWindow newErr = new ErrorWindow(
+          e.getMessage()
+              + getResourceBundle().getString("styleSheetError"));
+    }
+
     myStage.setCurrentStyle(styleMode);
   }
 
@@ -171,7 +168,7 @@ public class MenuBarControlPanel extends ControlPanel {
     Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", sv));
     Button tstButton = makeButton("testLanguageCommand", e -> setLanguage("MissingTest", sv));
     HBox result = new HBox();
-    result.getChildren().addAll(enButton, kaButton, arButton,tstButton);
+    result.getChildren().addAll(enButton, kaButton, arButton, tstButton);
     return result;
   }
 
