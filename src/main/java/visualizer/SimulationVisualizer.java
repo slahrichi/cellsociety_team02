@@ -148,17 +148,19 @@ public class SimulationVisualizer {
   public void updateGrid() {
     mySimulation.update();
     myGrid = mySimulation.getGrid();
+
+    root.getChildren().remove(chartGroup);
     myData = mySimulation.getData();
+    chartGroup = dg.createGraph(myData);
+    root.setLeft(chartGroup);
 
     reRenderGrid();
   }
 
   private void reRenderGrid() {
-    root.getChildren().removeAll(gridGroup, chartGroup);
-    chartGroup = dg.createGraph(myData);
+    root.getChildren().removeAll(gridGroup);
     gridGroup = gridVisualizer.makeRoot();
     root.setRight(gridGroup);
-    root.setLeft(chartGroup);
     scene.setRoot(root);
     myStage.setScene(scene);
   }
