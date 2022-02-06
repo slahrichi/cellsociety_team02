@@ -41,10 +41,9 @@ public class Main extends Application {
   }
 
   private void extractDataStartSimulation(String filePath) {
-    try {
-      data = parser.parseXML(filePath);
-    } catch (Exception e) {
-    }
+
+    data = parser.parseXML(filePath);
+
     currentSimulation = parser.createSimulation(data);
     getNumberOfColumnAndRow();
   }
