@@ -51,6 +51,7 @@ public class SimulationVisualizer {
   private MenuBarControlPanel myMenuBarPanel;
   private final boolean defaultGridLineRule = true;
   private final boolean defaultCellStateDisplay = false;
+  private String cellType;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -76,6 +77,7 @@ public class SimulationVisualizer {
     myMain = main;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
     myStyle = stage.getCurrentStyle();
+    cellType = "Hexagon";
   }
 
   /**
@@ -87,8 +89,7 @@ public class SimulationVisualizer {
   public void setUpScene() {
     Timeline animation = new Timeline();
 
-    gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
-        defaultGridLineRule, defaultCellStateDisplay);
+    chooseGridType(cellType);
     root = new BorderPane();
     myAnimationPanel = new AnimationControlPanel(myResources, animation, this);
     myMenuBarPanel = new MenuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
@@ -148,6 +149,28 @@ public class SimulationVisualizer {
 
   public void toggleCellStateDisplay() {
     gv.toggleCellStateDisplay();
+    reRenderGrid();
+  }
+
+  public void chooseGridType(String gridType) {
+    switch (gridType) {
+      case "Rectangle" -> {
+        gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
+            defaultGridLineRule, defaultCellStateDisplay);
+      }
+      case "Triangle" -> {
+        gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
+            defaultGridLineRule, defaultCellStateDisplay);
+      }
+      case "Hexagon" -> {
+        gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
+            defaultGridLineRule, defaultCellStateDisplay);
+      }
+    }
+  }
+
+  public void changeCellType(String newCellType) {
+    chooseGridType(newCellType);
     reRenderGrid();
   }
 

@@ -44,8 +44,9 @@ public class MenuBarControlPanel extends ControlPanel {
 
   public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv) {
     menuBar = new HBox();
-    menuBar.getChildren().addAll(createFileMenu(), createStyleMenu(), createToggleMenu(sv),
-        createLanguageMenu(myRoot, sv));
+    menuBar.getChildren()
+        .addAll(createFileMenu(), createStyleMenu(), createToggleMenu(sv), createCellTypeMenu(sv),
+            createLanguageMenu(myRoot, sv));
 
 
   }
@@ -156,5 +157,11 @@ public class MenuBarControlPanel extends ControlPanel {
     sv.toggleCellStateDisplay();
   }
 
-
+  private MenuButton createCellTypeMenu(SimulationVisualizer sv) {
+    MenuItem rectCellButton = makeMenuItem("rectCellCommand", e -> sv.changeCellType("Rectangle"));
+    MenuItem hexCellButton = makeMenuItem("hexCellCommand", e -> sv.changeCellType("Hexagon"));
+    MenuItem triCellButton = makeMenuItem("triCellCommand", e -> sv.changeCellType("Triangle"));
+    return new MenuButton(getResourceBundle().getString("cellTypeChangePrompt"), null, rectCellButton,
+        hexCellButton, triCellButton);
+  }
 }

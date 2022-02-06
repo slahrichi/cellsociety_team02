@@ -74,9 +74,10 @@ public class HexagonalGridVisualizer extends GridVisualizer {
   protected Polygon createCell(double xPos, double yPos, Coordinate c) {
     Polygon newCell;
     if (c.getColumn() % 2 == 1) {
-      newCell = new Polygon(xPos - hexEdgeWidth / 2, yPos + cellHeight / 2, xPos - hexEdgeWidth,
-          yPos + cellHeight, xPos - hexEdgeWidth / 2, yPos + cellHeight + hexEdgeWidth,
-          xPos + hexEdgeWidth / 2, yPos + cellHeight + hexEdgeWidth, xPos + hexEdgeWidth,
+      newCell = new Polygon(xPos - hexEdgeWidth / 2, yPos + cellHeight / 2,
+          xPos - hexEdgeWidth, yPos + cellHeight,
+          xPos - hexEdgeWidth / 2, yPos + cellHeight * 1.5,
+          xPos + hexEdgeWidth / 2, yPos + cellHeight * 1.5, xPos + hexEdgeWidth,
           yPos + cellHeight,
           xPos + hexEdgeWidth / 2, yPos + cellHeight / 2);
 
