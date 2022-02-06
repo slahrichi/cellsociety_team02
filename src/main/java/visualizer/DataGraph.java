@@ -69,6 +69,9 @@ public class DataGraph {
       series.getData().add(new XYChart.Data<>(entry.name(), myData.get(entry)));
     }
     stepCount++;
+    String name = series.getName();
+    series.setName(
+        name.substring(0, name.length() - (String.valueOf(stepCount).length())) + stepCount);
     BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
 
     barChart.getData().add(series);
