@@ -25,31 +25,32 @@ import javafx.util.Duration;
 public class SimulationVisualizer {
 
   public static final String TITLE = "CellSociety";
-  private final int FRAMES_PER_SECOND = 3;
-  private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+  public static final int FRAMES_PER_SECOND = 3;
+  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
   public static final String DEFAULT_RESOURCE_PACKAGE = "/";
   public static final String DEFAULT_LANGUAGE = "English";
-  private final int GRID_WIDTH = 600;
-  private final int GRID_HEIGHT = 500;
+  public static final int GRID_WIDTH = 600;
+  public static final int GRID_HEIGHT = 500;
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
 
 
-  private ResettableStage myStage;
+  private final ResettableStage myStage;
   private Grid myGrid;
-  private Simulation mySimulation;
+  private final Simulation mySimulation;
   private BorderPane root;
   private Group gridGroup;
   private GridVisualizer gv;
   private Scene scene;
   private int numColumns;
   private int numRows;
-  private Main myMain;
-  private ResourceBundle myResources;
-  private String myStyle;
+  private final Main myMain;
+  private final ResourceBundle myResources;
+  private final String myStyle;
   private AnimationControlPanel myAnimationPanel;
   private MenuBarControlPanel myMenuBarPanel;
-  private boolean defaultGridLineRule = true;
+  private final boolean defaultGridLineRule = true;
+  private final boolean defaultCellStateDisplay = false;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -87,7 +88,7 @@ public class SimulationVisualizer {
     Timeline animation = new Timeline();
 
     gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
-        defaultGridLineRule);
+        defaultGridLineRule, defaultCellStateDisplay);
     root = new BorderPane();
     myAnimationPanel = new AnimationControlPanel(myResources, animation, this);
     myMenuBarPanel = new MenuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
@@ -142,6 +143,11 @@ public class SimulationVisualizer {
 
   public void toggleGridLineRule() {
     gv.toggleGridRule();
+    reRenderGrid();
+  }
+
+  public void toggleCellStateDisplay() {
+    gv.toggleCellStateDisplay();
     reRenderGrid();
   }
 

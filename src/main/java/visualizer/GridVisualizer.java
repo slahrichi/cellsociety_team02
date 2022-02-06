@@ -4,6 +4,7 @@ import Model.Coordinate;
 import Model.Grid;
 import javafx.scene.Group;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
 /**
  * An abstract class for Grid visualization, it has abstractions for methods which would be used by
@@ -25,6 +26,7 @@ public abstract class GridVisualizer {
   private final ColorMap colorMap;
   private final Grid myGrid;
   private boolean gridLineRule;
+  private boolean cellStateDisplayRule;
 
   /**
    * @param width           width of the space allocated for the grid on the screen.
@@ -35,7 +37,7 @@ public abstract class GridVisualizer {
    *                        of the cells during simulation.
    */
   public GridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid,
-      boolean gridRule) {
+      boolean gridRule, boolean cellStateDisplayRule) {
     this.gridWidth = width;
     this.gridHeight = height;
     this.numRows = numberOfRows;
@@ -43,6 +45,7 @@ public abstract class GridVisualizer {
     this.colorMap = new ColorMap();
     this.myGrid = grid;
     this.gridLineRule = gridRule;
+    this.cellStateDisplayRule = cellStateDisplayRule;
 
   }
 
@@ -81,6 +84,8 @@ public abstract class GridVisualizer {
    * @return the cell Shape object.
    */
   protected abstract Shape createCell(double xPos, double yPos, Coordinate c);
+
+  protected abstract double[] getTextCoordinates(double xPos, double yPos, int j);
 
   protected String getCellStateString(Coordinate c) {
     return getGrid().getCellMap().get(c).toString();
@@ -145,7 +150,24 @@ public abstract class GridVisualizer {
   }
 
   public void toggleGridRule() {
-    this.gridLineRule = !this.getGridRule();
+    this.gridLineRule = !this.gridLineRule;
+  }
+
+  protected boolean getCellStateDisplayRule() {
+    return this.cellStateDisplayRule;
+  }
+
+  public void toggleCellStateDisplay() {
+    this.cellStateDisplayRule = !cellStateDisplayRule;
+  }
+
+  protected void addStateTagsToDisplay(double xPos, double yPos, int j, Coordinate c,
+      Group cellGroup) {
+
+    double[] textCoordinate = getTextCoordinates(xPos, yPos, j);
+    Text stateTag = new Text(textCoordinate[0], textCoordinate[1], getCellStateString(c));
+    stateTag.setId("stateTag");
+    cellGroup.getChildren().add(stateTag);
   }
 
 

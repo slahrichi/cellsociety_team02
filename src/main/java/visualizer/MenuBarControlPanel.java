@@ -44,9 +44,8 @@ public class MenuBarControlPanel extends ControlPanel {
 
   public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv) {
     menuBar = new HBox();
-    menuBar.getChildren()
-        .addAll(createFileMenu(), createStyleMenu(), createLanguageMenu(myRoot, sv),
-            createToggleMenu(sv));
+    menuBar.getChildren().addAll(createFileMenu(), createStyleMenu(), createToggleMenu(sv),
+        createLanguageMenu(myRoot, sv));
 
 
   }
@@ -143,11 +142,18 @@ public class MenuBarControlPanel extends ControlPanel {
 
   private MenuButton createToggleMenu(SimulationVisualizer sv) {
     MenuItem gridToggleButton = makeMenuItem("gridCommand", e -> toggleGridLine(sv));
-    return new MenuButton(getResourceBundle().getString("togglePrompt"), null, gridToggleButton);
+    MenuItem cellStateDisplayToggleButton = makeMenuItem("cellStateCommand",
+        e -> toggleDisplayCellState(sv));
+    return new MenuButton(getResourceBundle().getString("togglePrompt"), null, gridToggleButton,
+        cellStateDisplayToggleButton);
   }
 
   private void toggleGridLine(SimulationVisualizer sv) {
     sv.toggleGridLineRule();
+  }
+
+  private void toggleDisplayCellState(SimulationVisualizer sv) {
+    sv.toggleCellStateDisplay();
   }
 
 
