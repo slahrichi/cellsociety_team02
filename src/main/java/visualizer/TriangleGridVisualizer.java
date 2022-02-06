@@ -3,8 +3,8 @@ package visualizer;
 import Model.Coordinate;
 import Model.Grid;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
 
 public class TriangleGridVisualizer extends GridVisualizer {
 
@@ -20,8 +20,8 @@ public class TriangleGridVisualizer extends GridVisualizer {
    *                        of the cells during simulation.
    */
   public TriangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
-      Grid grid, boolean gridRule) {
-    super(width, height, numberOfRows, numberOfColumns, grid, gridRule);
+      Grid grid, boolean gridRule, boolean cellStateDisplayRule) {
+    super(width, height, numberOfRows, numberOfColumns, grid, gridRule, cellStateDisplayRule);
     calculateCellSize();
 
   }
@@ -29,7 +29,7 @@ public class TriangleGridVisualizer extends GridVisualizer {
   @Override
   protected void calculateCellSize() {
     cellHeight = getHeight() / Double.valueOf(getNumRows());
-    cellWidth = getWidth() / Double.valueOf(getNumColumns() / 2 + 1);
+    cellWidth = getWidth() / Double.valueOf((getNumColumns() / 2) + 1);
   }
 
   @Override
@@ -43,21 +43,29 @@ public class TriangleGridVisualizer extends GridVisualizer {
   @Override
   protected Group arrangeCells() {
     Group cellGroup = new Group();
-    double xPos = 0;
+    double xPos;
     double yPos = 0;
     for (int i = 0; i < getNumRows(); i++) {
       xPos = 0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        Text stateTag = new Text(xPos + cellWidth / 3, yPos + cellHeight / 1.5,
-            getCellStateString(c));
-        stateTag.setId("stateTag");
-        cellGroup.getChildren().addAll(createCell(xPos, yPos, c), stateTag);
+        cellGroup.getChildren().add(createCell(xPos, yPos, c));
+        if (getCellStateDisplayRule()) {
+          addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
+        }
         xPos = xPos + cellWidth / 2;
       }
       yPos = yPos + cellHeight;
     }
     return cellGroup;
+  }
+
+  @Override
+  protected double[] getTextCoordinates(double xPos, double yPos, int j) {
+    double[] textCoordinate = new double[2];
+    textCoordinate[0] = xPos + cellWidth / 3;
+    textCoordinate[1] = yPos + cellHeight / 1.5;
+    return textCoordinate;
   }
 
 
@@ -68,12 +76,13 @@ public class TriangleGridVisualizer extends GridVisualizer {
       newCell = new Polygon(xPos, yPos, xPos + cellWidth, yPos, xPos + cellWidth / 2,
           yPos + cellHeight);
     } else {
-      newCell = new Polygon(xPos + cellWidth / 2, yPos,
-          xPos + cellWidth, yPos + cellHeight,
-          xPos, yPos + cellHeight);
+      newCell = new Polygon(xPos + cellWidth / 2, yPos, xPos + cellWidth, yPos + cellHeight, xPos,
+          yPos + cellHeight);
 
     }
-    //newCell.setStroke(Color.BLACK);
+    if (getGridRule()) {
+      newCell.setStroke(Color.BLACK);
+    }
     newCell.setFill(getColorMap().getStateMatch(getCellStateString(c)));
     return newCell;
   }

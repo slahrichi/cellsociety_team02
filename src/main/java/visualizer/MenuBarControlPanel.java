@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
@@ -14,23 +13,20 @@ import javafx.stage.FileChooser;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-public class menuBarControlPanel extends controlPanel {
+public class MenuBarControlPanel extends ControlPanel {
 
   public static final String DEFAULT_RESOURCE_PACKAGE = "/";
 
 
   private HBox menuBar;
-  private MenuItem loadButton;
-  private MenuItem resetButton;
-  private MenuItem exportButton;
-  private Main myMain;
-  private ResettableStage myStage;
-  private animationControlPanel myAnimationPanel;
+  private final Main myMain;
+  private final ResettableStage myStage;
+  private final AnimationControlPanel myAnimationPanel;
   private Scene myScene;
-  private FileChooser fileChooser = new FileChooser();
+  private final FileChooser fileChooser = new FileChooser();
 
-  public menuBarControlPanel(ResourceBundle resources, Main main,
-      animationControlPanel animationPanel, ResettableStage stage) {
+  public MenuBarControlPanel(ResourceBundle resources, Main main,
+      AnimationControlPanel animationPanel, ResettableStage stage) {
     super(resources);
     myStage = stage;
     myMain = main;
@@ -48,17 +44,16 @@ public class menuBarControlPanel extends controlPanel {
 
   public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv) {
     menuBar = new HBox();
-    menuBar.getChildren()
-        .addAll(createFileMenu(), createStyleMenu(), createLanguageMenu(myRoot, sv),
-            createToggleMenu(sv));
+    menuBar.getChildren().addAll(createFileMenu(), createStyleMenu(), createToggleMenu(sv),
+        createLanguageMenu(myRoot, sv));
 
 
   }
 
   private MenuButton createFileMenu() {
-    loadButton = makeMenuItem("loadCommand", e -> changeModel());
-    resetButton = makeMenuItem("resetCommand", e -> resetGrid());
-    exportButton = makeMenuItem("exportCommand", e -> {
+    MenuItem loadButton = makeMenuItem("loadCommand", e -> changeModel());
+    MenuItem resetButton = makeMenuItem("resetCommand", e -> resetGrid());
+    MenuItem exportButton = makeMenuItem("exportCommand", e -> {
       try {
         exportGridToFile();
       } catch (ParserConfigurationException ex) {
@@ -147,11 +142,18 @@ public class menuBarControlPanel extends controlPanel {
 
   private MenuButton createToggleMenu(SimulationVisualizer sv) {
     MenuItem gridToggleButton = makeMenuItem("gridCommand", e -> toggleGridLine(sv));
-    return new MenuButton(getResourceBundle().getString("togglePrompt"), null, gridToggleButton);
+    MenuItem cellStateDisplayToggleButton = makeMenuItem("cellStateCommand",
+        e -> toggleDisplayCellState(sv));
+    return new MenuButton(getResourceBundle().getString("togglePrompt"), null, gridToggleButton,
+        cellStateDisplayToggleButton);
   }
 
   private void toggleGridLine(SimulationVisualizer sv) {
     sv.toggleGridLineRule();
+  }
+
+  private void toggleDisplayCellState(SimulationVisualizer sv) {
+    sv.toggleCellStateDisplay();
   }
 
 

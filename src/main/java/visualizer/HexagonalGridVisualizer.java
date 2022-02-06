@@ -6,18 +6,16 @@ import Model.Grid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.text.Text;
 
 public class HexagonalGridVisualizer extends GridVisualizer {
 
   private double cellWidth;
   private double cellHeight;
   private double hexEdgeWidth;
-  private double gapBalancer;
 
   public HexagonalGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
-      Grid grid, boolean gridRule) {
-    super(width, height, numberOfRows, numberOfColumns, grid, gridRule);
+      Grid grid, boolean gridRule, boolean cellStateDisplayRule) {
+    super(width, height, numberOfRows, numberOfColumns, grid, gridRule, cellStateDisplayRule);
     calculateCellSize();
 
   }
@@ -27,7 +25,6 @@ public class HexagonalGridVisualizer extends GridVisualizer {
     cellHeight = getHeight() / Double.valueOf(getNumRows());
     cellWidth = getWidth() / Double.valueOf(getNumColumns());
     hexEdgeWidth = cellWidth / 2;
-    gapBalancer = hexEdgeWidth;
   }
 
   @Override
@@ -41,24 +38,16 @@ public class HexagonalGridVisualizer extends GridVisualizer {
   @Override
   protected Group arrangeCells() {
     Group cellGroup = new Group();
-    double xPos = 0;
+    double xPos;
     double yPos = 0;
     for (int i = 0; i < getNumRows(); i++) {
       xPos = 0;
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
-        double textXCord = 0;
-        double textYCord = 0;
-        if (j % 2 == 1) {
-          textXCord = xPos - hexEdgeWidth / 2;
-          textYCord = yPos + cellHeight;
-        } else {
-          textXCord = xPos;
-          textYCord = yPos + cellHeight / 2;
+        cellGroup.getChildren().add(createCell(xPos, yPos, c));
+        if (getCellStateDisplayRule()) {
+          addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
         }
-        Text stateTag = new Text(textXCord, textYCord, getCellStateString(c));
-        stateTag.setId("stateTag");
-        cellGroup.getChildren().addAll(createCell(xPos, yPos, c), stateTag);
         xPos = xPos + cellWidth;
         if (j % 2 == 1) {
           xPos = xPos - hexEdgeWidth;
@@ -67,6 +56,19 @@ public class HexagonalGridVisualizer extends GridVisualizer {
       yPos = yPos + cellHeight;
     }
     return cellGroup;
+  }
+
+
+  protected double[] getTextCoordinates(double xPos, double yPos, int j) {
+    double[] textCoordinate = new double[2];
+    if (j % 2 == 1) {
+      textCoordinate[0] = xPos - hexEdgeWidth / 2;
+      textCoordinate[1] = yPos + cellHeight;
+    } else {
+      textCoordinate[0] = xPos;
+      textCoordinate[1] = yPos + cellHeight / 2;
+    }
+    return textCoordinate;
   }
 
 
