@@ -7,15 +7,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+/**
+ * This class extends the ControlPanel superclass, it is used to create the  menu bar controls,so
+ * they can be displayed on the screen.
+ * <p>
+ * This class depends on javaFX, as well as <class>SimulationVisualizer</class> which calls it. It
+ * also depends on<class>AnimationControlPanel</class> for the Pause() functionality.
+ * <class>SimulationVisualizer</class> also  depend on this class since it needs the Pause()
+ * method.
+ *
+ * @author Luka Mdivani
+ */
 public class MenuBarControlPanel extends ControlPanel {
 
-  public static final String DEFAULT_RESOURCE_PACKAGE = "/";
+  public final String DEFAULT_RESOURCE_PACKAGE = "/";
 
 
   private HBox menuBar;
@@ -25,6 +35,16 @@ public class MenuBarControlPanel extends ControlPanel {
   private Scene myScene;
   private final FileChooser fileChooser = new FileChooser();
 
+  /**
+   * The main constructor for the class, used to initialize instance variables.
+   *
+   * @param resources      the resourceBundle used to display texts on the UI.
+   * @param main           the Main class instance associated with this MenuBar, used for
+   *                       changing/resetting models.
+   * @param animationPanel used to call the Pause() method before loading new files, reloading
+   *                       models etc.
+   * @param stage          the stage on which
+   */
   public MenuBarControlPanel(ResourceBundle resources, Main main,
       AnimationControlPanel animationPanel, ResettableStage stage) {
     super(resources);
@@ -34,18 +54,34 @@ public class MenuBarControlPanel extends ControlPanel {
 
   }
 
+  /**
+   * @return returns the HBox object with all the controls, which is added to the root.
+   */
   public HBox getMenuBar() {
     return menuBar;
   }
 
+  /**
+   * used to set the myScene instance variable, separate from constructor because it needs to be set
+   * after the scene has been created, but the contractor is called before this happens.
+   *
+   * @param scene the scene on which the menu bar is displayed.
+   */
   public void setScene(Scene scene) {
     myScene = scene;
   }
 
-  public void arrangeMenuComponents(BorderPane myRoot, SimulationVisualizer sv) {
+  /**
+   * Creates all the menu bar control items when called, and arranges them into an HBox object.
+   *
+   * @param simulationVisualizer the instance of the SimulationVisualizer class.
+   */
+  public void arrangeMenuComponents(SimulationVisualizer simulationVisualizer) {
     menuBar = new HBox();
-    menuBar.getChildren().addAll(createFileMenu(), createStyleMenu(), createToggleMenu(sv),
-        createLanguageMenu(myRoot, sv));
+    menuBar.getChildren()
+        .addAll(createFileMenu(), createStyleMenu(), createToggleMenu(simulationVisualizer),
+            createCellTypeMenu(simulationVisualizer),
+            createLanguageMenu(simulationVisualizer));
 
 
   }
@@ -116,6 +152,11 @@ public class MenuBarControlPanel extends ControlPanel {
         lightModeButton);
   }
 
+  /**
+   * Sets the chosen styleSheet to the GUI Scene.
+   *
+   * @param styleMode the style sheet name which is to be used.
+   */
   public void setStyleMode(String styleMode) {
     myScene.getStylesheets().clear();
     myScene.getStylesheets().add(
@@ -123,20 +164,20 @@ public class MenuBarControlPanel extends ControlPanel {
     myStage.setCurrentStyle(styleMode);
   }
 
-  private HBox createLanguageMenu(BorderPane myRoot, SimulationVisualizer sv) {
-    Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English", myRoot, sv));
+  private HBox createLanguageMenu(SimulationVisualizer sv) {
+    Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English", sv));
     Button kaButton = makeButton("georgianLanguageCommand",
-        e -> setLanguage("Georgian", myRoot, sv));
-    Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", myRoot, sv));
+        e -> setLanguage("Georgian", sv));
+    Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", sv));
+    Button tstButton = makeButton("testLanguageCommand", e -> setLanguage("MissingTest", sv));
     HBox result = new HBox();
-    result.getChildren().addAll(enButton, kaButton, arButton);
+    result.getChildren().addAll(enButton, kaButton, arButton,tstButton);
     return result;
   }
 
-  private void setLanguage(String language, BorderPane myRoot, SimulationVisualizer sv) {
-    myRoot.getChildren().removeAll(menuBar, myAnimationPanel.getAnimationControls());
-    setResourceBundle(ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language));
-    sv.createUIControls();
+  private void setLanguage(String language, SimulationVisualizer sv) {
+    sv.updateLanguageForAllControlPanel(
+        ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language));
 
   }
 
@@ -156,5 +197,11 @@ public class MenuBarControlPanel extends ControlPanel {
     sv.toggleCellStateDisplay();
   }
 
-
+  private MenuButton createCellTypeMenu(SimulationVisualizer sv) {
+    MenuItem rectCellButton = makeMenuItem("rectCellCommand", e -> sv.changeGridType("Rectangle"));
+    MenuItem hexCellButton = makeMenuItem("hexCellCommand", e -> sv.changeGridType("Hexagon"));
+    MenuItem triCellButton = makeMenuItem("triCellCommand", e -> sv.changeGridType("Triangle"));
+    return new MenuButton(getResourceBundle().getString("cellTypeChangePrompt"), null,
+        rectCellButton, hexCellButton, triCellButton);
+  }
 }

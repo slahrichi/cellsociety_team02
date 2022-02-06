@@ -13,7 +13,8 @@ import javafx.scene.text.Text;
  * each one.
  * <p>
  * The <class>SimulationVisualizer</class> depends on this to add the gridGroup to the main root for
- * the scene.
+ * the scene. This class depends on JavaFx. as well as the <class>ColorMap</class> class to get the
+ * color values corresponding to state.
  *
  * @author Luka Mdivani
  */
@@ -29,12 +30,14 @@ public abstract class GridVisualizer {
   private boolean cellStateDisplayRule;
 
   /**
-   * @param width           width of the space allocated for the grid on the screen.
-   * @param height          height of the space allocated for the grid on the screen.
-   * @param numberOfRows    number of rows in the grid
-   * @param numberOfColumns number of columns in the grid
-   * @param grid            the Grid object taken from the Simulation object, used to get the states
-   *                        of the cells during simulation.
+   * @param width                width of the space allocated for the grid on the screen.
+   * @param height               height of the space allocated for the grid on the screen.
+   * @param numberOfRows         number of rows in the grid
+   * @param numberOfColumns      number of columns in the grid
+   * @param grid                 the Grid object taken from the Simulation object, used to get the
+   *                             states of the cells during simulation.
+   * @param gridRule             initial rule of whether gridlines should be shown.
+   * @param cellStateDisplayRule initial rule of whether cell states should be displayed.
    */
   public GridVisualizer(int width, int height, int numberOfRows, int numberOfColumns, Grid grid,
       boolean gridRule, boolean cellStateDisplayRule) {
@@ -85,7 +88,16 @@ public abstract class GridVisualizer {
    */
   protected abstract Shape createCell(double xPos, double yPos, Coordinate c);
 
-  protected abstract double[] getTextCoordinates(double xPos, double yPos, int j);
+  /**
+   * @param xPos         the X coordinate of the cell with respect to the space allocated for the
+   *                     grid.
+   * @param yPos         the Y coordinate of the cell with respect to the space allocated for the
+   *                     grid.
+   * @param columnNumber the column number index of the cell.
+   * @return the coordinates on which the Text corresponding to cell and its state should be
+   * displayed for correct alignment.
+   */
+  protected abstract double[] getTextCoordinates(double xPos, double yPos, int columnNumber);
 
   protected String getCellStateString(Coordinate c) {
     return getGrid().getCellMap().get(c).toString();
@@ -149,25 +161,30 @@ public abstract class GridVisualizer {
     return this.gridLineRule;
   }
 
+  /**
+   * Method which redefines whether gridLines should be added to the grid.Called to handle user
+   * input.
+   */
   public void toggleGridRule() {
     this.gridLineRule = !this.gridLineRule;
   }
 
-  protected boolean getCellStateDisplayRule() {
-    return this.cellStateDisplayRule;
-  }
 
+  /**
+   * Method which redefines whether cells should show their states.Called to handle user input.
+   */
   public void toggleCellStateDisplay() {
     this.cellStateDisplayRule = !cellStateDisplayRule;
   }
 
   protected void addStateTagsToDisplay(double xPos, double yPos, int j, Coordinate c,
       Group cellGroup) {
-
-    double[] textCoordinate = getTextCoordinates(xPos, yPos, j);
-    Text stateTag = new Text(textCoordinate[0], textCoordinate[1], getCellStateString(c));
-    stateTag.setId("stateTag");
-    cellGroup.getChildren().add(stateTag);
+    if (cellStateDisplayRule) {
+      double[] textCoordinate = getTextCoordinates(xPos, yPos, j);
+      Text stateTag = new Text(textCoordinate[0], textCoordinate[1], getCellStateString(c));
+      stateTag.setId("stateTag");
+      cellGroup.getChildren().add(stateTag);
+    }
   }
 
 

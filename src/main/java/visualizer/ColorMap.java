@@ -17,6 +17,9 @@ public class ColorMap {
   private static Map<String, Color> COLOR_MAP = new HashMap<>();
 
 
+  /**
+   * initializes the ColorMap ;
+   */
   public ColorMap() {
     COLOR_MAP.put("EMPTY", Color.LIGHTGRAY);
 
@@ -36,6 +39,13 @@ public class ColorMap {
     COLOR_MAP.put("FISH", Color.CYAN);
     COLOR_MAP.put("SHARK", Color.NAVY);
 
+    COLOR_MAP.put("METAL", Color.ALICEBLUE);
+    COLOR_MAP.put("SAND", Color.LIGHTYELLOW);
+    COLOR_MAP.put("WATER", Color.SKYBLUE);
+
+    COLOR_MAP.put("ROCK", Color.DARKSLATEGRAY);
+    COLOR_MAP.put("PAPER", Color.WHITESMOKE);
+    COLOR_MAP.put("SCISSORS", Color.RED);
   }
 
   /**
