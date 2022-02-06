@@ -3,6 +3,7 @@ package visualizer;
 import Model.Grid;
 import Model.Simulation;
 import cellsociety.Main;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
@@ -43,7 +44,7 @@ public class SimulationVisualizer {
   private final Simulation mySimulation;
   private BorderPane root;
   private Group gridGroup;
-  private GridVisualizer gv;
+  private GridVisualizer gridVisualizer;
   private Scene scene;
   private int numColumns;
   private int numRows;
@@ -55,6 +56,9 @@ public class SimulationVisualizer {
   private final boolean defaultGridLineRule = true;
   private final boolean defaultCellStateDisplay = false;
   private String cellType;
+  private Group chartGroup;
+  private Map<Enum, Integer> myData;
+  private DataGraph dg;
 
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
@@ -67,9 +71,10 @@ public class SimulationVisualizer {
    * @param columns    number of columns in the model grid
    * @param main       the instance of <class> Main.java </class>, used to call the file change or
    *                   reset methods.
+   * @param cellShape  Graphical shape of the cell.
    */
   public SimulationVisualizer(ResettableStage stage, Simulation simulation, int width, int height,
-      int rows, int columns, Main main) {
+      int rows, int columns, Main main, String cellShape) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -80,7 +85,8 @@ public class SimulationVisualizer {
     myMain = main;
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
     myStyle = stage.getCurrentStyle();
-    cellType = "Hexagon";
+    cellType = cellShape;
+    myData = mySimulation.getData();
   }
 
   /**
@@ -99,9 +105,11 @@ public class SimulationVisualizer {
 
     createUIControls();
 
-    gridGroup = gv.makeRoot();
+    gridGroup = gridVisualizer.makeRoot();
     root.setRight(gridGroup);
-
+    dg = new DataGraph(myResources);
+    chartGroup = dg.createGraph(myData);
+    root.setLeft(chartGroup);
     scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
     myMenuBarPanel.setScene(scene);
     myMenuBarPanel.setStyleMode(myStyle);
@@ -140,14 +148,17 @@ public class SimulationVisualizer {
   public void updateGrid() {
     mySimulation.update();
     myGrid = mySimulation.getGrid();
+    myData = mySimulation.getData();
 
     reRenderGrid();
   }
 
   private void reRenderGrid() {
-    root.getChildren().remove(gridGroup);
-    gridGroup = gv.makeRoot();
+    root.getChildren().removeAll(gridGroup, chartGroup);
+    chartGroup = dg.createGraph(myData);
+    gridGroup = gridVisualizer.makeRoot();
     root.setRight(gridGroup);
+    root.setLeft(chartGroup);
     scene.setRoot(root);
     myStage.setScene(scene);
   }
@@ -156,7 +167,7 @@ public class SimulationVisualizer {
    * Toggles the gridLine display condition according to user input.
    */
   public void toggleGridLineRule() {
-    gv.toggleGridRule();
+    gridVisualizer.toggleGridRule();
     reRenderGrid();
   }
 
@@ -164,7 +175,7 @@ public class SimulationVisualizer {
    * toggles the cell State display condition according to user input
    */
   public void toggleCellStateDisplay() {
-    gv.toggleCellStateDisplay();
+    gridVisualizer.toggleCellStateDisplay();
     reRenderGrid();
   }
 
@@ -175,12 +186,12 @@ public class SimulationVisualizer {
    */
   public void chooseGridType(String gridType) {
     switch (gridType) {
-      default -> gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns,
-          myGrid, defaultGridLineRule, defaultCellStateDisplay);
-      case "Triangle" -> gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
+      default -> gridVisualizer = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
           numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
-      case "Hexagon" -> gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
-          numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+      case "TRIANGLE" -> gridVisualizer = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
+          numRows, numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+      case "HEXAGON" -> gridVisualizer = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
+          numRows, numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
     }
   }
 

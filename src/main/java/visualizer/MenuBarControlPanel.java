@@ -198,9 +198,9 @@ public class MenuBarControlPanel extends ControlPanel {
   }
 
   private MenuButton createCellTypeMenu(SimulationVisualizer sv) {
-    MenuItem rectCellButton = makeMenuItem("rectCellCommand", e -> sv.changeGridType("Rectangle"));
-    MenuItem hexCellButton = makeMenuItem("hexCellCommand", e -> sv.changeGridType("Hexagon"));
-    MenuItem triCellButton = makeMenuItem("triCellCommand", e -> sv.changeGridType("Triangle"));
+    MenuItem rectCellButton = makeMenuItem("rectCellCommand", e -> sv.changeGridType("SQUARE"));
+    MenuItem hexCellButton = makeMenuItem("hexCellCommand", e -> sv.changeGridType("HEXAGON"));
+    MenuItem triCellButton = makeMenuItem("triCellCommand", e -> sv.changeGridType("TRIANGLE"));
     return new MenuButton(getResourceBundle().getString("cellTypeChangePrompt"), null,
         rectCellButton, hexCellButton, triCellButton);
   }
