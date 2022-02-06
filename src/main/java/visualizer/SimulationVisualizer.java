@@ -3,6 +3,7 @@ package visualizer;
 import Model.Grid;
 import Model.Simulation;
 import cellsociety.Main;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -124,10 +125,10 @@ public class SimulationVisualizer {
   /**
    * method for creating all necessary UI control panels, and adding them to stage root
    */
-  public void createUIControls() {
+  private void createUIControls() {
     myAnimationPanel.createAllAnimationControls(this);
     root.setBottom(myAnimationPanel.getAnimationControls());
-    myMenuBarPanel.arrangeMenuComponents(root, this);
+    myMenuBarPanel.arrangeMenuComponents(this);
     root.setTop(myMenuBarPanel.getMenuBar());
   }
 
@@ -173,8 +174,8 @@ public class SimulationVisualizer {
    */
   public void chooseGridType(String gridType) {
     switch (gridType) {
-      default -> gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
-          numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+      default -> gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns,
+          myGrid, defaultGridLineRule, defaultCellStateDisplay);
       case "Triangle" -> gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
           numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
       case "Hexagon" -> gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
@@ -190,6 +191,29 @@ public class SimulationVisualizer {
   public void changeGridType(String newGridType) {
     chooseGridType(newGridType);
     reRenderGrid();
+  }
+
+  /**
+   * updates the resourceBundle used for GUI text.
+   *
+   * @param newResourceBundle new resource bundle selected by user.
+   */
+  public void updateLanguageForAllControlPanel(ResourceBundle newResourceBundle) {
+    root.getChildren()
+        .removeAll(myMenuBarPanel.getMenuBar(), myAnimationPanel.getAnimationControls());
+    try {
+      myAnimationPanel.setResourceBundle(newResourceBundle);
+      myMenuBarPanel.setResourceBundle(newResourceBundle);
+      createUIControls();
+    } catch (MissingResourceException e) {
+      ErrorWindow newErr = new ErrorWindow(e.getMessage() + ".\nGUI set to English by default.");
+      myAnimationPanel.setResourceBundle(
+          ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE));
+      myMenuBarPanel.setResourceBundle(
+          ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE));
+      createUIControls();
+    }
+
   }
 
 

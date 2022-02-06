@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -75,15 +74,14 @@ public class MenuBarControlPanel extends ControlPanel {
   /**
    * Creates all the menu bar control items when called, and arranges them into an HBox object.
    *
-   * @param myRoot               the main root of the UI scene
    * @param simulationVisualizer the instance of the SimulationVisualizer class.
    */
-  public void arrangeMenuComponents(Pane myRoot, SimulationVisualizer simulationVisualizer) {
+  public void arrangeMenuComponents(SimulationVisualizer simulationVisualizer) {
     menuBar = new HBox();
     menuBar.getChildren()
         .addAll(createFileMenu(), createStyleMenu(), createToggleMenu(simulationVisualizer),
             createCellTypeMenu(simulationVisualizer),
-            createLanguageMenu(myRoot, simulationVisualizer));
+            createLanguageMenu(simulationVisualizer));
 
 
   }
@@ -166,22 +164,19 @@ public class MenuBarControlPanel extends ControlPanel {
     myStage.setCurrentStyle(styleMode);
   }
 
-  private HBox createLanguageMenu(Pane myRoot, SimulationVisualizer sv) {
-    Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English", myRoot, sv));
+  private HBox createLanguageMenu(SimulationVisualizer sv) {
+    Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English", sv));
     Button kaButton = makeButton("georgianLanguageCommand",
-        e -> setLanguage("Georgian", myRoot, sv));
-    Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", myRoot, sv));
+        e -> setLanguage("Georgian", sv));
+    Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", sv));
     HBox result = new HBox();
     result.getChildren().addAll(enButton, kaButton, arButton);
     return result;
   }
 
-  private void setLanguage(String language, Pane myRoot, SimulationVisualizer sv) {
-    myRoot.getChildren().removeAll(menuBar, myAnimationPanel.getAnimationControls());
-    setResourceBundle(ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language));
-    myAnimationPanel.setResourceBundle(
+  private void setLanguage(String language, SimulationVisualizer sv) {
+    sv.updateLanguageForAllControlPanel(
         ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language));
-    sv.createUIControls();
 
   }
 
