@@ -6,18 +6,29 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
+/**
+ * The class is an extension of GridVisualizer abstract class. It builds the gridGroup in the case
+ * of rectangular grid with triangular cell tiling.
+ * <p>
+ * Along with JavaFX, this class depends on the GridVisualizer class, as well as
+ * SimulationVisualizer. SimulationVisualizer in turn depends on this class.
+ *
+ * @author Luka Mdivani
+ */
 public class TriangleGridVisualizer extends GridVisualizer {
 
   private double cellWidth;
   private double cellHeight;
 
   /**
-   * @param width           width of the space allocated for the grid on the screen.
-   * @param height          height of the space allocated for the grid on the screen.
-   * @param numberOfRows    number of rows in the grid
-   * @param numberOfColumns number of columns in the grid
-   * @param grid            the Grid object taken from the Simulation object, used to get the states
-   *                        of the cells during simulation.
+   * @param width                width of the space allocated for the grid on the screen.
+   * @param height               height of the space allocated for the grid on the screen.
+   * @param numberOfRows         number of rows in the grid
+   * @param numberOfColumns      number of columns in the grid
+   * @param grid                 the Grid object taken from the Simulation object, used to get the
+   *                             states of the cells during simulation.
+   * @param gridRule             initial rule of whether gridlines should be shown.
+   * @param cellStateDisplayRule initial rule of whether cell states should be displayed.
    */
   public TriangleGridVisualizer(int width, int height, int numberOfRows, int numberOfColumns,
       Grid grid, boolean gridRule, boolean cellStateDisplayRule) {
@@ -33,6 +44,8 @@ public class TriangleGridVisualizer extends GridVisualizer {
   }
 
   @Override
+  //This is not implemented in the abstract class because someone might want to have a custom background
+  //for the grid.Thus need to add more items to the gridGroup.
   public Group makeRoot() {
     Group gridRoot = new Group();
 

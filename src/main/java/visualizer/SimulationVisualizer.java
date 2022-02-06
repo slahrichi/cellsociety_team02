@@ -18,19 +18,21 @@ import javafx.util.Duration;
  * <p>
  * Dependencies-  The class depends on the relevant <class> Simulation.java</class> class, which is
  * fed to the relevant<class> GridVisualizer</class> subclass to build the graphical interpretation
- * of the grid. It depends on the <class>Main</class> to receive the necessary data.
+ * of the grid. It depends on the <class>Main</class> to receive the necessary data. As well as the
+ * <class>AnimationControlPanel</class>,<class>MenuBarControlPanel</class>,and
+ * <class>GridVisualizer</class> to build the objects and functionalities necessary for the UI.
  *
  * @author Luka Mdivani
  */
 public class SimulationVisualizer {
 
-  public static final String TITLE = "CellSociety";
-  public static final int FRAMES_PER_SECOND = 3;
-  public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-  public static final String DEFAULT_RESOURCE_PACKAGE = "/";
-  public static final String DEFAULT_LANGUAGE = "English";
-  public static final int GRID_WIDTH = 600;
-  public static final int GRID_HEIGHT = 500;
+  public final String TITLE = "CellSociety";
+  public final int FRAMES_PER_SECOND = 3;
+  public final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+  public final String DEFAULT_RESOURCE_PACKAGE = "/";
+  public final String DEFAULT_LANGUAGE = "English";
+  public final int GRID_WIDTH = 600;
+  public final int GRID_HEIGHT = 500;
   private final int SCENE_WIDTH;
   private final int SCENE_HEIGHT;
 
@@ -91,7 +93,7 @@ public class SimulationVisualizer {
 
     chooseGridType(cellType);
     root = new BorderPane();
-    myAnimationPanel = new AnimationControlPanel(myResources, animation, this);
+    myAnimationPanel = new AnimationControlPanel(myResources, animation);
     myMenuBarPanel = new MenuBarControlPanel(myResources, myMain, myAnimationPanel, myStage);
 
     createUIControls();
@@ -104,7 +106,7 @@ public class SimulationVisualizer {
 
     KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
       if (myAnimationPanel.getAnimationStatus()) {
-        myAnimationPanel.step();
+        myAnimationPanel.step(this);
       }
     });
 
@@ -119,14 +121,17 @@ public class SimulationVisualizer {
 
   }
 
-  public void createUIControls() {
-    myAnimationPanel.createAllAnimationControls();
+  private void createUIControls() {
+    myAnimationPanel.createAllAnimationControls(this);
     root.setBottom(myAnimationPanel.getAnimationControls());
     myMenuBarPanel.arrangeMenuComponents(root, this);
     root.setTop(myMenuBarPanel.getMenuBar());
   }
 
 
+  /**
+   * Updates the simulation object, as well the graphical grid.
+   */
   public void updateGrid() {
     mySimulation.update();
     myGrid = mySimulation.getGrid();
@@ -142,35 +147,45 @@ public class SimulationVisualizer {
     myStage.setScene(scene);
   }
 
+  /**
+   * Toggles the gridLine display condition according to user input.
+   */
   public void toggleGridLineRule() {
     gv.toggleGridRule();
     reRenderGrid();
   }
 
+  /**
+   * toggles the cell State display condition according to user input
+   */
   public void toggleCellStateDisplay() {
     gv.toggleCellStateDisplay();
     reRenderGrid();
   }
 
+  /**
+   * visualizes the correct type of grid, depending on XML specifications.
+   *
+   * @param gridType the string representing which grid type of grid to visualize.
+   */
   public void chooseGridType(String gridType) {
     switch (gridType) {
-      case "Rectangle" -> {
-        gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
-            defaultGridLineRule, defaultCellStateDisplay);
-      }
-      case "Triangle" -> {
-        gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
-            defaultGridLineRule, defaultCellStateDisplay);
-      }
-      case "Hexagon" -> {
-        gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows, numColumns, myGrid,
-            defaultGridLineRule, defaultCellStateDisplay);
-      }
+      case "Rectangle" -> gv = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
+          numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+      case "Triangle" -> gv = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
+          numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+      case "Hexagon" -> gv = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
+          numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
     }
   }
 
-  public void changeCellType(String newCellType) {
-    chooseGridType(newCellType);
+  /**
+   * changes the grid type according to user input.
+   *
+   * @param newGridType the new type of grid user selected
+   */
+  public void changeGridType(String newGridType) {
+    chooseGridType(newGridType);
     reRenderGrid();
   }
 

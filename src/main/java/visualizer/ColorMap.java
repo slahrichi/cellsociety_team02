@@ -17,6 +17,9 @@ public class ColorMap {
   private static Map<String, Color> COLOR_MAP = new HashMap<>();
 
 
+  /**
+   * initializes the ColorMap ;
+   */
   public ColorMap() {
     COLOR_MAP.put("EMPTY", Color.LIGHTGRAY);
 
