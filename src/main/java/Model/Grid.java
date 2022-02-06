@@ -54,4 +54,12 @@ public abstract class Grid {
       cellMap.put(c, swap);
     }
   }
+
+  public int getNumRows() {
+    return numberOfRows;
+  }
+
+  public int getNumCols() {
+    return numberOfColumns;
+  }
 }

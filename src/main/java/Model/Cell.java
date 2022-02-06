@@ -82,7 +82,7 @@ public abstract class Cell {
     position = c;
   }
 
-  protected Enum getCurrentState() {
+  public Enum getCurrentState() {
     return currentState;
   }
 

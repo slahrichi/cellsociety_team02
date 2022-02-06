@@ -1,18 +1,26 @@
+
 package Controller;
 
 import Model.Cell;
 import Model.Coordinate;
+import Model.Edge;
+import Model.Edge.EdgeType;
 import Model.GameOfLife.GameOfLife;
+import Model.Neighbors;
+import Model.Neighbors.Direction;
 import Model.Percolation.Percolation;
 import Model.Segregation.Segregation;
-import Model.SpreadingFire.SpreadingFire;
 import Model.Simulation;
+import Model.SpreadingFire.SpreadingFire;
 import Model.States;
 import Model.WaTor.WaTor;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,35 +31,19 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.SchemaFactoryLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 
 public class XMLParser {
 
-  public static final String DEFAULT_GRID = """
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0
-      """;
-  private final String DEFAULT_SIM = "SpreadingFire";
-  private final String DEFAULT_NCOLS = "10";
-  private final String DEFAULT_NROWS = "10";
-  private final String DEFAULT_PROB_CATCH = "0";
-  private final String DEFAULT_THRESHOLD = "0.3";
-  private final String DEFAULT_FISH_CHRONON = "3";
-  private final String DEFAULT_SHARK_CHRONON = "6";
+  private static HashMap<String, String> defaultValues;
   private final DocumentBuilder DOCUMENT_BUILDER;
   private static Simulation CURRENT_SIMULATION;
   private static Enum[] STATE_VALUES;
-  private static HashMap<String, String> data;
+  private Map<String, String> data;
+  private Element simulation;
 
   /**
    * Instantiates Document Builder object to do the parsing
@@ -61,31 +53,57 @@ public class XMLParser {
 
   public XMLParser() throws ParserConfigurationException {
     DOCUMENT_BUILDER = createDocumentBuilder();
+    defaultValues = storeDefaultValues();
   }
 
   /**
-   * Opens the file if XML, throws error if else, extracts data from list of Tags, stores it and
-   * returns it in a HashMap
+   * Opens the file if XML extracts data from list of Tags, stores it and
+   * returns it in a HashMap, else throws error and load SpreadingFire by default.
    *
    * @param filePath String of the path of the XML file
    * @return
-   * @throws Exception if DOCUEMENT_BUILDER tries to parse a non-XML file
    */
-  public HashMap<String, String> parseXML(String filePath) throws Exception {
-    if (filePath.substring(filePath.lastIndexOf('.')).equals(".xml")) {
+
+  public Map<String, String> parseXML(String filePath) {
+    try {
+      return extractData(extractSimulation(filePath));
+    }
+    catch (XMLException e) {
+      System.out.println(e.getMessage());
+      return extractData(extractSimulation(defaultValues.get("filepath")));
+    }
+  }
+
+  private Element extractSimulation(String filePath) {
+    try {
       File XMLFile = new File(filePath);
       Document XMLDocument = DOCUMENT_BUILDER.parse(XMLFile);
-      Element simulation = XMLDocument.getDocumentElement();
-      data = new HashMap<>();
-      for (String tag : GeneralController.TAGS) {
-        if (simulation.getElementsByTagName(tag).getLength() > 0) {
-          data.put(tag, simulation.getElementsByTagName(tag).item(0).getTextContent());
-        }
-      }
-      return data;
-    } else {
-      throw new Exception("Non-XML files not supported");
+      simulation = XMLDocument.getDocumentElement();
+      return simulation;
     }
+    // wrong file type
+    catch(Exception e){
+      System.out.println(e.getMessage());
+      return extractSimulation(defaultValues.get("filepath"));
+    }
+  }
+
+  private Map<String, String> extractData(Element simulation) {
+    data = new HashMap<>();
+    for (String tag : GeneralController.TAGS) {
+      try {
+        if(simulation.getElementsByTagName(tag).item(0) == null){
+          throw new XMLException("Empty/non-existing tag " + tag + " using default value \n" + defaultValues.get(tag));
+        }
+        data.put(tag, simulation.getElementsByTagName(tag).item(0).getTextContent());
+      }
+      // tag not found
+      catch (XMLException e) {
+        data.put(tag, defaultValues.get(tag));
+        System.out.println(e.getMessage());
+      }
+    }
+    return data;
   }
 
   /**
@@ -95,20 +113,31 @@ public class XMLParser {
    * @throws TransformerException
    */
   public void saveGrid() throws ParserConfigurationException, TransformerException {
-    DocumentBuilder docBuilder = createDocumentBuilder();
-    Document doc = docBuilder.newDocument();
+    Document doc = createDocumentBuilder().newDocument();
     Element root = doc.createElement("data");
+    appendRootToDoc(doc, root);
+    for (Map.Entry<String, String> entry : data.entrySet()) {
+      addChildrenToNode(doc, root, entry);
+    }
+    transformToOutput(doc);
+  }
+
+  private void appendRootToDoc(Document doc, Element root) {
     root.appendChild(doc.createTextNode("simulation"));
     doc.appendChild(root);
-    for (Map.Entry<String, String> entry : data.entrySet()) {
-      Element node = doc.createElement(entry.getKey());
-      if (entry.getKey() != "grid") {
-        node.appendChild(doc.createTextNode(entry.getValue()));
-      } else {
-        node.appendChild(doc.createTextNode(gridToXML()));
-      }
-      root.appendChild(node);
+  }
+
+  private void addChildrenToNode(Document doc, Element root, Entry<String, String> entry) {
+    Element node = doc.createElement(entry.getKey());
+    if (entry.getKey() != "grid") {
+      node.appendChild(doc.createTextNode(entry.getValue()));
+    } else {
+      node.appendChild(doc.createTextNode(gridToXML()));
     }
+    root.appendChild(node);
+  }
+
+  private void transformToOutput(Document doc) throws TransformerException {
     Transformer transformer = createTransformer();
     DOMSource source = new DOMSource(doc);
     StreamResult file = new StreamResult(new File("doc/output.xml"));
@@ -123,10 +152,10 @@ public class XMLParser {
   private String gridToXML() {
     Map<Coordinate, Cell> currentGrid = CURRENT_SIMULATION.getGrid().getCellMap();
     String gridString = "";
-    int nrows = Integer.parseInt(DEFAULT_NROWS);
-    int ncols = Integer.parseInt(DEFAULT_NCOLS);
-    for (int i = 0; i < nrows; i++) {
-      for (int j = 0; j < ncols; j++) {
+    int numRows = CURRENT_SIMULATION.getGrid().getNumRows();
+    int numCols = CURRENT_SIMULATION.getGrid().getNumCols();
+    for (int i = 0; i < numRows; i++) {
+      for (int j = 0; j < numCols; j++) {
         Cell currentCell = currentGrid.get(new Coordinate(i, j));
         Enum currentState = currentCell.getCurrentState();
         int value = Arrays.asList(STATE_VALUES).indexOf(currentState);
@@ -137,25 +166,212 @@ public class XMLParser {
     return gridString;
   }
 
+  private Boolean isParsableMandatoryInt(){
+    try{
+      Integer.parseInt(data.get("numberOfColumns"));
+      Integer.parseInt(data.get("numberOfRows"));
+      Integer.parseInt(data.get("grid"));
+      return true;
+    }
+    catch(final NumberFormatException e){
+      return false;
+    }
+  }
+
+  private Boolean shapeMismatch(int numCols, int numRows, String allCells){
+    return numCols * numRows != allCells.length();
+  }
   /**
    * creates the specific Simulation object corresponding to the data HashMap if the data HashMap
    * does not contain some fields, the method returns an instance of SpreadingFire by default.
+   * First checks if numRows, numCols, are parsable, then checks for shape mismatch with grid
    *
    * @param data hashMap returned by parseXML with the Simulation's data
    * @return
    */
-  public Simulation createSimulation(HashMap<String, String> data) {
 
-    // returns the String simulation type or SpreadingFire by default
-    String simulation = data.getOrDefault("type", DEFAULT_SIM);
-    int numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", DEFAULT_NCOLS));
-    int numRows = Integer.parseInt(data.getOrDefault("numberOfRows", DEFAULT_NROWS));
-    double probCatch = Double.parseDouble(data.getOrDefault("probCatch", DEFAULT_PROB_CATCH));
-    double threshold = Double.parseDouble(data.getOrDefault("threshold", DEFAULT_THRESHOLD));
-    int fishChronon = Integer.parseInt(data.getOrDefault("fishChronon", DEFAULT_FISH_CHRONON));
-    int sharkChronon = Integer.parseInt(data.getOrDefault("sharkChronon", DEFAULT_SHARK_CHRONON));
-    String grid = data.getOrDefault("grid", DEFAULT_GRID);
-    String allCells = grid.replaceAll("[^0-9]", "");
+  public Simulation createSimulation(Map<String, String> data) throws XMLException {
+    int numCols;
+    int numRows;
+    String allCells;
+    EdgeType edgeType;
+    List<Integer> neighborConfig;
+    Direction direction;
+
+    try{
+      if (isParsableMandatoryInt()){
+        throw new XMLException("Invalid dimensions. Using default values.");
+      }
+      numCols = Integer.parseInt(data.get("numberOfColumns"));
+      numRows = Integer.parseInt(data.get("numberOfRows"));
+      allCells = data.get("grid").replaceAll("[^0-9]", "");
+      if (shapeMismatch(numRows, numCols, allCells)){
+        data.put("grid", defaultValues.get("grid"));
+        throw new XMLException("Dimensions mismatch. Grid given has " + allCells.length()
+            + " cells, numberOfRows*numberOfColumns = "
+            +numCols*numRows + ". Using default values instead.");
+      }
+    }
+    catch(XMLException XMLe) {
+      System.out.println(XMLe.getMessage());
+    }
+
+    finally{
+      numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", defaultValues.get("numberOfColumns")));
+      numRows = Integer.parseInt(data.getOrDefault("numberOfRows", defaultValues.get("numberOfRows")));
+      allCells = data.getOrDefault("grid", defaultValues.get("grid")).replaceAll("[^0-9]", "");
+      edgeType = Edge.EdgeType.valueOf(data.getOrDefault("edgeType", defaultValues.get("edgeType")));
+      direction = Neighbors.Direction.valueOf(data.getOrDefault("direction", defaultValues.get("direction")));
+      neighborConfig = getConfigList(data.getOrDefault("neighborConfig", defaultValues.get("neighborConfig")));
+    }
+
+    Map<Coordinate, Integer> map = getCoordinateIntegerMap(numCols, numRows, allCells);
+
+    String type = getSimulation(data);
+    switch (type) {
+      case "GameOfLife" -> createGameOfLife(numCols, numRows, map, edgeType, direction, neighborConfig);
+      case "SpreadingFire" -> createSpreadingFire(data, numCols, numRows, map, edgeType, direction, neighborConfig);
+      case "Segregation" -> createSegregation(data, numCols, numRows, map, edgeType, direction, neighborConfig);
+      case "WaTor" -> createWaTor(data, numCols, numRows, map, edgeType, direction, neighborConfig);
+      case "Percolation" -> createPercolation(numCols, numRows, map, edgeType, direction, neighborConfig);
+    }
+    return CURRENT_SIMULATION;
+  }
+
+  private List<Integer> getConfigList(String neighborConfig) {
+    List<Integer> config = new ArrayList<>(neighborConfig.length());
+    String[] splitString = neighborConfig.split(" ");
+    for (String c:splitString){
+      config.add(Integer.parseInt(c));
+    }
+    return config;
+  }
+
+  private Boolean isParsableDouble(String tag){
+    try{
+      Double.parseDouble(tag);
+      return true;
+    }
+    catch(final NumberFormatException e){
+      return false;
+    }
+  }
+
+  private Boolean isParsableInt(String tag){
+    try{
+      Integer.parseInt(tag);
+      return true;
+    }
+    catch(final NumberFormatException e){
+      return false;
+    }
+  }
+
+  private void checkParameters(String param, Boolean isDouble){
+    if(simulation.getElementsByTagName(param).item(0) == null){
+      throw new XMLException(param+" tag non-existent/empty. Using default: "+defaultValues.get(param));
+    }
+    if(isDouble) {
+      if (!isParsableDouble(simulation.getElementsByTagName(param).item(0).getTextContent())) {
+        throw new XMLException(
+            "Invalid value for " + param + " passed. Using default: " + defaultValues.get(
+                param));
+      }
+    }
+    else{
+      if(!isParsableInt(simulation.getElementsByTagName(param).item(0).getTextContent())){
+        throw new XMLException(
+            "Invalid value for " + param + " passed. Using default: " + defaultValues.get(
+                param));
+      }
+    }
+    data.put(param,simulation.getElementsByTagName(param).item(0).getTextContent());
+  }
+
+  private void useDefault(String param, XMLException e){
+    String value = defaultValues.get(param);
+    data.put(param, value);
+    System.out.println(e.getMessage());
+  }
+  private void createSegregation(Map<String, String> data, int numCols, int numRows,
+      Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+    try {
+      checkParameters("threshold", true);
+    }
+    catch(XMLException e){
+      useDefault("threshold", e);
+    }
+    finally{
+      double threshold = Double.parseDouble(data.get("threshold"));
+      CURRENT_SIMULATION = new Segregation(numRows, numCols, map, edgeType, direction, neighborConfig, threshold);
+      STATE_VALUES = States.Segregation.values();
+    }
+  }
+
+  private void createWaTor(Map<String, String> data, int numCols, int numRows,
+      Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+    try{
+      checkParameters("fishChronon", false);
+      checkParameters("sharkChronon", false);
+    }
+    catch(XMLException e){
+      useDefault("fishChronon",e);
+      useDefault("sharkChronon",e);
+    }
+    finally{
+      int fishChronon = Integer.parseInt(data.get("fishChronon"));
+      int sharkChronon = Integer.parseInt(data.get("sharkChronon"));
+      CURRENT_SIMULATION = new WaTor(numRows, numCols, map, edgeType, direction, neighborConfig, fishChronon, sharkChronon);
+      STATE_VALUES = States.WaTor.values();
+    }
+  }
+
+  private void createPercolation(int numCols, int numRows, Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+    CURRENT_SIMULATION = new Percolation(numRows, numCols, map, edgeType, direction, neighborConfig);
+    STATE_VALUES = States.Percolation.values();
+  }
+
+  private void createSpreadingFire(Map<String, String> data, int numCols, int numRows,
+      Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+
+    try{
+      checkParameters("probCatch", true);
+         }
+    catch(XMLException e) {
+      useDefault("probCatch",e);
+    }
+    finally{
+      double probCatch = Double.parseDouble(data.get("probCatch"));
+      CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, edgeType, direction, neighborConfig, probCatch);
+      STATE_VALUES = States.SpreadingFire.values();
+    }
+  }
+
+  private void createGameOfLife(int numCols, int numRows, Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+    CURRENT_SIMULATION = new GameOfLife(numRows, numCols, map, edgeType, direction, neighborConfig);
+    STATE_VALUES = States.GameOfLife.values();
+  }
+
+  private String getSimulation(Map<String, String> data) {
+    String type;
+    try {
+      type = data.get("type");
+      if (!GeneralController.SIMULATIONS.contains(type)){
+        throw new XMLException("Invalid simulation type provided. Using default SpreadingFire");
+      }
+    }
+    catch (XMLException e) {
+      type = defaultValues.get("type");
+      data.put("type",type);
+    }
+    finally{
+      type = data.getOrDefault("type", defaultValues.get("type"));
+    }
+    return type;
+  }
+
+  private Map<Coordinate, Integer> getCoordinateIntegerMap(int numCols, int numRows,
+      String allCells) {
     int[][] cellsArray = new int[numRows][numCols];
     for (int a = 0; a < numRows * numCols; a += numCols) {
       for (int b = 0; b < numCols; b++) {
@@ -169,33 +385,7 @@ public class XMLParser {
         map.put(new Coordinate(i, j), cellsArray[i][j]);
       }
     }
-
-    switch (simulation) {
-      case "GameOfLife" -> {
-        CURRENT_SIMULATION = new GameOfLife( numRows,numCols, map);
-        STATE_VALUES = States.GameOfLife.values();
-      }
-      case "SpreadingFire" -> {
-        CURRENT_SIMULATION = new SpreadingFire(numRows, numCols, map, probCatch);
-        STATE_VALUES = States.SpreadingFire.values();
-      }
-      case "Segregation" -> {
-        CURRENT_SIMULATION = new Segregation(numRows, numCols, map,
-            threshold);
-        STATE_VALUES = States.Segregation.values();
-      }
-      case "WaTor" -> {
-        CURRENT_SIMULATION = new WaTor(numRows, numCols, map, fishChronon,
-            sharkChronon);
-        STATE_VALUES = States.WaTor.values();
-      }
-      case "Percolation" -> {
-        CURRENT_SIMULATION = new Percolation(numRows, numCols, map);
-        STATE_VALUES = States.Percolation.values();
-      }
-    }
-
-    return CURRENT_SIMULATION;
+    return map;
   }
 
   /**
@@ -215,4 +405,33 @@ public class XMLParser {
     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
     return transformer;
   }
+
+  private HashMap<String, String> storeDefaultValues(){
+    defaultValues = new HashMap<>();
+    defaultValues.put("grid", """
+     0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0
+     0 0 0 1 0 1 0 0 0 0
+     0 0 0 0 1 0 0 0 0 0
+     0 0 0 1 0 1 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0
+     """);
+    defaultValues.put("filepath", "doc/SpreadingFire1.xml");
+    defaultValues.put("type", "SpreadingFire");
+    defaultValues.put("numberOfRows", "10");
+    defaultValues.put("numberOfColumns", "10");
+    defaultValues.put("probCatch", "0.5");
+    defaultValues.put("threshold", "0.3");
+    defaultValues.put("fishChronon", "3");
+    defaultValues.put("sharkChronon", "6");
+    defaultValues.put("edgeType", "FINITE");
+    defaultValues.put("direction", "SQUARE");
+    defaultValues.put("neighborConfig", "0 1 2 3 4 5 6 7");
+    return defaultValues;
+  }
 }
+
