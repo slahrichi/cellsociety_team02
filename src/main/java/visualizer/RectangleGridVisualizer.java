@@ -54,12 +54,10 @@ public class RectangleGridVisualizer extends GridVisualizer {
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
         cellGroup.getChildren().add(createCell(xPos, yPos, c));
-        if (getCellStateDisplayRule()) {
-          addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
-        }
-        xPos = xPos + cellWidth + 0;
+        addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
+        xPos = xPos + cellWidth;
       }
-      yPos = yPos + cellHeight + 0;
+      yPos = yPos + cellHeight;
     }
     return cellGroup;
   }

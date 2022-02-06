@@ -45,9 +45,7 @@ public class HexagonalGridVisualizer extends GridVisualizer {
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
         cellGroup.getChildren().add(createCell(xPos, yPos, c));
-        if (getCellStateDisplayRule()) {
-          addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
-        }
+        addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
         xPos = xPos + cellWidth;
         if (j % 2 == 1) {
           xPos = xPos - hexEdgeWidth;
@@ -77,8 +75,9 @@ public class HexagonalGridVisualizer extends GridVisualizer {
     Polygon newCell;
     if (c.getColumn() % 2 == 1) {
       newCell = new Polygon(xPos - hexEdgeWidth / 2, yPos + cellHeight / 2, xPos - hexEdgeWidth,
-          yPos + cellHeight, xPos - hexEdgeWidth / 2, yPos + cellHeight * 1.5,
-          xPos + hexEdgeWidth / 2, yPos + cellHeight * 1.5, xPos + hexEdgeWidth, yPos + cellHeight,
+          yPos + cellHeight, xPos - hexEdgeWidth / 2, yPos + cellHeight + hexEdgeWidth,
+          xPos + hexEdgeWidth / 2, yPos + cellHeight + hexEdgeWidth, xPos + hexEdgeWidth,
+          yPos + cellHeight,
           xPos + hexEdgeWidth / 2, yPos + cellHeight / 2);
 
     } else {

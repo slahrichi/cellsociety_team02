@@ -50,9 +50,7 @@ public class TriangleGridVisualizer extends GridVisualizer {
       for (int j = 0; j < getNumColumns(); j++) {
         Coordinate c = new Coordinate(i, j);
         cellGroup.getChildren().add(createCell(xPos, yPos, c));
-        if (getCellStateDisplayRule()) {
-          addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
-        }
+        addStateTagsToDisplay(xPos, yPos, j, c, cellGroup);
         xPos = xPos + cellWidth / 2;
       }
       yPos = yPos + cellHeight;

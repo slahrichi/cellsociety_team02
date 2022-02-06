@@ -163,11 +163,12 @@ public abstract class GridVisualizer {
 
   protected void addStateTagsToDisplay(double xPos, double yPos, int j, Coordinate c,
       Group cellGroup) {
-
-    double[] textCoordinate = getTextCoordinates(xPos, yPos, j);
-    Text stateTag = new Text(textCoordinate[0], textCoordinate[1], getCellStateString(c));
-    stateTag.setId("stateTag");
-    cellGroup.getChildren().add(stateTag);
+    if (cellStateDisplayRule) {
+      double[] textCoordinate = getTextCoordinates(xPos, yPos, j);
+      Text stateTag = new Text(textCoordinate[0], textCoordinate[1], getCellStateString(c));
+      stateTag.setId("stateTag");
+      cellGroup.getChildren().add(stateTag);
+    }
   }
 
 
