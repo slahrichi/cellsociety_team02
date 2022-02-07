@@ -54,3 +54,10 @@
   -fx-stroke: black;
 }
 
+.chart-legend-item{
+  -fx-label-fill: #006944;
+  -fx-fill: #006944;
+}
+.axis{
+  -fx-tick-label-fill: #006922;
+}

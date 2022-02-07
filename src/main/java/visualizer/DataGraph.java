@@ -34,6 +34,8 @@ public class DataGraph {
    */
   public DataGraph(ResourceBundle resources) {
     ResourceBundle myResources = resources;
+    xAxis.setId("graphText");
+    yAxis.setId("graphText");
     try {
       xAxis.setLabel(myResources.getString("cellTypePrompt"));
       yAxis.setLabel(myResources.getString("cellCountPrompt"));
