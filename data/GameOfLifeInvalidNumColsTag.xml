@@ -1,5 +1,5 @@
 <data simulation="simulation">
-  <type></type>
+  <type>GameOfLife</type>
   <title>Game Of Life</title>
   <author>Saad Lahrichi</author>
   <numberOfColumns>ten</numberOfColumns>

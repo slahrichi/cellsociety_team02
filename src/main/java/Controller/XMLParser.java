@@ -95,7 +95,8 @@ public class XMLParser {
     data = new HashMap<>();
     for (String tag : GeneralController.TAGS) {
       try {
-        if(simulation.getElementsByTagName(tag).item(0) == null){
+        if(simulation.getElementsByTagName(tag).item(0) == null ||
+        simulation.getElementsByTagName(tag).getLength() == 0){
           throw new XMLException("Empty/non-existing tag " + tag + " using default value \n" + defaultValues.get(tag));
         }
         data.put(tag, simulation.getElementsByTagName(tag).item(0).getTextContent());
@@ -173,10 +174,10 @@ public class XMLParser {
     try{
       Integer.parseInt(data.get("numberOfColumns"));
       Integer.parseInt(data.get("numberOfRows"));
-      Integer.parseInt(data.get("grid"));
       return true;
     }
     catch(final NumberFormatException e){
+      //throw new XMLException("Invalid numberOfColumns/numberOfRows");
       return false;
     }
   }
@@ -205,7 +206,7 @@ public class XMLParser {
       if (!isParsableMandatoryInt()){
         data.put("numberOfColumns", defaultValues.get("numberOfColumns"));
         data.put("numberOfRows", defaultValues.get("numberOfRows"));
-        //throw new XMLException("Invalid dimensions. Using default values.");
+        throw new XMLException("Invalid dimensions. Using default values.");
       }
       numCols = Integer.parseInt(data.get("numberOfColumns"));
       numRows = Integer.parseInt(data.get("numberOfRows"));
@@ -219,13 +220,16 @@ public class XMLParser {
     }
     catch(XMLException XMLe) {
       //ErrorWindow window = new ErrorWindow(XMLe.getMessage());
+      numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", defaultValues.get("numberOfColumns")));
+      numRows = Integer.parseInt(data.getOrDefault("numberOfRows", defaultValues.get("numberOfRows")));
+      allCells = data.getOrDefault("grid", defaultValues.get("grid")).replaceAll("[^0-9]", "");
       System.out.println(XMLe.getMessage());
     }
 
     finally{
-      numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", defaultValues.get("numberOfColumns")));
-      numRows = Integer.parseInt(data.getOrDefault("numberOfRows", defaultValues.get("numberOfRows")));
-      allCells = data.getOrDefault("grid", defaultValues.get("grid")).replaceAll("[^0-9]", "");
+      //numCols = Integer.parseInt(data.getOrDefault("numberOfColumns", defaultValues.get("numberOfColumns")));
+      //numRows = Integer.parseInt(data.getOrDefault("numberOfRows", defaultValues.get("numberOfRows")));
+      //allCells = data.getOrDefault("grid", defaultValues.get("grid")).replaceAll("[^0-9]", "");
       edgeType = Edge.EdgeType.valueOf(data.getOrDefault("edgeType", defaultValues.get("edgeType")));
       direction = Neighbors.Direction.valueOf(data.getOrDefault("direction", defaultValues.get("direction")));
       neighborConfig = getConfigList(data.getOrDefault("neighborConfig", defaultValues.get("neighborConfig")));
@@ -386,12 +390,13 @@ public class XMLParser {
     try {
       type = data.get("type");
       if (!GeneralController.SIMULATIONS.contains(type)){
-        throw new XMLException("Invalid simulation type provided. Using default SpreadingFire");
+        throw new XMLException("Invalid simulation type provided (" +type+ ") Using default SpreadingFire");
       }
     }
     catch (XMLException e) {
       type = defaultValues.get("type");
       data.put("type",type);
+      System.out.println(e.getMessage());
     }
     finally{
       type = data.getOrDefault("type", defaultValues.get("type"));
