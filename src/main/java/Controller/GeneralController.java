@@ -15,7 +15,8 @@ public abstract class GeneralController {
       "direction",
       "language",
       "gridLine",
-      "cellState"
+      "cellState",
+      "style"
   );
 
   public static final List<String> SIMULATIONS = List.of(

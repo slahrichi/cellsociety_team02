@@ -16,11 +16,12 @@
     0 0 0 1 0 0 0 0 0 0
     0 0 0 0 1 0 0 1 0 0
     0 0 1 0 0 0 0 0 0 0
+  </grid>
     <edgeType>FINITE</edgeType>
     <neighborConfig>0 1 2 3 4 5 6 7</neighborConfig>
     <direction>SQUARE</direction>
     <language>English</language>
     <gridLine>True</gridLine>
     <cellState>False</cellState>
-  </grid>
+    <style>LightMode</style>
 </data>

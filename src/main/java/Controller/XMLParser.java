@@ -98,7 +98,6 @@ public class XMLParser {
         if(simulation.getElementsByTagName(tag).item(0) == null){
           throw new XMLException("Empty/non-existing tag " + tag + " using default value \n" + defaultValues.get(tag));
         }
-
         data.put(tag, simulation.getElementsByTagName(tag).item(0).getTextContent());
       }
       // tag not found

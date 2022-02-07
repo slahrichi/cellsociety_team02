@@ -23,4 +23,5 @@
   <gridLine>true</gridLine>
   <cellState>false</cellState>
   <thresholdRPS>3</thresholdRPS>
+  <style>LightMode</style>
 </data>

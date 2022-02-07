@@ -18,4 +18,5 @@
   <gridLine>true</gridLine>
   <cellState>false</cellState>
   <thresholdRPS>1</thresholdRPS>
+  <style>LightMode</style>
 </data>
