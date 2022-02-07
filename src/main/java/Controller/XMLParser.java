@@ -46,7 +46,7 @@ public class XMLParser {
   private Element simulation;
 
   /**
-   * Instantiates Document Builder object to do the parsing
+   * Instantiates Document Builder object to do the parsing and the defaultValues Map
    *
    * @throws ParserConfigurationException
    */
@@ -57,8 +57,19 @@ public class XMLParser {
   }
 
   /**
-   * Opens the file if XML extracts data from list of Tags, stores it and returns it in a HashMap,
-   * else throws error and load SpreadingFire by default.
+   * method to create a new document builder
+   *
+   * @return DocumentBuilder object instance to be used in parseXML()
+   * @throws ParserConfigurationException
+   */
+  private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
+    return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+  }
+
+
+  /**
+   * Opens the file. If no exceptions happen, extracts data from list of Tags, stores it and returns
+   * it in a Map, else throws error and loads SpreadingFire by default.
    *
    * @param filePath String of the path of the XML file
    * @return
@@ -73,6 +84,13 @@ public class XMLParser {
     }
   }
 
+  /**
+   * Tries to open the file and catches for any exception. Uses default filePath in case of
+   * exception
+   *
+   * @param filePath String of the filePath to open
+   * @return The simulation Element to be used in extractData
+   */
   private Element extractSimulation(String filePath) {
     try {
       File XMLFile = new File(filePath);
@@ -87,6 +105,13 @@ public class XMLParser {
     }
   }
 
+  /**
+   * Loops over all TAGS and stores them in HashMap. Throws exception if tag is empty or
+   * non-existent.
+   *
+   * @param simulation Element returned from extractSimulation
+   * @return Map of each tag in the file to its passed value
+   */
   private Map<String, String> extractData(Element simulation) {
     data = new HashMap<>();
     for (String tag : GeneralController.TAGS) {
@@ -108,7 +133,7 @@ public class XMLParser {
   }
 
   /**
-   * exports current Simulation to XML file
+   * exports current Simulation with all its parameters to XML file
    *
    * @throws ParserConfigurationException
    * @throws TransformerException
@@ -123,11 +148,27 @@ public class XMLParser {
     transformToOutput(doc);
   }
 
+  /**
+   * helper method to append the root Element to the doc Document
+   *
+   * @param doc  new Document
+   * @param root new Element created from doc
+   */
   private void appendRootToDoc(Document doc, Element root) {
     root.appendChild(doc.createTextNode("simulation"));
     doc.appendChild(root);
   }
 
+
+  /**
+   * helper method to add the children to the document adds the value as is for all tags but grid
+   * calls gridToXML() for the grid to convert it to one sequence of integers for easier
+   * manipulation
+   *
+   * @param doc   Document created
+   * @param root  root Element inside the doc
+   * @param entry key,value Entry object with tags and their String values
+   */
   private void addChildrenToNode(Document doc, Element root, Entry<String, String> entry) {
     Element node = doc.createElement(entry.getKey());
     if (!entry.getKey().equals("grid")) {
@@ -138,6 +179,12 @@ public class XMLParser {
     root.appendChild(node);
   }
 
+  /**
+   * create Transformer object to output the file
+   *
+   * @param doc Document used to create output file
+   * @throws TransformerException should there be issues with the transformer
+   */
   private void transformToOutput(Document doc) throws TransformerException {
     Transformer transformer = createTransformer();
     DOMSource source = new DOMSource(doc);
@@ -146,7 +193,19 @@ public class XMLParser {
   }
 
   /**
-   * is called inside saveGrid() when trying to write the grid to the XML file
+   * creates Transformer to be used to write to XML
+   *
+   * @return Transformer object instance to be used in saveGrid()
+   * @throws TransformerConfigurationException
+   */
+  private Transformer createTransformer() throws TransformerConfigurationException {
+    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    return transformer;
+  }
+
+  /**
+   * helper method called inside saveGrid() when trying to write the grid to the XML file
    *
    * @return current grid setup as String to be added under the <grid> tag
    */
@@ -167,28 +226,13 @@ public class XMLParser {
     return gridString.toString();
   }
 
-  private Boolean isParsableMandatoryInt() {
-    try {
-      Integer.parseInt(data.get("numberOfColumns"));
-      Integer.parseInt(data.get("numberOfRows"));
-      return true;
-    } catch (final NumberFormatException e) {
-      //throw new XMLException("Invalid numberOfColumns/numberOfRows");
-      return false;
-    }
-  }
-
-  private Boolean shapeMismatch(int numCols, int numRows, String allCells) {
-    return numCols * numRows != allCells.length();
-  }
 
   /**
-   * creates the specific Simulation object corresponding to the data HashMap if the data HashMap
-   * does not contain some fields, the method returns an instance of SpreadingFire by default. First
-   * checks if numRows, numCols, are parsable, then checks for shape mismatch with grid
+   * creates the specific Simulation object corresponding to the data Map. If there are missing
+   * fields, the method returns the corresponding default value.
    *
-   * @param data hashMap returned by parseXML with the Simulation's data
-   * @return
+   * @param data hMap returned by parseXML with the Simulation's data
+   * @return Simulation object corresponding to the data
    */
 
   public Simulation createSimulation(Map<String, String> data) throws XMLException {
@@ -253,15 +297,37 @@ public class XMLParser {
     return CURRENT_SIMULATION;
   }
 
-  private List<Integer> getConfigList(String neighborConfig) {
-    List<Integer> config = new ArrayList<>(neighborConfig.length());
-    String[] splitString = neighborConfig.split(" ");
-    for (String c : splitString) {
-      config.add(Integer.parseInt(c));
+  /**
+   * @return helper method that checks if dimensions are non-string (empty/string/..)
+   */
+  private Boolean isParsableMandatoryInt() {
+    try {
+      Integer.parseInt(data.get("numberOfColumns"));
+      Integer.parseInt(data.get("numberOfRows"));
+      return true;
+    } catch (final NumberFormatException e) {
+      return false;
     }
-    return config;
   }
 
+  /**
+   * helper method to check if the given grid mismatches the given numCols, numRows
+   *
+   * @param numCols  provided numberOfColumns
+   * @param numRows  provided numberOfRows
+   * @param allCells provided grid turned to a non-seperated String of all the numbers in the grid
+   * @return True if mismatch
+   */
+  private Boolean shapeMismatch(int numCols, int numRows, String allCells) {
+    return numCols * numRows != allCells.length();
+  }
+
+  /**
+   * helper method to check if expected Double values are parsable
+   *
+   * @param tag tag of which we check the value
+   * @return True if parsable to Double
+   */
   private Boolean isParsableDouble(String tag) {
     try {
       Double.parseDouble(tag);
@@ -271,6 +337,12 @@ public class XMLParser {
     }
   }
 
+  /**
+   * helper method to check if expected Integer values are parsable
+   *
+   * @param tag tag of which we check the value
+   * @return True if parsable to Integer
+   */
   private Boolean isParsableInt(String tag) {
     try {
       Integer.parseInt(tag);
@@ -280,6 +352,12 @@ public class XMLParser {
     }
   }
 
+  /**
+   * checks if a simulation additional parameters are as expected
+   *
+   * @param param    parameter to check
+   * @param isDouble True if parameter is expected to be a Double
+   */
   private void checkParameters(String param, Boolean isDouble) {
     if (simulation.getElementsByTagName(param).item(0) == null) {
       throw new XMLException(
@@ -301,12 +379,43 @@ public class XMLParser {
     data.put(param, simulation.getElementsByTagName(param).item(0).getTextContent());
   }
 
+  /**
+   * assign default value to the parameter
+   *
+   * @param param parameter to which default value is assigned
+   * @param e     exception thrown when parsing param from the XML file
+   */
   private void useDefault(String param, XMLException e) {
     String value = defaultValues.get(param);
     data.put(param, value);
     System.out.println(e.getMessage());
   }
 
+
+  /**
+   * @param neighborConfig helper method that returns the neighborConfiguration
+   * @return neighborConfig tag value as List<Integer> as expected by the method.
+   */
+  private List<Integer> getConfigList(String neighborConfig) {
+    List<Integer> config = new ArrayList<>(neighborConfig.length());
+    String[] splitString = neighborConfig.split(" ");
+    for (String c : splitString) {
+      config.add(Integer.parseInt(c));
+    }
+    return config;
+  }
+
+  /**
+   * creates Segregation Simulation using the processed parameters
+   *
+   * @param data           Map with the simulation's data
+   * @param numCols        numberOfColumns
+   * @param numRows        numberOfRows
+   * @param map            map of the grid's coordinates and states
+   * @param edgeType       type of the edges
+   * @param direction      direction of the neighbors
+   * @param neighborConfig configuration of the neighbors
+   */
   private void createSegregation(Map<String, String> data, int numCols, int numRows,
       Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction,
       List<Integer> neighborConfig) {
@@ -390,6 +499,12 @@ public class XMLParser {
     }
   }
 
+  /**
+   * returns the Simulation type String from the data Map
+   *
+   * @param data Map with the XML file data
+   * @return Simulation type String (e.g. "GameOfLife")
+   */
   private String getSimulation(Map<String, String> data) {
     String type;
     try {
@@ -408,6 +523,14 @@ public class XMLParser {
     return type;
   }
 
+  /**
+   * helper method to build the coordinate integer map
+   *
+   * @param numCols  numberOfColumns
+   * @param numRows  numberOfRows
+   * @param allCells non-spaced String of the grid
+   * @return Coordinate, Integer map
+   */
   private Map<Coordinate, Integer> getCoordinateIntegerMap(int numCols, int numRows,
       String allCells) {
     int[][] cellsArray = new int[numRows][numCols];
@@ -427,23 +550,10 @@ public class XMLParser {
   }
 
   /**
-   * @return DocumentBuilder object instance to be used in parseXML()
-   * @throws ParserConfigurationException
+   * stores the default values of each tag in a hashMap
+   *
+   * @return HashMap with the default values of all possible tags
    */
-  private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
-    return DocumentBuilderFactory.newInstance().newDocumentBuilder();
-  }
-
-  /**
-   * @return Transformer object instance to be used in saveGrid()
-   * @throws TransformerConfigurationException
-   */
-  private Transformer createTransformer() throws TransformerConfigurationException {
-    Transformer transformer = TransformerFactory.newInstance().newTransformer();
-    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-    return transformer;
-  }
-
   private HashMap<String, String> storeDefaultValues() {
     defaultValues = new HashMap<>();
     defaultValues.put("grid", """
