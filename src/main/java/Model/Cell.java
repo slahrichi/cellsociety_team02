@@ -42,7 +42,7 @@ public abstract class Cell {
     this.neighborConfig = neighborConfig;
   }
 
-  protected Coordinate getPosition() {
+  public Coordinate getPosition() {
     return position;
   }
 
