@@ -21,7 +21,7 @@
   <neighborConfig>0 1 2 3 4 5 6 7</neighborConfig>
   <direction>SQUARE</direction>
   <language>English</language>
-  <gridLine>true</gridLine>
-  <cellState>false</cellState>
+  <gridLine>True</gridLine>
+  <cellState>False</cellState>
   <style>LightMode</style>
 </data>

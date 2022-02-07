@@ -45,7 +45,7 @@ public abstract class Grid {
 
 
   protected void makeSwap(Coordinate c, Coordinate newHome) {
-    if (newHome != null) {
+    if (newHome != null && cellMap.containsKey(newHome)) {
       Cell current = cellMap.get(c);
       Cell swap = cellMap.get(newHome);
       current.setPosition(newHome);

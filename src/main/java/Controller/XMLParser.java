@@ -202,8 +202,10 @@ public class XMLParser {
     Direction direction;
 
     try{
-      if (isParsableMandatoryInt()){
-        throw new XMLException("Invalid dimensions. Using default values.");
+      if (!isParsableMandatoryInt()){
+        data.put("numberOfColumns", defaultValues.get("numberOfColumns"));
+        data.put("numberOfRows", defaultValues.get("numberOfRows"));
+        //throw new XMLException("Invalid dimensions. Using default values.");
       }
       numCols = Integer.parseInt(data.get("numberOfColumns"));
       numRows = Integer.parseInt(data.get("numberOfRows"));
@@ -440,14 +442,14 @@ public class XMLParser {
      0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0
      0 0 0 1 0 1 0 0 0 0
-     0 0 0 0 1 0 0 0 0 0
+     0 0 0 1 1 1 0 0 0 0
      0 0 0 1 0 1 0 0 0 0
      0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0
      """);
-    defaultValues.put("filepath", "doc/SpreadingFire1.xml");
+    defaultValues.put("filepath", "data/SpreadingFire1.xml");
     defaultValues.put("type", "SpreadingFire");
     defaultValues.put("numberOfRows", "10");
     defaultValues.put("numberOfColumns", "10");
@@ -462,7 +464,9 @@ public class XMLParser {
     defaultValues.put("gridLine", "true");
     defaultValues.put("cellState", "false");
     defaultValues.put("thresholdRPS", "3");
+    defaultValues.put("style", "LightMode");
     return defaultValues;
   }
+
 }
 

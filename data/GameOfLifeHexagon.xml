@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<data simulation="simulation">
+  <type>GameOfLife</type>
+  <title>Game Of Life</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <grid>
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 1 1 1 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+    0 0 0 0 0 0 0 0 0 0
+  </grid>
+  <edgeType>FINITE</edgeType>
+  <neighborConfig>0 1 2 3 4 5</neighborConfig>
+  <direction>HEXAGONAL</direction>
+  <language>English</language>
+  <gridLine>True</gridLine>
+  <cellState>False</cellState>
+  <style>LightMode</style>
+</data>

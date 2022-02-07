@@ -1,0 +1,27 @@
+<data simulation="simulation">
+  <type>RockPaperScissors</type>
+  <title>Rock Paper Scissors</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <grid>
+    0 1 2 1 2 1 0 1 1 0
+    1 1 0 2 1 2 0 0 1 2
+    0 2 0 2 0 1 2 0 2 1
+    0 2 1 2 0 2 2 0 2 1
+    2 0 0 1 2 1 0 1 0 2
+    2 0 0 1 2 1 2 0 1 0
+    2 1 0 2 0 1 0 1 0 2
+    2 1 1 2 0 2 0 2 0 2
+    1 0 1 0 2 1 2 0 2 2
+  </grid>
+  <edgeType>FINITE</edgeType>
+  <neighborConfig>0 1 2 3 4 5 6 7</neighborConfig>
+  <direction>SQUARE</direction>
+  <language>English</language>
+  <gridLine>true</gridLine>
+  <cellState>false</cellState>
+  <thresholdRPS>2</thresholdRPS>
+  <style>DarkMode</style>
+</data>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<data simulation="simulation">
+  <type>SpreadingFire</type>
+  <title>Spreading Fire</title>
+  <author>Saad Lahrichi</author>
+  <numberOfColumns>10</numberOfColumns>
+  <numberOfRows>10</numberOfRows>
+  <numberOfCells>100</numberOfCells>
+  <probCatch>0.5</probCatch>
+  <grid>
+    2 0 2 2 0 2 0 2 2 2
+    2 2 0 2 2 0 2 2 0 2
+    2 0 2 0 0 0 0 0 0 2
+    2 0 0 0 1 0 0 0 0 2
+    2 0 2 0 1 0 2 0 0 2
+    2 0 0 0 1 0 0 0 0 2
+    2 0 0 0 0 0 0 0 0 2
+    2 2 2 0 2 0 2 2 0 2
+    2 2 2 0 0 0 0 2 0 2
+    2 0 2 0 2 2 2 2 0 0
+  </grid>
+  <edgeType>FINITE</edgeType>
+  <neighborConfig>0 1 2 3 4 5 6 7</neighborConfig>
+  <direction>SQUARE</direction>
+  <language>Georgian</language>
+  <gridLine>True</gridLine>
+  <cellState>False</cellState>
+  <style>LightMode</style>
+</data>

@@ -1,23 +1,25 @@
 <data simulation="simulation">
-  <type>FallingSand</type>
-  <title>Falling Sand</title>
+  <type>WaTor</type>
+  <title>WaTor</title>
   <author>Saad Lahrichi</author>
   <numberOfColumns>10</numberOfColumns>
   <numberOfRows>10</numberOfRows>
   <numberOfCells>100</numberOfCells>
+  <fishChronon>1</fishChronon>
+  <sharkChronon>6</sharkChronon>
   <grid>
-    2 0 1 0 0 2 0 1 0 3
-    2 0 2 0 1 0 2 1 1 2
-    0 2 3 2 1 3 2 0 2 1
-    0 2 3 2 1 3 2 0 2 1
-    2 0 0 1 1 1 0 0 1 0
-    3 2 1 2 0 1 0 3 2 2
-    2 3 0 1 2 1 0 1 0 2
-    1 0 1 1 2 1 2 0 2 3
-    2 2 0 2 0 3 0 1 0 2
-    2 0 0 1 1 1 0 0 1 0
+    2 0 2 0 1 0 2 1 2 1
+    0 0 1 0 0 2 0 1 0 2
+    2 0 2 1 2 0 1 0 1 0
+    0 0 0 1 2 0 0 1 1 0
+    1 2 0 1 1 1 2 0 2 1
+    2 0 0 0 0 1 0 0 0 0
+    2 0 0 0 2 0 0 1 0 2
+    2 0 1 0 2 0 2 0 2 0
+    1 2 0 2 0 0 0 1 0 1
+    1 0 2 1 0 1 0 2 0 1
   </grid>
-  <edgeType>FINITE</edgeType>
+  <edgeType>TOROIDAL</edgeType>
   <neighborConfig>0 1 2 3 4 5 6 7</neighborConfig>
   <direction>SQUARE</direction>
   <language>English</language>
