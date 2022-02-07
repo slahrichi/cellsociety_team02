@@ -44,9 +44,9 @@ public abstract class Simulation {
     this.direction = direction;
     this.neighborConfig = neighborConfig;
     this.data = new HashMap<>();
-    this.cellList = new ArrayList<>();
     createGrid();
     initializeGridCells();
+    updateCellList();
   }
 
   /**
