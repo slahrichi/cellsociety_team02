@@ -1,4 +1,4 @@
-package visualizer;
+package visualizer.gridvisualizer;
 
 import Model.Coordinate;
 import Model.Grid;

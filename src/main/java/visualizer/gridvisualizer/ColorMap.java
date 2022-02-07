@@ -1,4 +1,4 @@
-package visualizer;
+package visualizer.gridvisualizer;
 
 import java.util.HashMap;
 import java.util.Map;

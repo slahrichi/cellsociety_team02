@@ -12,6 +12,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
+import visualizer.gridvisualizer.GridVisualizer;
+import visualizer.gridvisualizer.HexagonalGridVisualizer;
+import visualizer.gridvisualizer.RectangleGridVisualizer;
+import visualizer.gridvisualizer.TriangleGridVisualizer;
 
 /**
  * This class creates the GUI to visualize the simulation process.It arranges the scene with all the
