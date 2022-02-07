@@ -3,7 +3,6 @@ package Model;
 
 import Model.Edge.EdgeType;
 import Model.Neighbors.Direction;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ public abstract class Simulation {
   private Direction direction;
   private List<Integer> neighborConfig;
   private Map<Enum, Integer> data;
-  private List<Cell> cellList;
 
   /**
    * @param numberOfRows    number of rows in simulation grid
@@ -46,7 +44,6 @@ public abstract class Simulation {
     this.data = new HashMap<>();
     createGrid();
     initializeGridCells();
-    updateCellList();
   }
 
   /**
@@ -86,9 +83,6 @@ public abstract class Simulation {
     return neighborConfig;
   }
 
-  public List<Cell> getCellList() {
-    return cellList;
-  }
 
   /**
    * method for updating the states of the cells in the model given the model's rules. Made public
@@ -99,12 +93,8 @@ public abstract class Simulation {
     determineNewCellStates();
     updateCellStates();
     updateData();
-    updateCellList();
   }
 
-  private void updateCellList() {
-    cellList = new ArrayList<>(grid.getCellMap().values());
-  }
 
   protected abstract void updateData();
 
