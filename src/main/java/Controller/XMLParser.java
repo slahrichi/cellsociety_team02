@@ -5,10 +5,12 @@ import Model.Cell;
 import Model.Coordinate;
 import Model.Edge;
 import Model.Edge.EdgeType;
+import Model.FallingSand.FallingSand;
 import Model.GameOfLife.GameOfLife;
 import Model.Neighbors;
 import Model.Neighbors.Direction;
 import Model.Percolation.Percolation;
+import Model.RockPaperScissors.RockPaperScissors;
 import Model.Segregation.Segregation;
 import Model.Simulation;
 import Model.SpreadingFire.SpreadingFire;
@@ -34,6 +36,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.SchemaFactoryLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import visualizer.ErrorWindow;
 
 
 public class XMLParser {
@@ -95,6 +98,7 @@ public class XMLParser {
         if(simulation.getElementsByTagName(tag).item(0) == null){
           throw new XMLException("Empty/non-existing tag " + tag + " using default value \n" + defaultValues.get(tag));
         }
+
         data.put(tag, simulation.getElementsByTagName(tag).item(0).getTextContent());
       }
       // tag not found
@@ -213,6 +217,7 @@ public class XMLParser {
       }
     }
     catch(XMLException XMLe) {
+      //ErrorWindow window = new ErrorWindow(XMLe.getMessage());
       System.out.println(XMLe.getMessage());
     }
 
@@ -234,6 +239,9 @@ public class XMLParser {
       case "Segregation" -> createSegregation(data, numCols, numRows, map, edgeType, direction, neighborConfig);
       case "WaTor" -> createWaTor(data, numCols, numRows, map, edgeType, direction, neighborConfig);
       case "Percolation" -> createPercolation(numCols, numRows, map, edgeType, direction, neighborConfig);
+      case "RockPaperScissors" -> createRockPaperScissors(numCols, numRows, map, edgeType, direction, neighborConfig);
+      case "FallingSand" -> createFallingSand(numCols, numRows, map, edgeType, direction, neighborConfig);
+
     }
     return CURRENT_SIMULATION;
   }
@@ -293,6 +301,7 @@ public class XMLParser {
     data.put(param, value);
     System.out.println(e.getMessage());
   }
+
   private void createSegregation(Map<String, String> data, int numCols, int numRows,
       Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
     try {
@@ -350,6 +359,25 @@ public class XMLParser {
   private void createGameOfLife(int numCols, int numRows, Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
     CURRENT_SIMULATION = new GameOfLife(numRows, numCols, map, edgeType, direction, neighborConfig);
     STATE_VALUES = States.GameOfLife.values();
+  }
+
+  private void createFallingSand(int numCols, int numRows, Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig){
+    CURRENT_SIMULATION = new FallingSand(numRows, numCols, map, edgeType, direction, neighborConfig);
+    STATE_VALUES = States.FallingSand.values();
+  }
+
+  private void createRockPaperScissors(int numCols, int numRows, Map<Coordinate, Integer> map, EdgeType edgeType, Direction direction, List<Integer> neighborConfig) {
+    try{
+      checkParameters("thresholdRPS", false);
+    }
+    catch(XMLException e){
+      useDefault("thresholdRPS", e);
+    }
+    finally{
+      int thresholdRPS = Integer.parseInt(data.get("thresholdRPS"));
+      CURRENT_SIMULATION = new RockPaperScissors(numRows, numCols, map, edgeType, direction, neighborConfig, thresholdRPS);
+      STATE_VALUES = States.RockPaperScissors.values();
+    }
   }
 
   private String getSimulation(Map<String, String> data) {
@@ -431,6 +459,10 @@ public class XMLParser {
     defaultValues.put("edgeType", "FINITE");
     defaultValues.put("direction", "SQUARE");
     defaultValues.put("neighborConfig", "0 1 2 3 4 5 6 7");
+    defaultValues.put("language", "English");
+    defaultValues.put("gridLine", "true");
+    defaultValues.put("cellState", "false");
+    defaultValues.put("thresholdRPS", "3");
     return defaultValues;
   }
 }

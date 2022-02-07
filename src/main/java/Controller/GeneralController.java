@@ -12,8 +12,10 @@ public abstract class GeneralController {
       "grid",
       "edgeType",
       "neighborConfig",
-      "direction"
-//      language
+      "direction",
+      "language",
+      "gridLine",
+      "cellState"
   );
 
   public static final List<String> SIMULATIONS = List.of(
@@ -21,6 +23,8 @@ public abstract class GeneralController {
       "SpreadingFire",
       "Percolation",
       "Segregation",
-      "WaTor"
+      "WaTor",
+      "FallingSand",
+      "RockPaperScissors"
   );
 }
