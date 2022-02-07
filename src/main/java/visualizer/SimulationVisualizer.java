@@ -204,9 +204,9 @@ public class SimulationVisualizer {
     switch (gridType) {
       default -> gridVisualizer = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
           numColumns, myGrid, gridLineRule, cellStateDisplay);
-      case "TRIANGLE" -> gridVisualizer = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
+      case "TRIANGULAR" -> gridVisualizer = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
           numRows, numColumns, myGrid, gridLineRule, cellStateDisplay);
-      case "HEXAGON" -> gridVisualizer = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
+      case "HEXAGONAL" -> gridVisualizer = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
           numRows, numColumns, myGrid, gridLineRule, cellStateDisplay);
     }
   }
