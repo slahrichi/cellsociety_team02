@@ -24,7 +24,7 @@ import javafx.stage.FileChooser;
 public class MenuBarControlPanel extends ControlPanel {
 
   public final String DEFAULT_RESOURCE_PACKAGE = "/";
-  public final String DEFAULT_XML_DIRECTORY="data/";
+  public final String DEFAULT_XML_DIRECTORY = "data/";
 
 
   private HBox menuBar;
@@ -79,8 +79,7 @@ public class MenuBarControlPanel extends ControlPanel {
     menuBar = new HBox();
     menuBar.getChildren()
         .addAll(createFileMenu(), createStyleMenu(), createToggleMenu(simulationVisualizer),
-            createCellTypeMenu(simulationVisualizer),
-            createLanguageMenu(simulationVisualizer));
+            createCellTypeMenu(simulationVisualizer), createLanguageMenu(simulationVisualizer));
 
 
   }
@@ -155,8 +154,7 @@ public class MenuBarControlPanel extends ControlPanel {
           getClass().getResource(DEFAULT_RESOURCE_PACKAGE + styleMode + ".css").toExternalForm());
     } catch (NullPointerException e) {
       ErrorWindow newErr = new ErrorWindow(
-          e.getMessage()
-              + getResourceBundle().getString("styleSheetError"));
+          e.getMessage() + getResourceBundle().getString("styleSheetError"));
     }
 
     myStage.setCurrentStyle(styleMode);
@@ -164,8 +162,7 @@ public class MenuBarControlPanel extends ControlPanel {
 
   private HBox createLanguageMenu(SimulationVisualizer sv) {
     Button enButton = makeButton("englishLanguageCommand", e -> setLanguage("English", sv));
-    Button kaButton = makeButton("georgianLanguageCommand",
-        e -> setLanguage("Georgian", sv));
+    Button kaButton = makeButton("georgianLanguageCommand", e -> setLanguage("Georgian", sv));
     Button arButton = makeButton("arabicLanguageCommand", e -> setLanguage("Arabic", sv));
     Button tstButton = makeButton("testLanguageCommand", e -> setLanguage("MissingTest", sv));
     HBox result = new HBox();
