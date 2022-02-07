@@ -24,6 +24,7 @@ import javafx.stage.FileChooser;
 public class MenuBarControlPanel extends ControlPanel {
 
   public final String DEFAULT_RESOURCE_PACKAGE = "/";
+  public final String DEFAULT_XML_DIRECTORY="data/";
 
 
   private HBox menuBar;
@@ -97,7 +98,7 @@ public class MenuBarControlPanel extends ControlPanel {
     String fileName = chooseFile();
 
     if (!fileName.equals("")) {
-      myMain.changeGUI(myStage, "doc/" + fileName);
+      myMain.changeGUI(myStage, DEFAULT_XML_DIRECTORY + fileName);
     }
 
   }
@@ -111,7 +112,7 @@ public class MenuBarControlPanel extends ControlPanel {
   private void openNewWindow() {
     String fileName = chooseFile();
     if (!fileName.equals("")) {
-      myMain.startAdditionalGUI("doc/" + fileName);
+      myMain.startAdditionalGUI(DEFAULT_XML_DIRECTORY + fileName);
     }
   }
 
@@ -122,7 +123,7 @@ public class MenuBarControlPanel extends ControlPanel {
 
   private String chooseFile() {
     myAnimationPanel.pause();
-    File XMLFile = new File("data/");
+    File XMLFile = new File(DEFAULT_XML_DIRECTORY);
     fileChooser.setInitialDirectory(XMLFile);
     File selectedFile = fileChooser.showOpenDialog(myStage);
     String fileName = "";
