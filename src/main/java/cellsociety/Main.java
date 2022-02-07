@@ -21,9 +21,9 @@ import javax.xml.transform.TransformerException;
 public class Main extends Application {
 
 
-  public static final int SIZE_HORIZONTAL = 750;
+  public static final int SIZE_HORIZONTAL = 775;
   public static final int SIZE_VERTICAL = 625;
-  public static final String DEFAULT_FILE_PATH = "doc/GameOfLifeBlinker.xml";
+  public static final String DEFAULT_FILE_PATH = "data/GameOfLifeBlinker.xml";
   public static final String DEFAULT_STYLE = "lightMode";
   private Map<String, String> data;
   private int numCols;
@@ -56,6 +56,7 @@ public class Main extends Application {
   }
 
   private void startGUI(ResettableStage stage) {
+
     SimulationVisualizer visualizer = new SimulationVisualizer(stage, currentSimulation,
         SIZE_HORIZONTAL, SIZE_VERTICAL,
         numRows, numCols, this, data.get("direction"));

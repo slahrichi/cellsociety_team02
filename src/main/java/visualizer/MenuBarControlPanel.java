@@ -122,7 +122,7 @@ public class MenuBarControlPanel extends ControlPanel {
 
   private String chooseFile() {
     myAnimationPanel.pause();
-    File XMLFile = new File("doc/");
+    File XMLFile = new File("data/");
     fileChooser.setInitialDirectory(XMLFile);
     File selectedFile = fileChooser.showOpenDialog(myStage);
     String fileName = "";
