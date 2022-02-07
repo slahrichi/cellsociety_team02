@@ -53,8 +53,9 @@ public class SimulationVisualizer {
   private final String myStyle;
   private AnimationControlPanel myAnimationPanel;
   private MenuBarControlPanel myMenuBarPanel;
-  private final boolean defaultGridLineRule = true;
-  private final boolean defaultCellStateDisplay = false;
+  private boolean gridLineRule;
+  private boolean cellStateDisplay;
+  private String myInitialLanguage;
   private String cellType;
   private Group chartGroup;
   private Map<Enum, Integer> myData;
@@ -63,18 +64,22 @@ public class SimulationVisualizer {
   /**
    * Constructor for the visualizer assigns the passed in data to instance variables.
    *
-   * @param stage      main stage for the GUI
-   * @param simulation the simulation object initialized from the data in selected xml file.
-   * @param width      width of the GUI scene
-   * @param height     height of the GUI scene
-   * @param rows       number of rows in the model grid
-   * @param columns    number of columns in the model grid
-   * @param main       the instance of <class> Main.java </class>, used to call the file change or
-   *                   reset methods.
-   * @param cellShape  Graphical shape of the cell.
+   * @param stage           main stage for the GUI
+   * @param simulation      the simulation object initialized from the data in selected xml file.
+   * @param width           width of the GUI scene
+   * @param height          height of the GUI scene
+   * @param rows            number of rows in the model grid
+   * @param columns         number of columns in the model grid
+   * @param main            the instance of <class> Main.java </class>, used to call the file change
+   *                        or reset methods.
+   * @param cellShape       Graphical shape of the cell.
+   * @param gridRule        rule on whether gridlines should be shown by default.
+   * @param cellStateRule   rule on whether cell States should be displayed by default.
+   * @param initialLanguage initial language.
    */
   public SimulationVisualizer(ResettableStage stage, Simulation simulation, int width, int height,
-      int rows, int columns, Main main, String cellShape) {
+      int rows, int columns, Main main, String cellShape, boolean gridRule, boolean cellStateRule,
+      String initialLanguage) {
     myStage = stage;
     mySimulation = simulation;
     myGrid = simulation.getGrid();
@@ -83,9 +88,18 @@ public class SimulationVisualizer {
     numColumns = columns;
     numRows = rows;
     myMain = main;
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
+    try {
+      myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + initialLanguage);
+    } catch (MissingResourceException e) {
+      ErrorWindow newErr = new ErrorWindow(e.getMessage() + ".\nGUI set to English by default.");
+      myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
+    }
+
+    myInitialLanguage = initialLanguage;
     myStyle = stage.getCurrentStyle();
     cellType = cellShape;
+    gridLineRule = gridRule;
+    cellStateDisplay = cellStateRule;
     myData = mySimulation.getData();
   }
 
@@ -189,11 +203,11 @@ public class SimulationVisualizer {
   public void chooseGridType(String gridType) {
     switch (gridType) {
       default -> gridVisualizer = new RectangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT, numRows,
-          numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+          numColumns, myGrid, gridLineRule, cellStateDisplay);
       case "TRIANGLE" -> gridVisualizer = new TriangleGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
-          numRows, numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+          numRows, numColumns, myGrid, gridLineRule, cellStateDisplay);
       case "HEXAGON" -> gridVisualizer = new HexagonalGridVisualizer(GRID_WIDTH, GRID_HEIGHT,
-          numRows, numColumns, myGrid, defaultGridLineRule, defaultCellStateDisplay);
+          numRows, numColumns, myGrid, gridLineRule, cellStateDisplay);
     }
   }
 

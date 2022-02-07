@@ -24,6 +24,8 @@ public class Main extends Application {
   public static final int SIZE_HORIZONTAL = 775;
   public static final int SIZE_VERTICAL = 625;
   public static final String DEFAULT_FILE_PATH = "data/GameOfLifeBlinker.xml";
+  public static final boolean DEFAULT_GRID_RULE = true;
+  public static final boolean DEFAULT_CELL_RULE = false;
   public static final String DEFAULT_STYLE = "lightMode";
   private Map<String, String> data;
   private int numCols;
@@ -51,15 +53,31 @@ public class Main extends Application {
   public void startAdditionalGUI(String filePath) {
     ResettableStage newStage = new ResettableStage(filePath, DEFAULT_STYLE);
     extractDataStartSimulation(filePath);
+    try {
+      String styleSheet = data.get("style");
+      newStage = new ResettableStage(filePath, styleSheet);
+    } catch (Exception e) {
+      ErrorWindow newErr = new ErrorWindow(e.getMessage());
+    }
+
     startGUI(newStage);
 
   }
 
   private void startGUI(ResettableStage stage) {
-
+    boolean gridRuleBool=DEFAULT_GRID_RULE;
+    boolean stateRuleBool=DEFAULT_CELL_RULE;
+    try{
+      String gridRule = data.get("gridLines");
+      String cellRule = data.get("cellStyle");
+      gridRuleBool=Boolean.parseBoolean(gridRule);
+      stateRuleBool=Boolean.parseBoolean(cellRule);
+    }
+    catch (Exception e){ErrorWindow newErr = new ErrorWindow(e.getMessage());}
+    String language = data.get("language");
     SimulationVisualizer visualizer = new SimulationVisualizer(stage, currentSimulation,
         SIZE_HORIZONTAL, SIZE_VERTICAL,
-        numRows, numCols, this, data.get("direction"));
+        numRows, numCols, this, data.get("direction"),gridRuleBool,stateRuleBool, language);
     visualizer.setUpScene();
   }
 
