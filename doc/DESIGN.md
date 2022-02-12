@@ -12,7 +12,9 @@
     * Developed all code for the Visualizer package
     * Made the Main.java
 
-* Team Member #3
+* Team Member #3 - Saad
+  * Developed all code in Controller package
+  * Wrote example XML files for each simulation + exception triggering example files 
 
 ## Design goals
 
@@ -27,6 +29,12 @@
     * Make necessary abstraction to make adding new grid types very easy
     * Simplify the process of adding new GUI items as much as possible.
 
+
+        - Controller
+            - Use a List of Tags and Simulations to hold all expected Tags and Simulations
+            - Extract data from XML files           
+            - Make adding new Simulation types/parameters simple and requiring little code to be added
+            - Make sure most invalid, missing, empty parameters are handled in appropriate exceptions.
 #### What Features are Easy to Add
 
     - Model
@@ -46,6 +54,14 @@
     * new languages, css styles are very easy to add ,you just make the necessary resource files and
       add a one line command (in `MenuBarControlPanel.java`) to create the new button, and it will
       be shown on the GUI.
+
+
+
+    -Controller
+        - Any new simulation type would easily be parsed. ALl the user needs to do is add the simulation's type's name in the List of SIMULATIONS.
+        - Any new simulation parameter would easily be added (neighborConfig, direction). The new tag's name would just need to be added to the List of TAGS.
+        - Any file extension could hold the data, as long as it would be properly processed and return a hashMap with the parsed data.
+        
 
 ## High-level Design
 
@@ -68,6 +84,12 @@
     - `DataGraph.java`
     - `ErrorWindow.java`
 
+- Controller
+
+    -`XMLParser.java`
+
+    -`GeneralController.java`
+
 ## Assumptions that Affect the Design
 
 #### Features Affected by Assumptions
@@ -81,6 +103,9 @@
       - When the css style is changed from the inital value from the xml file, reset option reset to 
          user choice insted of whatever is in the xml, this was by design. Since I though that would be 
          the user preference in a real world.
+    - Controller
+        - The parser only expects XML files, so if a json file is passed with the same data, it would result in an exception.
+        - The XML files are written in the most basic version possible. With some more knowledge of XML, they could be more complex.
 
 ## Significant differences from Original Plan
 
@@ -105,7 +130,9 @@
     - To add a new control panel simply use methods in `ControlPanle.java` and write the new
       class, add the node of the new controlPanel to the main root
       in `SimualtionVisualizer.java`
-
+- Controller
+  - With any new added parameter, the List of TAGS should be updated with the name of the new tag so it is parsed.
+  - The same applies to any new Simulation type. The name of the type should be added to the list of SIMULATIONS
 #### Other Features not yet Done
 
 - Model
@@ -125,3 +152,8 @@
     - Different features for allowing further live interaction with the grid are simple to make because the code is very understandable and organized, but they won't follow the open-closed principle well. Also need a lot of supporting mechanic to exist in Model.
       - Objects like new control panels (for example tabs and buttons enabling to change WaTor configurations) are easy to add because necessary superclasses already exist.
     - select colors or images used to display the cell states is easy to add, one would need a listener for each cell, and a new control panel object enabled when a cell is selected. But also not open-closed.
+
+- Controller
+  - Generate grids automatically, using a set number of each state, randomly
+  - Support different languages for the error messages
+  - Different grid shapes (maps, circles, ...)
